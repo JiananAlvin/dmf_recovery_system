@@ -1,0 +1,18 @@
+Modules Release 4.8.0 (2021-07-14)
+DCC-SW: Added modules (2021-nov/XeonGold6142)
+DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
+DCC-SW: Using gnu/11.2.0 compiler
+DCC-SW: Released modules (2021-nov/XeonGold6142)
+DCC-SW: Added modules (2020-aug/XeonGold6142)
+DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
+DCC-SW: Using gnu/9.3.0 compiler
+Loaded module: cuda/11.5
+ERROR: Unable to locate a modulefile for 'python3/3.8.11'
+[34m[1mdetect: [0mweights=['../runs/train/new-model-integrated-rgb/weights/best.pt'], source=../../image_dataset/dataset-droplet-2022-8-19-full-rgb-bubble/test/images/1652453576-040376_jpg.rf.fbb5e10d332e7b04cf2ad55b2cbe30e0.jpg, data=../data/coco128.yaml, imgsz=[640, 640], conf_thres=0.25, iou_thres=0.45, max_det=1000, device=, view_img=False, save_txt=False, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=../runs/detect, name=gpu-detect-new-model-integrated-rgb-2023-01-30, exist_ok=False, line_thickness=3, hide_labels=False, hide_conf=False, half=False, dnn=False
+YOLOv5 🚀 cafde762 torch 1.10.0+cu102 CUDA:0 (Tesla V100-SXM2-32GB, 32501MiB)
+
+Fusing layers... 
+Model Summary: 213 layers, 7015519 parameters, 0 gradients, 15.8 GFLOPs
+image 1/1 /zhome/e7/5/156694/applications-of-ai-computer-vision/image_dataset/dataset-droplet-2022-8-19-full-rgb-bubble/test/images/1652453576-040376_jpg.rf.fbb5e10d332e7b04cf2ad55b2cbe30e0.jpg: 448x640 14 bubbles, 6 droplets, Done. (0.006s)
+Speed: 0.5ms pre-process, 6.0ms inference, 1.8ms NMS per image at shape (1, 3, 640, 640)
+Results saved to [1m../runs/detect/gpu-detect-new-model-integrated-rgb-2023-01-30[0m
