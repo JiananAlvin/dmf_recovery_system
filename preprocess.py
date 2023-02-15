@@ -2,6 +2,8 @@ from pupil_apriltags import Detector
 import cv2
 import numpy as np
 
+BLEED_X = 25
+BLEED_Y = 35
 image_path = './image_dataset/biochip.jpg'
 img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
@@ -19,10 +21,10 @@ results = at_detector.detect(img)
 
 # Specify the four corners of our interested area
 # We crop out bleeds of Apriltags by subtracting/adding 25 or 35px
-tr = np.array([results[0].corners[2][0] + 25, results[0].corners[2][1] + 35])  # 0 // tr
-br = np.array([results[1].corners[3][0] + 25, results[1].corners[3][1] - 35])  # 1
-tl = np.array([results[2].corners[1][0] - 25, results[2].corners[1][1] + 35])  # 2
-bl = np.array([results[3].corners[0][0] - 25, results[3].corners[0][1] - 35])  # 3 // bl
+tr = np.array([results[0].corners[2][0] + BLEED_X, results[0].corners[2][1] + BLEED_Y])  # 0 // tr
+br = np.array([results[1].corners[3][0] + BLEED_X, results[1].corners[3][1] - BLEED_Y])  # 1
+tl = np.array([results[2].corners[1][0] - BLEED_X, results[2].corners[1][1] + BLEED_Y])  # 2
+bl = np.array([results[3].corners[0][0] - BLEED_X, results[3].corners[0][1] - BLEED_Y])  # 3 // bl
 
 # Now that we have our rectangle of points, let's compute
 # The width of our new image
