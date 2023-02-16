@@ -45,7 +45,16 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, time_sync
 
-
+# J --------------------------------
+# This function returns digital info about bounding boxes of detected droplets.
+# Its return form is [[xmin1, ymin1, xmax1, ymax1], [xmin2, ymin2, xmax2, ymax2], ...]
+# Here is the illustration,
+# this is a bounding box
+#   (xmin, ymin) *-----------
+#                |          |
+#                |          |
+#                |          |
+#                ----------- * (xmax, ymax)
 @torch.no_grad()
 def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         source=ROOT / 'data/images',  # file/dir/URL/glob, 0 for webcam
@@ -108,6 +117,10 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
 
+    # J --------------------------------
+    # Declare an empty list to receive digital info about bounding boxes of detected droplets
+    results = []
+
     # Run inference
     model.warmup(imgsz=(1 if pt else bs, 3, *imgsz), half=half)  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
@@ -161,6 +174,11 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
+                    # J --------------------------------
+                    # If class name is "droplet", append its digital info to results[]
+                    if (names[int(cls)] == "droplet"):
+                        results.append([int(t) for t in xyxy])  # Convert a tensor[] to a int[]
+
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
@@ -211,6 +229,10 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     if update:
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
 
+    # J --------------------------------
+    # Return
+    return results
+
 
 def parse_opt():
     parser = argparse.ArgumentParser()
@@ -248,7 +270,8 @@ def parse_opt():
 
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
-    run(**vars(opt))
+    r = run(**vars(opt))
+    print(r)
 
 
 if __name__ == "__main__":
