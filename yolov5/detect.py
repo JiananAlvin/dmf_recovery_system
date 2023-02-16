@@ -44,6 +44,10 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
                            increment_path, non_max_suppression, print_args, scale_coords, strip_optimizer, xyxy2xywh)
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, time_sync
+# J --------------------------------
+import sys
+sys.path.append("../")
+import postprocess
 
 # J --------------------------------
 # This function returns digital info about bounding boxes of detected droplets.
@@ -271,7 +275,7 @@ def parse_opt():
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
     r = run(**vars(opt))
-    print(r)
+    print(postprocess.postprocess(r))
 
 
 if __name__ == "__main__":
