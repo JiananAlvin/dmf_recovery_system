@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "PWRtY0DyDl7Po5MB1UsEyAM0PnTyEZtbHYodNN+IDcLniC0XsPYKQsyqKzgIOGm+X2YFSmvBK02Lm+iguOrGmA==",
+  "success": true,
+  "projectFilePath": "G:\\01_dmf_calibration_system\\ExecutionEngine\\ExecutionEngine.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\19869\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

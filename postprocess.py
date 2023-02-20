@@ -10,7 +10,8 @@ E_WIDTH = 671
 E_HEIGHT = 320
 
 
-# This function maps detection results to electrode ids
+# This function returns digital info about bounding boxes of detected droplets. The format is
+# {'e_dimension': [width, height], 'd_info': [[xcenter1, ycenter1, width1, height1], [xcenter2, ycenter2, width2, height2], ...]}
 def postprocess(arr):
     output = {'e_dimension': [E_WIDTH, E_HEIGHT]}  # [width, height] of the electrodes covered area in px
     d_info = []
