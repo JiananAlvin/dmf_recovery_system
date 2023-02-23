@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml.Serialization;
@@ -62,12 +63,12 @@ internal class Program
                 if (cornersJArr.Count == 3)  // Triangle
                 {
                     // Put current electrode into dictionary
-                    rec2dict(layoutTri, el, minSize, xMin, xMax, yMin, yMax);
+                    Rec2dict(layoutTri, el, minSize, xMin, xMax, yMin, yMax);
                 }
                 else  // Custom polygon with sides >= 4
                 {
                     // Put current electrode into dictionary
-                    rec2dict(layout, el, minSize, xMin, xMax, yMin, yMax);
+                    Rec2dict(layout, el, minSize, xMin, xMax, yMin, yMax);
                 }
             }
         }
@@ -90,9 +91,17 @@ internal class Program
                 JArray cornersJArr = (JArray)elInfo["corners"];
 
                 // Put current electrode into dictionary
-                rec2dict(layout, el, minSize, positionX, positionX + sizeX, positionY, positionY + sizeY);
+                Rec2dict(layout, el, minSize, positionX, positionX + sizeX, positionY, positionY + sizeY);
             }
         }
+
+        // Test
+        Console.WriteLine("Please enter pixel X:");
+        int xPixel = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Please enter pixel Y:");
+        int yPixel = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine(Map(xPixel, yPixel, minSize, layout, layoutTri));
 
 
         /*        // Print the contents of the nested dictionary
@@ -130,7 +139,7 @@ internal class Program
                 writerFile.Write(result);*/
     }
 
-    private static void rec2dict(Dictionary<int, Dictionary<int, Electrode>> layout, Electrode el, int minSize, int xMin, int xMax, int yMin, int yMax)
+    private static void Rec2dict(Dictionary<int, Dictionary<int, Electrode>> layout, Electrode el, int minSize, int xMin, int xMax, int yMin, int yMax)
     {
         int keyY = yMin;
         while (keyY < yMax)
@@ -148,4 +157,24 @@ internal class Program
             keyY += minSize;
         }
     }
+
+    private static int Map(int xPixel, int yPixel, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
+    {
+        int keyX = (int)(xPixel / minSize) * minSize;
+        int keyY = (int)(yPixel / minSize) * minSize;
+        if (layoutTri.ContainsKey(keyY) && layoutTri[keyY].ContainsKey(keyX))
+        {
+            // See if it in the triangular electrode area
+            return -1;
+        }
+        else if (layout.ContainsKey(keyY) && layout[keyY].ContainsKey(keyX))
+        {
+            return layout[keyY][keyX].Id;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
 }
