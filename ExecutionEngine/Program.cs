@@ -38,76 +38,96 @@ internal class Program
         // Traverse all electrodes
         foreach (JObject elInfo in electrodeArr)
         {
-            // Construct a new electrode object
-            int id = (int)elInfo["ID"];
-            int positionX = (int)elInfo["positionX"];
-            int positionY = (int)elInfo["positionY"];
-            Electrode el = new Electrode(id, positionX, positionY);
-
-            // Other info about current eletrode
-            int sizeX = (int)elInfo["sizeX"];
-            int sizeY = (int)elInfo["sizeY"];
-            JArray cornersJArr = (JArray)elInfo["corners"];
-            // Console.WriteLine(cornersJArr + "start");
-            // int[][] corners = new int[cornersJArr.Count][];
-
-            // Rectangle electrodes
-            if ((int)elInfo["shape"] == 0)
+            if ((int)elInfo["shape"] == 1) // Custom polygon
             {
-                // Put current electrode into dictionary
-                rec2dict(layout, el, minSize, positionX, positionX + sizeX, positionY, positionY + sizeY);
-            }
-            else  // Custom polygon
-            { 
+                // Construct a new electrode object
+                int id = (int)elInfo["ID"];
+                int positionX = (int)elInfo["positionX"];
+                int positionY = (int)elInfo["positionY"];
+                Electrode el = new Electrode(id, positionX, positionY);
+
+                // Other info about current eletrode
+                int sizeX = (int)elInfo["sizeX"];
+                int sizeY = (int)elInfo["sizeY"];
+                JArray cornersJArr = (JArray)elInfo["corners"];
+
+                // Get the maximum and minimum values of the first elements of inner arrays
+                int xMax = positionX + (int)cornersJArr.Max(innerArr => innerArr[0]);
+                int xMin = positionX + (int)cornersJArr.Min(innerArr => innerArr[0]);
+
+                // Get the maximum and minimum values of the second elements of inner arrays
+                int yMax = positionY + (int)cornersJArr.Max(innerArr => innerArr[1]);
+                int yMin = positionY + (int)cornersJArr.Min(innerArr => innerArr[1]);
+
                 if (cornersJArr.Count == 3)  // Triangle
                 {
-                    // Get the maximum and minimum values of the first elements of inner arrays
-                    int xMax = positionX + (int)cornersJArr.Max(innerArr => innerArr[0]);
-                    int xMin = positionX + (int)cornersJArr.Min(innerArr => innerArr[0]);
-
-                    // Get the maximum and minimum values of the second elements of inner arrays
-                    int yMax = positionY + (int)cornersJArr.Max(innerArr => innerArr[1]);
-                    int yMin = positionY + (int)cornersJArr.Min(innerArr => innerArr[1]);
-
                     // Put current electrode into dictionary
                     rec2dict(layoutTri, el, minSize, xMin, xMax, yMin, yMax);
+                }
+                else  // Custom polygon with sides >= 4
+                {
+                    // Put current electrode into dictionary
+                    rec2dict(layout, el, minSize, xMin, xMax, yMin, yMax);
                 }
             }
         }
 
-/*        // Print the contents of the nested dictionary
-        string result = "";
-        foreach (KeyValuePair<int, Dictionary<int, Electrode>> outerDict in layout)
+        // Traverse all electrodes, and overwrite "the custom polygons with sides >= 4"
+        foreach (JObject elInfo in electrodeArr)
         {
-            foreach (KeyValuePair<int, Electrode> innerDict in outerDict.Value)
+            // Rectangular electrodes
+            if ((int)elInfo["shape"] == 0)
             {
-                Console.WriteLine($"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n");
-                result += $"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n";
+                // Construct a new electrode object
+                int id = (int)elInfo["ID"];
+                int positionX = (int)elInfo["positionX"];
+                int positionY = (int)elInfo["positionY"];
+                Electrode el = new Electrode(id, positionX, positionY);
+
+                // Other info about current eletrode
+                int sizeX = (int)elInfo["sizeX"];
+                int sizeY = (int)elInfo["sizeY"];
+                JArray cornersJArr = (JArray)elInfo["corners"];
+
+                // Put current electrode into dictionary
+                rec2dict(layout, el, minSize, positionX, positionX + sizeX, positionY, positionY + sizeY);
             }
         }
 
-        string fileName = "G:\\01_dmf_calibration_system\\ExecutionEngine\\output.txt";
-        using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
-        using StreamWriter writerFile = new StreamWriter(fs, Encoding.UTF8);
 
-        writerFile.Write(result);*/
+        /*        // Print the contents of the nested dictionary
+                string result = "";
+                foreach (KeyValuePair<int, Dictionary<int, Electrode>> outerDict in layout)
+                {
+                    foreach (KeyValuePair<int, Electrode> innerDict in outerDict.Value)
+                    {
+                        Console.WriteLine($"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n");
+                        result += $"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n";
+                    }
+                }
 
-        // Print the contents of the nested dictionary
-        string result = "";
-        foreach (KeyValuePair<int, Dictionary<int, Electrode>> outerDict in layoutTri)
-        {
-            foreach (KeyValuePair<int, Electrode> innerDict in outerDict.Value)
-            {
-                Console.WriteLine($"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n");
-                result += $"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n";
-            }
-        }
+                string fileName = "G:\\01_dmf_calibration_system\\ExecutionEngine\\output.txt";
+                using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
+                using StreamWriter writerFile = new StreamWriter(fs, Encoding.UTF8);
 
-        string fileName = "G:\\01_dmf_calibration_system\\ExecutionEngine\\output_tri.txt";
-        using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
-        using StreamWriter writerFile = new StreamWriter(fs, Encoding.UTF8);
+                writerFile.Write(result);*/
 
-        writerFile.Write(result);
+        /*        // Print the contents of the nested dictionary
+                string result = "";
+                foreach (KeyValuePair<int, Dictionary<int, Electrode>> outerDict in layoutTri)
+                {
+                    foreach (KeyValuePair<int, Electrode> innerDict in outerDict.Value)
+                    {
+                        Console.WriteLine($"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n");
+                        result += $"(X, Y): ({innerDict.Key},{outerDict.Key}); ID:{innerDict.Value.Id}\n";
+                    }
+                }
+
+                string fileName = "G:\\01_dmf_calibration_system\\ExecutionEngine\\output_tri.txt";
+                using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
+                using StreamWriter writerFile = new StreamWriter(fs, Encoding.UTF8);
+
+                writerFile.Write(result);*/
     }
 
     private static void rec2dict(Dictionary<int, Dictionary<int, Electrode>> layout, Electrode el, int minSize, int xMin, int xMax, int yMin, int yMax)
