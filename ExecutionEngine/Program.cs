@@ -63,9 +63,9 @@ internal class Program
 
                 if (cornersJArr.Count == 3)  // Triangle
                 {
-                    Point p1 = new Point((int)cornersJArr[0][0], (int)cornersJArr[0][1]);
-                    Point p2 = new Point((int)cornersJArr[1][0], (int)cornersJArr[1][1]);
-                    Point p3 = new Point((int)cornersJArr[2][0], (int)cornersJArr[2][1]);
+                    Point p1 = new Point((int)cornersJArr[0][0] + positionX, (int)cornersJArr[0][1] + positionY);
+                    Point p2 = new Point((int)cornersJArr[1][0] + positionX, (int)cornersJArr[1][1] + positionY);
+                    Point p3 = new Point((int)cornersJArr[2][0] + positionX, (int)cornersJArr[2][1] + positionY);
                     el.Shape = new Triangle(p1, p2, p3);
                     // Put current electrode into dictionary
                     Rec2dict(layoutTri, el, minSize, xMin, xMax, yMin, yMax);
@@ -171,7 +171,7 @@ internal class Program
         if (layoutTri.ContainsKey(keyY) && layoutTri[keyY].ContainsKey(keyX))
         {
             // See if it in the triangular electrode area
-            Point p = new Point(keyX, keyY);
+            Point p = new Point(xPixel, yPixel);
             if (layoutTri[keyY][keyX].Shape.IsPointInTriangle4(p)) {
                 return layoutTri[keyY][keyX].Id;
             } 
