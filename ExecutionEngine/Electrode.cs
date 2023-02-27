@@ -7,17 +7,26 @@ using System.Xml.Linq;
 
 namespace ExecutionEngine
 {
-    public class Electrode
+    internal class Electrode
     {
         public int Id { get; }
-        public int PositionX { get; }
-        public int PositionY { get; }
+        private int PositionX;
+        private int PositionY;
+        public Shape Shape { get; set; } = default!;
 
         public Electrode(int id, int positionX, int positionY)
         {
-            Id = id;
-            PositionX = positionX;
-            PositionY = positionY;
+            this.Id = id;
+            this.PositionX = positionX;
+            this.PositionY = positionY;
+        }
+
+        public Electrode(int id, int positionX, int positionY, Shape shape)
+        {
+            this.Id = id;
+            this.PositionX = positionX;
+            this.PositionY = positionY;
+            this.Shape = shape;
         }
     }
 }

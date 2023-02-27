@@ -2,6 +2,7 @@
 using ExecutionEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -62,6 +63,10 @@ internal class Program
 
                 if (cornersJArr.Count == 3)  // Triangle
                 {
+                    Point p1 = new Point((int)cornersJArr[0][0], (int)cornersJArr[0][1]);
+                    Point p2 = new Point((int)cornersJArr[1][0], (int)cornersJArr[1][1]);
+                    Point p3 = new Point((int)cornersJArr[2][0], (int)cornersJArr[2][1]);
+                    el.Shape = new Triangle(p1, p2, p3);
                     // Put current electrode into dictionary
                     Rec2dict(layoutTri, el, minSize, xMin, xMax, yMin, yMax);
                 }
@@ -162,19 +167,26 @@ internal class Program
     {
         int keyX = (int)(xPixel / minSize) * minSize;
         int keyY = (int)(yPixel / minSize) * minSize;
+        int r = -1;
         if (layoutTri.ContainsKey(keyY) && layoutTri[keyY].ContainsKey(keyX))
         {
             // See if it in the triangular electrode area
-            return -1;
+            Point p = new Point(keyX, keyY);
+            if (layoutTri[keyY][keyX].Shape.IsPointInTriangle4(p)) {
+                return layoutTri[keyY][keyX].Id;
+            } 
         }
-        else if (layout.ContainsKey(keyY) && layout[keyY].ContainsKey(keyX))
+
+        // See if it in the polygonal electrode area
+        if (layout.ContainsKey(keyY) && layout[keyY].ContainsKey(keyX))
         {
-            return layout[keyY][keyX].Id;
+            r = layout[keyY][keyX].Id;
         }
         else
         {
-            return -1;
+            r = -1;
         }
+        return r;
     }
 
 }
