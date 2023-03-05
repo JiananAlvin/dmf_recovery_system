@@ -32,6 +32,7 @@ import cv2
 import torch
 import torch.backends.cudnn as cudnn
 
+
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -275,7 +276,7 @@ def parse_opt():
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
     r = run(**vars(opt))
-    print(postprocess.postprocess(r))
+    postprocess.postprocess(r)
 
 
 if __name__ == "__main__":

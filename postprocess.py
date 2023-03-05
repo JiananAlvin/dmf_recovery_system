@@ -1,4 +1,4 @@
-import math
+import publisher
 
 TL_X = 145
 TL_Y = 112
@@ -8,6 +8,9 @@ NUM_OF_ELS_IN_A_ROW = 32
 NUM_OF_ELS_IN_A_CLMN = 20
 E_WIDTH = 671
 E_HEIGHT = 320
+IP = "localhost"
+PORT = 1883
+TOPIC = "yolo"
 
 
 # This function returns digital info about bounding boxes of detected droplets. The format is
@@ -20,4 +23,6 @@ def postprocess(arr):
         # x, y coords of the droplet center & width, height of the droplet in px
         d_info.append([(xyxy[2] + xyxy[0]) / 2, (xyxy[3] + xyxy[1]) / 2, xyxy[2] - xyxy[0], xyxy[3] - xyxy[1]])
     output['d_info'] = d_info
-    return output
+    # return output
+    
+    publisher.publisher(TOPIC, str(output))

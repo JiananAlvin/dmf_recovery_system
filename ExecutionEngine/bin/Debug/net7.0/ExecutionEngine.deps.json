@@ -8,10 +8,39 @@
     ".NETCoreApp,Version=v7.0": {
       "ExecutionEngine/1.0.0": {
         "dependencies": {
+          "M2Mqtt": "4.3.0",
+          "MQTTnet.Extensions.ManagedClient": "3.1.1",
           "Newtonsoft.Json": "13.0.2"
         },
         "runtime": {
           "ExecutionEngine.dll": {}
+        }
+      },
+      "M2Mqtt/4.3.0": {
+        "runtime": {
+          "lib/net45/M2Mqtt.Net.dll": {
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.3.0.0"
+          }
+        }
+      },
+      "MQTTnet/3.1.1": {
+        "runtime": {
+          "lib/net5.0/MQTTnet.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
+        }
+      },
+      "MQTTnet.Extensions.ManagedClient/3.1.1": {
+        "dependencies": {
+          "MQTTnet": "3.1.1"
+        },
+        "runtime": {
+          "lib/net5.0/MQTTnet.Extensions.ManagedClient.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
         }
       },
       "Newtonsoft.Json/13.0.2": {
@@ -29,6 +58,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "M2Mqtt/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2A1uM20uxuovQKPA0dkZUqD9gUpIMaX7KxdLiVM7IEXdPRL709hGuudHnvlDxm2/6b2LcOjshrYGVG9vdpipag==",
+      "path": "m2mqtt/4.3.0",
+      "hashPath": "m2mqtt.4.3.0.nupkg.sha512"
+    },
+    "MQTTnet/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vMHOmkEZ5YuLMDMpRqoUF42NVEwkCCM4sEEHnoc0KFr799eYa8p7lY/I2r7y+cFrT7RyDBwy3W+BjfEZlbLz5A==",
+      "path": "mqttnet/3.1.1",
+      "hashPath": "mqttnet.3.1.1.nupkg.sha512"
+    },
+    "MQTTnet.Extensions.ManagedClient/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7Y/GnuYNp8+DKuzCrYteUs1wSesYlN8tr0tMMP8kRBGZ4Ah3aMKI0u4GVIlJ1Uypb7M8tJ7F7X4Dr2Kn7dQUZw==",
+      "path": "mqttnet.extensions.managedclient/3.1.1",
+      "hashPath": "mqttnet.extensions.managedclient.3.1.1.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.2": {
       "type": "package",
