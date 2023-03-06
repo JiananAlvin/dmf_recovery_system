@@ -1,41 +1,45 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
+using System.Threading.Tasks;
+using ExecutionEngine;
 
-
-class Program
+namespace ExecutionEngine
 {
-    const String IP = "localhost";
-    const int PORT = 1883;
-
-    static void Main(string[] args)
+    internal class Program
     {
-        // create client instance
-        MqttClient client = new MqttClient(IP, PORT, false, null, null, MqttSslProtocols.None);
+        const String IP = "localhost";
+        const int PORT = 1883;
+        const String TOPIC = "yolo";
 
-        // register to message received 
-        client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
-       
-        string clientId = Guid.NewGuid().ToString();
-        client.Connect(clientId);
 
-        // subscribe to the topic "test" with QoS 2 
-        client.Subscribe(new string[] { "yolo" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+        static void Main(string[] args)
+        {
+            // Init a hash map for storing polygonal (excluding triangular) electrodes layout
+            Dictionary<int, Dictionary<int, Electrode>> layout = new Dictionary<int, Dictionary<int, Electrode>>();
 
-        Console.ReadLine();
+            // Init a hash map for storing triangular electrodes layout
+            Dictionary<int, Dictionary<int, Electrode>> layoutTri = new Dictionary<int, Dictionary<int, Electrode>>();
 
-        // disconnect
-        client.Disconnect();
-    }
+            // Init two maps in terms of input JSON file
+            Initializer init = new Initializer();
+            init.Initilalize(layout, layoutTri);
 
-    private static void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-    {
-        // handle message received 
-        string message = Encoding.UTF8.GetString(e.Message);
-        Console.WriteLine("Received message: " + message);
+            // Subscribe YOLO output
+            // Subscriber s = new Subscriber(IP, PORT);
+            // s.Subscribe(TOPIC);
+            // string yolo = s.GetReceivedMessage();
+
+            // Map
+            Mapper mapper = new Mapper();
+            string yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
+            List<List<int>> result = mapper.Map(yolo, 860, 400, 10, layout, layoutTri); //TODO
+            foreach (List<int> list in result)
+            {
+                Console.WriteLine(string.Join(",", list) + "\n");
+            }
+            
+        }
     }
 }
-
-
-
