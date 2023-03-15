@@ -11,7 +11,13 @@ namespace ExecutionEngine
 {
     internal class Initializer
     {
-        public void Initilalize(Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
+        internal int width { get; set; }
+        internal int height { get; set; }
+        internal int minSize { get; set; }
+        internal Dictionary<int, Dictionary<int, Electrode>> layout { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+        internal Dictionary<int, Dictionary<int, Electrode>> layoutTri { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+
+        public void Initilalize()
         {
             // Info from YOLO
             int minSize = 10;
@@ -23,8 +29,9 @@ namespace ExecutionEngine
             dynamic obj = JsonConvert.DeserializeObject(json);
 
             // Access object properties
-            int width = obj.information.sizeX;
-            int height = obj.information.sizeY;
+            this.width = obj.information.sizeX;
+            this.height = obj.information.sizeY;
+            this.minSize = obj.information.minStep;
             JArray electrodeArr = obj.electrodes;
 
             // Print object properties
@@ -61,12 +68,12 @@ namespace ExecutionEngine
                         Point p3 = new Point((int)cornersJArr[2][0] + positionX, (int)cornersJArr[2][1] + positionY);
                         el.Shape = new Triangle(p1, p2, p3);
                         // Put current electrode into dictionary
-                        Rec2dict(layoutTri, el, minSize, xMin, xMax, yMin, yMax);
+                        Rec2dict(this.layoutTri, el, minSize, xMin, xMax, yMin, yMax);
                     }
                     else  // Custom polygon with sides >= 4
                     {
                         // Put current electrode into dictionary
-                        Rec2dict(layout, el, minSize, xMin, xMax, yMin, yMax);
+                        Rec2dict(this.layout, el, minSize, xMin, xMax, yMin, yMax);
                     }
                 }
             }
@@ -89,7 +96,7 @@ namespace ExecutionEngine
                     JArray cornersJArr = (JArray)elInfo["corners"];
 
                     // Put current electrode into dictionary
-                    Rec2dict(layout, el, minSize, positionX, positionX + sizeX, positionY, positionY + sizeY);
+                    Rec2dict(this.layout, el, minSize, positionX, positionX + sizeX, positionY, positionY + sizeY);
                 }
             }
         }

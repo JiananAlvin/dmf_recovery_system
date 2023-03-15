@@ -27,41 +27,41 @@ internal class Mapper
         foreach (JArray dropletInfo in json.d_info)
         {
             List<int> info = new List<int>();
-            int elNo = GetElectrodeNo((int)dropletInfo[0], (int)dropletInfo[1], minSize, layout, layoutTri);
+            Electrode el = GetElectrode((int)dropletInfo[0], (int)dropletInfo[1], minSize, layout, layoutTri);
+            int elNo = el.Id;
             int dropletWidth = (int)Math.Round((int)dropletInfo[2] * widthRatio);
             int dropletHeight = (int)Math.Round((int)dropletInfo[3] * heightRatio);
+            int XOffset = (int)Math.Round((int)dropletInfo[0] * widthRatio) - el.PositionX;
+            int yOffset = (int)Math.Round((int)dropletInfo[1] * heightRatio) - el.PositionY;
             info.Add(elNo);
             info.Add(dropletWidth);
             info.Add(dropletHeight);
+            info.Add(XOffset);
+            info.Add(yOffset);
             output.Add(info);
         }
         return output;
     }
 
-    private static int GetElectrodeNo(int xPixel, int yPixel, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
+    private static Electrode GetElectrode(int xPixel, int yPixel, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
     {
         int keyX = (int)(xPixel / minSize) * minSize;
         int keyY = (int)(yPixel / minSize) * minSize;
-        int r = -1;
         if (layoutTri.ContainsKey(keyY) && layoutTri[keyY].ContainsKey(keyX))
         {
             // See if it in the triangular electrode area
             Point p = new Point(xPixel, yPixel);
             if (layoutTri[keyY][keyX].Shape.IsPointInTriangle4(p))
             {
-                return layoutTri[keyY][keyX].Id;
+                return layoutTri[keyY][keyX];
             }
         }
 
         // See if it in the polygonal electrode area
         if (layout.ContainsKey(keyY) && layout[keyY].ContainsKey(keyX))
         {
-            r = layout[keyY][keyX].Id;
+            return layout[keyY][keyX];
         }
-        else
-        {
-            r = -1;
-        }
-        return r;
+        return null;
     }
 }

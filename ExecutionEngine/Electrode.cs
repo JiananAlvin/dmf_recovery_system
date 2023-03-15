@@ -9,9 +9,9 @@ namespace ExecutionEngine
 {
     internal class Electrode
     {
-        public int Id { get; }
-        private int PositionX;
-        private int PositionY;
+        internal int Id { get; }
+        internal int PositionX { get; }
+        internal int PositionY { get; }
         public Shape Shape { get; set; } = default!;
 
         public Electrode(int id, int positionX, int positionY)
