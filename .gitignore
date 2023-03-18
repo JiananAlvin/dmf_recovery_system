@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Running results of YOLO
-yolov5/runs/detect
+yolov5/runs/detect/
