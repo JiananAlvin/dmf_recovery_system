@@ -26,10 +26,14 @@ namespace ExecutionEngine
         Dictionary<int, Dictionary<int, Electrode>> layoutTri = init.layoutTri;
 
         // Subscribe YOLO output
-        String yolo;
+        String yolo = null;
         Subscriber s = new Subscriber(IP, PORT);
         s.Subscribe(TOPIC);
-        yolo = s.GetReceivedMessage();
+
+        while (yolo is null) 
+            {
+            yolo = s.GetReceivedMessage();
+            }
 
         // Map
         Mapper mapper = new Mapper();
