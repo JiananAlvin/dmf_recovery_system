@@ -18,3 +18,4 @@ G:\01_dmf_calibration_system\ExecutionEngine\obj\Debug\net7.0\ExecutionEngine.cs
 G:\01_dmf_calibration_system\ExecutionEngine\bin\Debug\net7.0\MQTTnet.dll
 G:\01_dmf_calibration_system\ExecutionEngine\bin\Debug\net7.0\MQTTnet.Extensions.ManagedClient.dll
 G:\01_dmf_calibration_system\ExecutionEngine\bin\Debug\net7.0\M2Mqtt.Net.dll
+G:\01_dmf_calibration_system\ExecutionEngine\bin\Debug\net7.0\NetTopologySuite.dll

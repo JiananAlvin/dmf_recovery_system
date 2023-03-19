@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[3.1.1, )"
             },
+            "NetTopologySuite": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.2, )"

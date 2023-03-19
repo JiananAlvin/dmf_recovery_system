@@ -14,6 +14,8 @@ using System.Xml.Serialization;
 
 internal class Mapper
 {
+    // Maps image-based droplets' imformation to simulator-based droplets' information
+    // the out put format is [[eltrodeID, xcenter, ycenter, width, height, xoffset, yoffset], [], [], ...]
     public List<List<int>> Map(string yolo, int chipWidth, int chipHeight, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
     {
         // yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
@@ -29,14 +31,18 @@ internal class Mapper
             List<int> info = new List<int>();
             Electrode el = GetElectrode((int)dropletInfo[0], (int)dropletInfo[1], minSize, layout, layoutTri);
             int elNo = el.Id;
+            int xCenter = (int)Math.Round((int)dropletInfo[0] * widthRatio);
+            int yCenter = (int)Math.Round((int)dropletInfo[1] * heightRatio);
             int dropletWidth = (int)Math.Round((int)dropletInfo[2] * widthRatio);
             int dropletHeight = (int)Math.Round((int)dropletInfo[3] * heightRatio);
-            int XOffset = (int)Math.Round((int)dropletInfo[0] * widthRatio) - el.PositionX;
+            int xOffset = (int)Math.Round((int)dropletInfo[0] * widthRatio) - el.PositionX;
             int yOffset = (int)Math.Round((int)dropletInfo[1] * heightRatio) - el.PositionY;
             info.Add(elNo);
+            info.Add(xCenter);
+            info.Add(yCenter);
             info.Add(dropletWidth);
             info.Add(dropletHeight);
-            info.Add(XOffset);
+            info.Add(xOffset);
             info.Add(yOffset);
             output.Add(info);
         }
