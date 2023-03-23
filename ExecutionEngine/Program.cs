@@ -12,38 +12,44 @@ using Point = System.Drawing.Point;
 
 namespace ExecutionEngine
 {
+    internal class IntegerWrapper
+    {
+        internal int content { get; set; }
+
+        public IntegerWrapper(int i) { this.content = i; }
+    }
+
     internal class Program
     {
         // Uses kdTree to find the nearest neighbor pair between two lists of points
+        // It takes O(n log n).
         public static List<Tuple<int, int>> Compare(List<List<int>> StatesExp, List<List<int>> StatesAct)
         {  
-            KdTree<Coordinate> treeExp = BuildKdTree(StatesExp);
-            KdTree<Coordinate> treeAct = BuildKdTree(StatesAct);
+            KdTree<IntegerWrapper> treeExp = BuildKdTree(StatesExp);
+            KdTree<IntegerWrapper> treeAct = BuildKdTree(StatesAct);
 
             List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
             for (int indexExp = 0; indexExp < treeExp.Count; indexExp++)
             {
-                var coordExp = new Coordinate(StatesExp[indexExp][1], StatesExp[indexExp][2]);
-                var coordAct = treeAct.NearestNeighbor(coordExp);
-                // Console.WriteLine(coordAct.Coordinate);
-                // FindIndex takes O
-                int indexAct = StatesAct.FindIndex(b => b[1] == coordAct.X && b[2] == coordAct.Y);  // Finds the index of corresponding actual point
-                var pair = new Tuple<int, int>(indexExp, indexAct);
+                Coordinate coordExp = new Coordinate(StatesExp[indexExp][1], StatesExp[indexExp][2]);
+                // NearestNeighbor() takes O(log n), where n is the number of nodes in the tree
+                int indexAct = treeAct.NearestNeighbor(coordExp).Data.content;  
+                Tuple<int, int> pair = new Tuple<int, int>(indexExp, indexAct);
                 pairs.Add(pair);
             }
-            return pairs;
+            return pairs;  // (expected, actual)
         }
 
 
-        public static KdTree<Coordinate> BuildKdTree(List<List<int>> S)
+        public static KdTree<IntegerWrapper> BuildKdTree(List<List<int>> S)
         {
             // Create points
-            KdTree<Coordinate> treeS = new KdTree<Coordinate>(2);
+            KdTree<IntegerWrapper> treeS = new KdTree<IntegerWrapper>(2);
             for (int i = 0; i < S.Count; i++)
             {
-                var point = new Coordinate(S[i][1], S[i][2]);
-                treeS.Insert(point);
-                // treeS.Insert(point, i);
+                Coordinate point = new Coordinate(S[i][1], S[i][2]);
+                // treeS.Insert(point);
+                treeS.Insert(point, new IntegerWrapper(i));
             }
             return treeS;
         }
@@ -51,7 +57,7 @@ namespace ExecutionEngine
         static void Main(string[] args)
         {
 
-            string expectedS = "[[100, 1, 2, 3, 7, 0, 0], [101, 4, 5, 6, 7, 0, 0], [102, 7, 8, 40, 9, 0, 0]]";
+            string expectedS = "[[100, 1, 2, 3, 7, 0, 0], [101, 4, 5, 6, 7, 0, 0], [102, 7, 8, 40, 9, 0, 0]]";  // From Wenjie's program
             string actualS = "[[103, 2, 3, 4, 6, 0], [104, 8, 9, 1, 9, 0], [105, 5, 6, 23, 45, 0, 0]]";
 
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
