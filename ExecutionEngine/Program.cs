@@ -1,61 +1,54 @@
-﻿using NetTopologySuite.Geometries;
-using NetTopologySuite.Index.KdTree;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Point = System.Drawing.Point;
+using ExecutionEngine;
+using Newtonsoft.Json;
 
 namespace ExecutionEngine
 {
-    internal class IntegerWrapper
-    {
-        internal int content { get; set; }
-
-        public IntegerWrapper(int i) { this.content = i; }
-    }
-
     internal class Program
     {
-        // Uses kdTree to find the nearest neighbor pair between two lists of points
-        // It takes O(n log n).
-        public static List<Tuple<int, int>> Compare(List<List<int>> StatesExp, List<List<int>> StatesAct)
-        {  
-            KdTree<IntegerWrapper> treeExp = BuildKdTree(StatesExp);
-            KdTree<IntegerWrapper> treeAct = BuildKdTree(StatesAct);
+        const String IP = "localhost";
+        const int PORT = 1883;
+        const String TOPIC = "yolo";
 
-            List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
-            for (int indexExp = 0; indexExp < treeExp.Count; indexExp++)
-            {
-                Coordinate coordExp = new Coordinate(StatesExp[indexExp][1], StatesExp[indexExp][2]);
-                // NearestNeighbor() takes O(log n), where n is the number of nodes in the tree
-                int indexAct = treeAct.NearestNeighbor(coordExp).Data.content;  
-                Tuple<int, int> pair = new Tuple<int, int>(indexExp, indexAct);
-                pairs.Add(pair);
-            }
-            return pairs;  // (expected, actual)
-        }
-
-
-        public static KdTree<IntegerWrapper> BuildKdTree(List<List<int>> S)
-        {
-            // Create points
-            KdTree<IntegerWrapper> treeS = new KdTree<IntegerWrapper>(2);
-            for (int i = 0; i < S.Count; i++)
-            {
-                Coordinate point = new Coordinate(S[i][1], S[i][2]);
-                // treeS.Insert(point);
-                treeS.Insert(point, new IntegerWrapper(i));
-            }
-            return treeS;
-        }
 
         static void Main(string[] args)
         {
+            /*        // Init two maps in terms of input JSON file
+                    Initializer init = new Initializer();
+                    init.Initilalize();
+                    int width = init.width;
+                    int height = init.height;
+                    int minSize = init.minSize;
+                    Dictionary<int, Dictionary<int, Electrode>> layout = init.layout;
+                    Dictionary<int, Dictionary<int, Electrode>> layoutTri = init.layoutTri;
+
+                    // Subscribe YOLO output
+                    String yolo = null;
+                    Subscriber s = new Subscriber(IP, PORT);
+                    s.Subscribe(TOPIC);
+
+                    while (yolo is null) 
+                        {
+                        yolo = s.GetReceivedMessage();
+                        }
+
+                    // Map
+                    Mapper mapper = new Mapper();
+                    // string yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
+                    // yolo is actualS
+                    List<List<int>> result = mapper.Map(yolo, width, height, minSize, layout, layoutTri); //TODO
+
+
+                    // overlap (expected, result)
+                    // recover miss-movement
+                    foreach (List<int> list in result)
+                    {
+                        Console.WriteLine(string.Join(",", list) + "\n");
+                    }*/
 
             string expectedS = "[[100, 1, 2, 3, 7, 0, 0], [101, 4, 5, 6, 7, 0, 0], [102, 7, 8, 40, 9, 0, 0]]";  // From Wenjie's program
             string actualS = "[[103, 2, 3, 4, 6, 0], [104, 8, 9, 1, 9, 0], [105, 5, 6, 23, 45, 0, 0]]";
@@ -63,13 +56,9 @@ namespace ExecutionEngine
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
 
-            List<Tuple<int, int>> pairs = Compare(statesExp, statesAct);
+            Checker checker = new Checker();
+            List<Tuple<int, int>> pairs = checker.Compare(statesExp, statesAct);
 
-            // Print pairs
-/*            foreach (Tuple<int, int> pair in pairs)
-            {
-                Console.WriteLine("A[{0}] - B[{1}]", pair.Item1, pair.Item2);
-            }*/
 
             // Computes overlap
             List<double> ious = new List<double>();
@@ -80,7 +69,7 @@ namespace ExecutionEngine
                 double iou = squareExp.IoU(squareAct);
                 ious.Add(iou);
             }
-            
+
             // Print pairs and IoU
             int i = 0;
             foreach (Tuple<int, int> pair in pairs)
