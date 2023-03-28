@@ -57,7 +57,7 @@ namespace ExecutionEngine
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
 
             Checker checker = new Checker();
-            List<Tuple<int, int>> pairs = checker.Compare(statesExp, statesAct);
+            List<Tuple<int, int>> pairs = checker.Match(statesExp, statesAct);
 
 
             // Computes overlap
