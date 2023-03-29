@@ -13,7 +13,9 @@ namespace ExecutionEngine
         const String IP = "localhost";
         const int PORT = 1883;
         const String TOPIC = "yolo";
-
+        public static int minStep = 10;
+        public static Dictionary<int, Dictionary<int, Electrode>> layout;
+        public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
 
         static void Main(string[] args)
         {
@@ -50,8 +52,8 @@ namespace ExecutionEngine
                         Console.WriteLine(string.Join(",", list) + "\n");
                     }*/
 
-            string expectedS = "[[100, 1, 2, 3, 7, 0, 0], [101, 4, 5, 6, 7, 0, 0], [102, 7, 8, 40, 9, 0, 0]]";  // From Wenjie's program
-            string actualS = "[[103, 2, 3, 4, 6, 0], [104, 8, 9, 1, 9, 0], [105, 5, 6, 23, 45, 0, 0]]";
+            string expectedS = "[[150, 530, 80, 20, 20, 0],     [202, 290, 120, 40, 40, 1],    [283, 630, 160, 20, 20, 2],    [333, 350, 200, 20, 20, 2],    [403, 470, 240, 80, 60, 3],    [350, 690, 200, 40, 40, 3]]";  // From Wenjie's program
+            string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
 
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
@@ -70,8 +72,8 @@ namespace ExecutionEngine
                 ious.Add(iou);
             }
 
-            // Print pairs and IoU
-            int i = 0;
+                // Print pairs and IoU
+                int i = 0;
             foreach (Tuple<int, int> pair in pairs)
             {
                 Console.WriteLine("A[{0}] - B[{1}], Iou is: {2}", pair.Item1, pair.Item2, ious[i]);

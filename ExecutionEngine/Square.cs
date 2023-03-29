@@ -8,15 +8,15 @@ namespace ExecutionEngine
 {
     internal class Square
     {
-        internal double CenterX { get; }
-        internal double CenterY { get; }
+        internal double Ltx { get; }
+        internal double Lty { get; }
         internal double Width { get; }
         internal double Height { get; }
 
-        internal Square(double centerX, double centerY, double width, double height)
+        internal Square(double ltx, double lty, double width, double height)
         {
-            CenterX = centerX;
-            CenterY = centerY;
+            Ltx = ltx;
+            Lty = lty;
             Width = width;
             Height = height;
         }
@@ -30,13 +30,8 @@ namespace ExecutionEngine
         // Calculate the intersection of two squares
         internal double Intersection(Square s)
         {
-            double x1 = CenterX - Width / 2; // Calculate the left edge of the square
-            double x2 = s.CenterX - s.Width / 2; // Calculate the left edge of the square
-            double y1 = CenterY - Height / 2; // Calculate the top edge of the square
-            double y2 = s.CenterY - s.Height / 2; // Calculate the top edge of the square
-
-            double xOverlap = Math.Max(0, Math.Min(x1 + Width, x2 + s.Width) - Math.Max(x1, x2));
-            double yOverlap = Math.Max(0, Math.Min(y1 + Height, y2 + s.Height) - Math.Max(y1, y2));
+            double xOverlap = Math.Max(0, Math.Min(Ltx + Width, s.Ltx + s.Width) - Math.Max(Ltx, s.Ltx));
+            double yOverlap = Math.Max(0, Math.Min(Lty + Height, s.Lty + s.Height) - Math.Max(Lty, s.Lty));
 
             return xOverlap * yOverlap;
         }

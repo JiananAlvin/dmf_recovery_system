@@ -22,7 +22,7 @@ namespace ExecutionEngine
 
     internal class Checker
     {
-        // Uses kdTree to find the nearest neighbor pair between two lists of points
+        //  Uses kdTree to find the nearest neighbor pair between two lists of points
         // It takes O(n log n).
         public List<Tuple<int, int>> Match(List<List<int>> statesExp, List<List<int>> statesAct)
         {  
@@ -55,9 +55,8 @@ namespace ExecutionEngine
             return treeS;
         }
 
-        // [electrod id of left top, left top x coord, left top y coord, width, height, direction]
-        // string expectedS = "[[100, 1, 2, 3, 7, 0, 0], [101, 4, 5, 6, 7, 0, 0], [102, 7, 8, 40, 9, 0, 0]]";  // From Wenjie's program
-        // string actualS = "[[103, 2, 3, 4, 6, 0], [104, 8, 9, 1, 9, 0], [105, 5, 6, 23, 45, 0, 0]]";
+        // expectedS: [electrod id of left top, left top x coord, left top y coord, width, height, direction] 
+        // actualS:   [electrod id of left top, left top x coord, left top y coord, width, height, xoffset, yoffset]
         public List<List<int>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct, List<List<int>> electrodsExp)
         {
             List<List<int>> stuckRegionPerFrame = new List<List<int>>();

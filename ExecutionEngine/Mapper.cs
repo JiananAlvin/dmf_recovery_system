@@ -49,7 +49,7 @@ internal class Mapper
         return output;
     }
 
-    private static Electrode GetElectrode(int xPixel, int yPixel, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
+    public Electrode GetElectrode(int xPixel, int yPixel, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
     {
         int keyX = (int)(xPixel / minSize) * minSize;
         int keyY = (int)(yPixel / minSize) * minSize;
