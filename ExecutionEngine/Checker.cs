@@ -57,7 +57,7 @@ namespace ExecutionEngine
 
         // expectedS: [electrod id of left top, left top x coord, left top y coord, width, height, direction] 
         // actualS:   [electrod id of left top, left top x coord, left top y coord, width, height, xoffset, yoffset]
-        public List<List<int>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct, List<List<int>> electrodsExp)
+        public List<List<int>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct)
         {
             List<List<int>> stuckRegionPerFrame = new List<List<int>>();
             foreach (Tuple<int, int> pair in pairs)
@@ -65,7 +65,7 @@ namespace ExecutionEngine
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
 
-                if (squareExp.IoU(squareAct) > tolerance)
+                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1]))
                 {
                     List<int> stuckDropletInfo = statesExp[pair.Item1];
                     int xtl = stuckDropletInfo[1];
@@ -126,6 +126,21 @@ namespace ExecutionEngine
                 }
             }
             return stuckRegionPerFrame;
+        }
+
+        public bool IsStuck(double tolerance, double actualIou, List<int> stateExp)
+        {
+            double iouOfPerfectMove;
+            // If the droplet wanna goes up or down, then we are interested in height
+            if (stateExp[5] == 0 || stateExp[5] == 2)
+            {
+                iouOfPerfectMove = (stateExp[4] - 1) / (stateExp[4] + 1);
+            }
+            else // If the droplet wanna goes left or right, then we are interested in width
+            {
+                iouOfPerfectMove = (stateExp[3] - 1) / (stateExp[3] + 1);
+            }
+            return tolerance * iouOfPerfectMove < actualIou;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,21 +15,22 @@ namespace ExecutionEngine
         const int PORT = 1883;
         const String TOPIC = "yolo";
         public static int minStep = 10;
+        public static double tolerance = 1;  // This one should be user input.
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
 
         static void Main(string[] args)
         {
-            /*        // Init two maps in terms of input JSON file
-                    Initializer init = new Initializer();
-                    init.Initilalize();
-                    int width = init.width;
-                    int height = init.height;
-                    int minSize = init.minSize;
-                    Dictionary<int, Dictionary<int, Electrode>> layout = init.layout;
-                    Dictionary<int, Dictionary<int, Electrode>> layoutTri = init.layoutTri;
+            // Init two maps in terms of input JSON file
+            Initializer init = new Initializer();
+            init.Initilalize();
+            int width = init.width;
+            int height = init.height;
+            minStep = init.minSize;
+            layout = init.layout;
+            layoutTri = init.layoutTri;
 
-                    // Subscribe YOLO output
+             /*       // Subscribe YOLO output
                     String yolo = null;
                     Subscriber s = new Subscriber(IP, PORT);
                     s.Subscribe(TOPIC);
@@ -72,13 +74,30 @@ namespace ExecutionEngine
                 ious.Add(iou);
             }
 
-                // Print pairs and IoU
-                int i = 0;
+            // Print pairs and IoU
+            int i = 0;
             foreach (Tuple<int, int> pair in pairs)
             {
                 Console.WriteLine("A[{0}] - B[{1}], Iou is: {2}", pair.Item1, pair.Item2, ious[i]);
                 i++;
             }
+
+            // Give a list of electrodes need to be manipulated for calibration
+            List<List<int>> electrodesForCalibration = checker.GetStuckRegion(Program.tolerance, pairs, statesExp, statesAct);
+
+            // Print the list of electrodes 
+            Console.WriteLine("List of electrodes need to be manipulated for calibration:\n[");
+            foreach (List<int> innerList in electrodesForCalibration)
+            {
+                Console.Write("  [ ");
+                foreach (int num in innerList)
+                {
+                    Console.Write(num + " ");
+                }
+                Console.WriteLine("]");
+            }
+
+            Console.WriteLine("]");
         }
     }
 }
