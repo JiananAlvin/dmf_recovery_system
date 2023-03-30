@@ -14,7 +14,9 @@ namespace ExecutionEngine
         const String IP = "localhost";
         const int PORT = 1883;
         const String TOPIC = "yolo";
-        public static int minStep = 10;
+        public static int width;
+        public static int height;
+        public static int minStep;
         public static double tolerance = 1;  // This one should be user input.
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
@@ -24,9 +26,9 @@ namespace ExecutionEngine
             // Init two maps in terms of input JSON file
             Initializer init = new Initializer();
             init.Initilalize();
-            int width = init.width;
-            int height = init.height;
-            minStep = init.minSize;
+            width = init.width;
+            height = init.height;
+            minStep = init.minStep;
             layout = init.layout;
             layoutTri = init.layoutTri;
 
@@ -56,6 +58,7 @@ namespace ExecutionEngine
 
             string expectedS = "[[150, 530, 80, 20, 20, 0],     [202, 290, 120, 40, 40, 1],    [283, 630, 160, 20, 20, 2],    [333, 350, 200, 20, 20, 2],    [403, 470, 240, 80, 60, 3],    [350, 690, 200, 40, 40, 3]]";  // From Wenjie's program
             string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
+            // string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
 
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
@@ -83,14 +86,14 @@ namespace ExecutionEngine
             }
 
             // Give a list of electrodes need to be manipulated for calibration
-            List<List<int>> electrodesForCalibration = checker.GetStuckRegion(Program.tolerance, pairs, statesExp, statesAct);
+            List<HashSet<int>> electrodesForCalibration = checker.GetStuckRegion(Program.tolerance, pairs, statesExp, statesAct);
 
             // Print the list of electrodes 
             Console.WriteLine("List of electrodes need to be manipulated for calibration:\n[");
-            foreach (List<int> innerList in electrodesForCalibration)
+            foreach (HashSet<int> innerSet in electrodesForCalibration)
             {
                 Console.Write("  [ ");
-                foreach (int num in innerList)
+                foreach (int num in innerSet)
                 {
                     Console.Write(num + " ");
                 }

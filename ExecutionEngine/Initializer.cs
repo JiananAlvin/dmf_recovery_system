@@ -13,7 +13,7 @@ namespace ExecutionEngine
     {
         internal int width { get; set; }
         internal int height { get; set; }
-        internal int minSize { get; set; }
+        internal int minStep { get; set; }
         internal Dictionary<int, Dictionary<int, Electrode>> layout { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
         internal Dictionary<int, Dictionary<int, Electrode>> layoutTri { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
 
@@ -31,7 +31,7 @@ namespace ExecutionEngine
             // Access object properties
             this.width = obj.information.sizeX;
             this.height = obj.information.sizeY;
-            this.minSize = obj.information.minStep;
+            this.minStep = obj.information.minStep;
             JArray electrodeArr = obj.electrodes;
 
             // Print object properties
