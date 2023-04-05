@@ -57,9 +57,9 @@ namespace ExecutionEngine
 
         // expectedS: [electrod id of left top, left top x coord, left top y coord, width, height, direction] 
         // actualS:   [electrod id of left top, left top x coord, left top y coord, width, height, xoffset, yoffset]
-        public List<HashSet<int>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct)
+        public List<Dictionary<string, HashSet<int>>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct)
         {
-            List<HashSet<int>> stuckRegionPerFrame = new List<HashSet<int>>();
+            List<Dictionary<string, HashSet<int>>> elsPerFrame = new List<Dictionary<string, HashSet<int>>>();
             foreach (Tuple<int, int> pair in pairs)
             {
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
@@ -76,40 +76,46 @@ namespace ExecutionEngine
                     int direction = stuckDropletInfo[5];
                     int y;
                     int x;
-                    HashSet<int> stuckRegionPerDroplet = new HashSet<int>();
+                    HashSet<int> headEls = new HashSet<int>();
+                    HashSet<int> tailEls = new HashSet<int>();
+                    Dictionary<string, HashSet<int>> elsPerDroplet = new Dictionary<string, HashSet<int>>();
                     Mapper mapper = new Mapper();
                     switch (direction)
                     {
                         case 0:  // Up
-                            y = ytl + height;
                             for (x = xtl; x < xtl + width; x += Program.minStep)
                             {
-                                Electrode el = mapper.GetElectrode(x, y, Program.minStep, Program.layout, Program.layoutTri);
-                                stuckRegionPerDroplet.Add(el.Id);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, Program.minStep, Program.layout, Program.layoutTri);
+                                tailEls.Add(tailEl.Id);
+                                Electrode headEl = mapper.GetElectrode(x, ytl, Program.minStep, Program.layout, Program.layoutTri);
+                                headEls.Add(headEl.Id);
                             }
                             break;
                         case 1:  // Right
-                            x = xtl - Program.minStep;
                             for (y = ytl; y < ytl + height; y += Program.minStep)
                             {
-                                Electrode el = mapper.GetElectrode(x, y, Program.minStep, Program.layout, Program.layoutTri);
-                                stuckRegionPerDroplet.Add(el.Id);
+                                Electrode tailEl = mapper.GetElectrode(xtl - Program.minStep, y, Program.minStep, Program.layout, Program.layoutTri);
+                                tailEls.Add(tailEl.Id);
+                                Electrode headEl = mapper.GetElectrode(xtl + width - Program.minStep, y, Program.minStep, Program.layout, Program.layoutTri);
+                                headEls.Add(headEl.Id);
                             }
                             break;
                         case 2:  // Down
-                            y = ytl - Program.minStep;
                             for (x = xtl; x < xtl + width; x += Program.minStep)
                             {
-                                Electrode el = mapper.GetElectrode(x, y, Program.minStep, Program.layout, Program.layoutTri);
-                                stuckRegionPerDroplet.Add(el.Id);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl - Program.minStep, Program.minStep, Program.layout, Program.layoutTri);
+                                tailEls.Add(tailEl.Id);
+                                Electrode headEl = mapper.GetElectrode(x, ytl + height - Program.minStep, Program.minStep, Program.layout, Program.layoutTri);
+                                headEls.Add(headEl.Id);
                             }
                             break;
                         case 3:  // Left
-                            x = xtl + width;
                             for (y = ytl; y < ytl + height; y += Program.minStep)
                             {
-                                Electrode el = mapper.GetElectrode(x, y, Program.minStep, Program.layout, Program.layoutTri);
-                                stuckRegionPerDroplet.Add(el.Id);
+                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, Program.minStep, Program.layout, Program.layoutTri);
+                                tailEls.Add(tailEl.Id);
+                                Electrode headEl = mapper.GetElectrode(xtl, y, Program.minStep, Program.layout, Program.layoutTri);
+                                headEls.Add(headEl.Id);
                             }
                             break;
                         default:
@@ -117,10 +123,12 @@ namespace ExecutionEngine
                     }
                     // If a droplet is stuck, add a list of expected droplets that the droplet is on to 'stuckRegionPerFrame'
                     // [[a list of expected droplets that the droplet1 is on], [droplet2], [droplet3]]
-                    stuckRegionPerFrame.Add(stuckRegionPerDroplet);
+                    elsPerDroplet.Add("head", headEls);
+                    elsPerDroplet.Add("tail", tailEls);
+                    elsPerFrame.Add(elsPerDroplet);
                 }
             }
-            return stuckRegionPerFrame;
+            return elsPerFrame;
         }
 
         public bool IsStuck(double tolerance, double actualIou, List<int> stateExp)
@@ -128,11 +136,11 @@ namespace ExecutionEngine
             double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
-                iouOfPerfectMove = (double)(stateExp[4] - 20) / (double)(stateExp[4] + 20);  // TODO: Should not use 20 directly
+                iouOfPerfectMove = (double)(stateExp[4] - Program.sizeOfSquareEl) / (double)(stateExp[4] + Program.sizeOfSquareEl);
             }
             else // If the droplet wanna goes left or right, then we are interested in width
             {
-                iouOfPerfectMove = (double)(stateExp[3] - 20) / (double)(stateExp[3] + 20);
+                iouOfPerfectMove = (double)(stateExp[3] - Program.sizeOfSquareEl) / (double)(stateExp[3] + Program.sizeOfSquareEl);
             }
             return actualIou <= tolerance * iouOfPerfectMove;  // TODO: should not be multiplication, should be a function f(tolerance, iouOfPerfectMove) -> (IOU of the worst case, 1]
         }

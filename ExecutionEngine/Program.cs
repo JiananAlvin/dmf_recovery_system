@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExecutionEngine;
+using NetTopologySuite.Algorithm;
 using Newtonsoft.Json;
 
 namespace ExecutionEngine
@@ -18,6 +19,7 @@ namespace ExecutionEngine
         public static int height;
         public static int minStep;
         public static double tolerance = 1;  // This one should be user input.
+        public static int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
 
@@ -87,20 +89,25 @@ namespace ExecutionEngine
             }
 
             // Give a list of electrodes need to be manipulated for calibration
-            List<HashSet<int>> electrodesForCalibration = checker.GetStuckRegion(Program.tolerance, pairs, statesExp, statesAct);
+            List<Dictionary<string, HashSet<int>>> electrodesForCalibration = checker.GetStuckRegion(Program.tolerance, pairs, statesExp, statesAct);
 
             // Print the list of electrodes 
             Console.WriteLine("List of electrodes need to be manipulated for calibration:\n[");
-            foreach (HashSet<int> innerSet in electrodesForCalibration)
+            foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForCalibration)
             {
-                Console.Write("  [ ");
-                foreach (int num in innerSet)
+                Console.WriteLine("---------------");
+                foreach (KeyValuePair<string, HashSet<int>> kvp in elsPerDroplet)
                 {
-                    Console.Write(num + " ");
+                    Console.Write("   {0}: ", kvp.Key);
+                    Console.Write("[ ");
+                    foreach (int num in kvp.Value)
+                    {
+                        Console.Write(num + " ");
+                    }
+                    Console.WriteLine("]");
                 }
-                Console.WriteLine("]");
+                Console.WriteLine("---------------");
             }
-
             Console.WriteLine("]");
         }
     }
