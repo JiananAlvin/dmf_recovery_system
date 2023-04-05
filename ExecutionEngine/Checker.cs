@@ -64,8 +64,8 @@ namespace ExecutionEngine
             {
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
-
-                if (IsStuck(tolerance, squareAct.IoU(squareAct), statesExp[pair.Item1]))
+             
+                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1]))
                 {
                     List<int> stuckDropletInfo = statesExp[pair.Item1];
                     int xtl = stuckDropletInfo[1];
@@ -126,16 +126,15 @@ namespace ExecutionEngine
         public bool IsStuck(double tolerance, double actualIou, List<int> stateExp)
         {
             double iouOfPerfectMove;
-            // If the droplet wanna goes up or down, then we are interested in height
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
-                iouOfPerfectMove = (stateExp[4] - Program.height) / (stateExp[4] + Program.height);
+                iouOfPerfectMove = (double)(stateExp[4] - 20) / (double)(stateExp[4] + 20);  // TODO: Should not use 20 directly
             }
             else // If the droplet wanna goes left or right, then we are interested in width
             {
-                iouOfPerfectMove = (stateExp[3] - Program.width) / (stateExp[3] + Program.width);
+                iouOfPerfectMove = (double)(stateExp[3] - 20) / (double)(stateExp[3] + 20);
             }
-            return actualIou > tolerance * iouOfPerfectMove;
+            return actualIou <= tolerance * iouOfPerfectMove;  // TODO: should not be multiplication, should be a function f(tolerance, iouOfPerfectMove) -> (IOU of the worst case, 1]
         }
     }
 }

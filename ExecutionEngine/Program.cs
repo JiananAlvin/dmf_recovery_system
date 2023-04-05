@@ -32,30 +32,31 @@ namespace ExecutionEngine
             layout = init.layout;
             layoutTri = init.layoutTri;
 
-             /*       // Subscribe YOLO output
-                    String yolo = null;
-                    Subscriber s = new Subscriber(IP, PORT);
-                    s.Subscribe(TOPIC);
+            /*       // Subscribe YOLO output
+                   String yolo = null;
+                   Subscriber s = new Subscriber(IP, PORT);
+                   s.Subscribe(TOPIC);
 
-                    while (yolo is null) 
-                        {
-                        yolo = s.GetReceivedMessage();
-                        }
+                   while (yolo is null) 
+                       {
+                       yolo = s.GetReceivedMessage();
+                       }
 
-                    // Map
-                    Mapper mapper = new Mapper();
-                    // string yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
-                    // yolo is actualS
-                    List<List<int>> result = mapper.Map(yolo, width, height, minSize, layout, layoutTri); //TODO
+                   // Map
+                   Mapper mapper = new Mapper();
+                   // string yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
+                   // yolo is actualS
+                   List<List<int>> result = mapper.Map(yolo, width, height, minSize, layout, layoutTri); //TODO
 
 
-                    // overlap (expected, result)
-                    // recover miss-movement
-                    foreach (List<int> list in result)
-                    {
-                        Console.WriteLine(string.Join(",", list) + "\n");
-                    }*/
+                   // overlap (expected, result)
+                   // recover miss-movement
+                   foreach (List<int> list in result)
+                   {
+                       Console.WriteLine(string.Join(",", list) + "\n");
+                   }*/
 
+            // string originalS = "[[182, 530, 100, 20, 20],       [201, 270, 120, 40, 40],       [282, 630, 140, 20, 20],       [301, 350, 180, 20, 20],       [351, 710, 200, 40, 40],       [404, 490, 240, 80, 60]]";
             string expectedS = "[[150, 530, 80, 20, 20, 0],     [202, 290, 120, 40, 40, 1],    [283, 630, 160, 20, 20, 2],    [333, 350, 200, 20, 20, 2],    [403, 470, 240, 80, 60, 3],    [350, 690, 200, 40, 40, 3]]";  // From Wenjie's program
             string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
             // string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
@@ -81,7 +82,7 @@ namespace ExecutionEngine
             int i = 0;
             foreach (Tuple<int, int> pair in pairs)
             {
-                Console.WriteLine("A[{0}] - B[{1}], Iou is: {2}", pair.Item1, pair.Item2, ious[i]);
+                Console.WriteLine("E[{0}] - A[{1}], Iou is: {2}", pair.Item1, pair.Item2, ious[i]);
                 i++;
             }
 
