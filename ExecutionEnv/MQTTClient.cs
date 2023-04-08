@@ -6,32 +6,30 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 
 public class MQTTClient
 {
-    MqttClient Client;
-    string ClientId;
-    string Name;
-    string BrokerAddress = "test.mosquitto.org";
+    private MqttClient client;
+    private string clientId;
+    private string name;
+    private string BrokerAddress = "test.mosquitto.org";
 
     public MQTTClient(string name)
     {
-        Client = new MqttClient(BrokerAddress);
+        client = new MqttClient(BrokerAddress);
 
-        this.Name = name;
+        this.name = name;
 
         // register a callback-function (we have to implement, see below) which is called by the library when a message was received
-        Client.MqttMsgPublishReceived += ClientMqttMsgPublishReceived;
+        client.MqttMsgPublishReceived += ClientMqttMsgPublishReceived;
 
         // use a unique id as client id, each time we start the application
-        ClientId = Guid.NewGuid().ToString();
+        clientId = Guid.NewGuid().ToString();
 
-        Client.Connect(ClientId);
+        client.Connect(clientId);
     }
-
 
     protected void DisConnet()
     {
-        Client.Disconnect();
+        client.Disconnect();
     }
-
 
     public void Subscribe(string topic)
     {
@@ -39,7 +37,7 @@ public class MQTTClient
         string finalTopic = $"{topic}";
 
         // subscribe to the topic with QoS 2
-        Client.Subscribe(new string[] { finalTopic }, new byte[] { 2 });   // we need arrays as parameters because we can subscribe to different topics with one call
+        client.Subscribe(new string[] { finalTopic }, new byte[] { 2 });   // we need arrays as parameters because we can subscribe to different topics with one call
 
         Console.WriteLine($"[Subscribe][{topic}]:Success");
     }
@@ -50,7 +48,7 @@ public class MQTTClient
         string finalTopic = $"{topic}";
 
         // publish a message with QoS 2
-        Client.Publish(finalTopic, Encoding.UTF8.GetBytes(content), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+        client.Publish(finalTopic, Encoding.UTF8.GetBytes(content), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
         Console.WriteLine($"[Publish][{topic}]:{content}");
     }
 
@@ -58,13 +56,21 @@ public class MQTTClient
     public void ClientMqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
     {
         string receivedMessage = Encoding.UTF8.GetString(e.Message);
-
         string topic = e.Topic;
 
         if (topic.Equals("exe/feedback") && receivedMessage.Equals("ok"))
         {
             Tester.executeCompletedFlag = false;
+        } 
+        else if (topic.Equals("yolo/act"))
+        {
+            Tester.actualStates = receivedMessage;
+        } 
+        else 
+        {
+            Tester.expectedStates = receivedMessage;
         }
+
         Console.WriteLine($"[Receive][{topic}]:{receivedMessage}");
     }
 }

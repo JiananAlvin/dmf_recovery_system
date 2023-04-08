@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExecutionEngine
 {
-    internal abstract class Shape
+    public abstract class Shape
     {
         public abstract bool IsPointInTriangle4(Point p);
     }

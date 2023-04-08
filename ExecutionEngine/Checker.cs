@@ -83,38 +83,38 @@ namespace ExecutionEngine
                     switch (direction)
                     {
                         case 0:  // Up
-                            for (x = xtl; x < xtl + width; x += Program.minStep)
+                            for (x = xtl; x < xtl + width; x += Calibrator.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 1:  // Right
-                            for (y = ytl; y < ytl + height; y += Program.minStep)
+                            for (y = ytl; y < ytl + height; y += Calibrator.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl - Program.minStep, y, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl - Calibrator.minStep, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl + width - Program.minStep, y, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl + width - Calibrator.minStep, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 2:  // Down
-                            for (x = xtl; x < xtl + width; x += Program.minStep)
+                            for (x = xtl; x < xtl + width; x += Calibrator.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl - Program.minStep, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl - Calibrator.minStep, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl + height - Program.minStep, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl + height - Calibrator.minStep, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 3:  // Left
-                            for (y = ytl; y < ytl + height; y += Program.minStep)
+                            for (y = ytl; y < ytl + height; y += Calibrator.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl, y, Program.minStep, Program.layout, Program.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
@@ -136,11 +136,11 @@ namespace ExecutionEngine
             double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
-                iouOfPerfectMove = (double)(stateExp[4] - Program.sizeOfSquareEl) / (double)(stateExp[4] + Program.sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[4] - Calibrator.sizeOfSquareEl) / (double)(stateExp[4] + Calibrator.sizeOfSquareEl);
             }
             else // If the droplet wanna goes left or right, then we are interested in width
             {
-                iouOfPerfectMove = (double)(stateExp[3] - Program.sizeOfSquareEl) / (double)(stateExp[3] + Program.sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[3] - Calibrator.sizeOfSquareEl) / (double)(stateExp[3] + Calibrator.sizeOfSquareEl);
             }
             return actualIou <= tolerance * iouOfPerfectMove;  // TODO: should not be multiplication, should be a function f(tolerance, iouOfPerfectMove) -> (IOU of the worst case, 1]
         }

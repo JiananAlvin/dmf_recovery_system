@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v7.0": {
-      "ExecutionEnv/1.0.0": {
+      "ExecutionEngine/1.0.0": {
         "dependencies": {
-          "ExecutionEngine": "1.0.0",
           "M2Mqtt": "4.3.0",
           "MQTTnet.Extensions.ManagedClient": "3.1.1",
+          "NetTopologySuite": "2.5.0",
           "Newtonsoft.Json": "13.0.2"
         },
         "runtime": {
-          "ExecutionEnv.dll": {}
+          "ExecutionEngine.dll": {}
         }
       },
       "M2Mqtt/4.3.0": {
@@ -63,22 +63,11 @@
           }
         }
       },
-      "System.Memory/4.5.4": {},
-      "ExecutionEngine/1.0.0": {
-        "dependencies": {
-          "M2Mqtt": "4.3.0",
-          "MQTTnet.Extensions.ManagedClient": "3.1.1",
-          "NetTopologySuite": "2.5.0",
-          "Newtonsoft.Json": "13.0.2"
-        },
-        "runtime": {
-          "ExecutionEngine.dll": {}
-        }
-      }
+      "System.Memory/4.5.4": {}
     }
   },
   "libraries": {
-    "ExecutionEnv/1.0.0": {
+    "ExecutionEngine/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -124,11 +113,6 @@
       "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
       "path": "system.memory/4.5.4",
       "hashPath": "system.memory.4.5.4.nupkg.sha512"
-    },
-    "ExecutionEngine/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }

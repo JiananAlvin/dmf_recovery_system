@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExecutionEngine;
-using NetTopologySuite.Algorithm;
-using Newtonsoft.Json;
 
 namespace ExecutionEngine
 {
-    internal class Program
+    public class Calibrator
     {
-        static void Main(string[] args)
-        {
-
-        }
-       /* const String IP = "localhost";
+        const String IP = "localhost";
         const int PORT = 1883;
         const String TOPIC = "yolo";
         public static int width;
@@ -27,7 +20,7 @@ namespace ExecutionEngine
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
 
-        static void Main(string[] args)
+        public void Run(string expectedS, string actualS)
         {
             // Init two maps in terms of input JSON file
             Initializer init = new Initializer();
@@ -35,10 +28,11 @@ namespace ExecutionEngine
             width = init.width;
             height = init.height;
             minStep = init.minStep;
+            //minStep = 10;
             layout = init.layout;
             layoutTri = init.layoutTri;
 
-            *//*       // Subscribe YOLO output
+            /*       // Subscribe YOLO output
                    String yolo = null;
                    Subscriber s = new Subscriber(IP, PORT);
                    s.Subscribe(TOPIC);
@@ -60,11 +54,11 @@ namespace ExecutionEngine
                    foreach (List<int> list in result)
                    {
                        Console.WriteLine(string.Join(",", list) + "\n");
-                   }*//*
+                   }*/
 
             // string originalS = "[[182, 530, 100, 20, 20],       [201, 270, 120, 40, 40],       [282, 630, 140, 20, 20],       [301, 350, 180, 20, 20],       [351, 710, 200, 40, 40],       [404, 490, 240, 80, 60]]";
-            string expectedS = "[[150, 530, 80, 20, 20, 0],     [202, 290, 120, 40, 40, 1],    [283, 630, 160, 20, 20, 2],    [333, 350, 200, 20, 20, 2],    [403, 470, 240, 80, 60, 3],    [350, 690, 200, 40, 40, 3]]";  // From Wenjie's program
-            string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
+            // string expectedS = "[[150, 530, 80, 20, 20, 0],     [202, 290, 120, 40, 40, 1],    [283, 630, 160, 20, 20, 2],    [333, 350, 200, 20, 20, 2],    [403, 470, 240, 80, 60, 3],    [350, 690, 200, 40, 40, 3]]";  // From Wenjie's program
+            // string actualS = "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
             // string actualS =   "[[182, 530, 100, 20, 20, 0, 0], [201, 270, 120, 40, 40, 0, 0], [283, 630, 160, 20, 20, 0, 0], [301, 350, 180, 20, 20, 0, 0], [350, 690, 200, 40, 40, 0, 0], [404, 490, 240, 80, 60, 0, 0]]";
 
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
@@ -93,7 +87,7 @@ namespace ExecutionEngine
             }
 
             // Give a list of electrodes need to be manipulated for calibration
-            List<Dictionary<string, HashSet<int>>> electrodesForCalibration = checker.GetStuckRegion(Program.tolerance, pairs, statesExp, statesAct);
+            List<Dictionary<string, HashSet<int>>> electrodesForCalibration = checker.GetStuckRegion(Calibrator.tolerance, pairs, statesExp, statesAct);
 
             // Print the list of electrodes 
             Console.WriteLine("List of electrodes need to be manipulated for calibration:\n[");
@@ -113,6 +107,6 @@ namespace ExecutionEngine
                 Console.WriteLine("---------------");
             }
             Console.WriteLine("]");
-        }*/
+        }
     }
 }
