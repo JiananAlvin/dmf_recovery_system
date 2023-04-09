@@ -1,0 +1,3 @@
+﻿List of electrodes need to be manipulated for calibration:
+[   head: [ 150 ]   tail: [ 182 ]   head: [ 203 235 ]   tail: [ 201 233 ]   head: [ 333 ]   tail: [ 301 ]   head: [ 403 435 467 ]   tail: [ 407 439 471 ]   ]
+==========================

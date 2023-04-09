@@ -39,7 +39,7 @@ public class MQTTClient
         // subscribe to the topic with QoS 2
         client.Subscribe(new string[] { finalTopic }, new byte[] { 2 });   // we need arrays as parameters because we can subscribe to different topics with one call
 
-        Console.WriteLine($"[Subscribe][{topic}]:Success");
+        // Console.WriteLine($"[Subscribe][{topic}]:Success");
     }
 
     public void Publish(string topic, string content)
@@ -60,7 +60,7 @@ public class MQTTClient
 
         if (topic.Equals("exe/feedback") && receivedMessage.Equals("ok"))
         {
-            Tester.executeCompletedFlag = false;
+            Tester.executeCompletedFlag = true;
         } 
         else if (topic.Equals("yolo/act"))
         {
@@ -71,6 +71,6 @@ public class MQTTClient
             Tester.expectedStates = receivedMessage;
         }
 
-        Console.WriteLine($"[Receive][{topic}]:{receivedMessage}");
+        // Console.WriteLine($"[Receive][{topic}]:{receivedMessage}");
     }
 }
