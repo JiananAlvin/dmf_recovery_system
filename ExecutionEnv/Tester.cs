@@ -65,7 +65,7 @@ namespace ExecutionEnv
             // Publish next expected state whenever executeCompletedFlag = true (i.e. calibration was done).
             foreach (JObject obj in routerJsonArray)
             {
-                string expectedStates = obj["exp"].ToString();
+                string expectedStates = JsonConvert.SerializeObject(obj["exp"], Formatting.None).ToString();
                 Thread.Sleep(2000);
                 router.Subscribe(EXE_FEEDBACK_TOPIC);
                 while (executeCompletedFlag)
@@ -74,7 +74,7 @@ namespace ExecutionEnv
                     executeCompletedFlag = false;
                     break;
                 }
-                Thread.Sleep(10000);
+                Thread.Sleep(12000);
             }    
         }
 
@@ -87,10 +87,10 @@ namespace ExecutionEnv
             // Publish each actual state.
             foreach (JObject obj in yoloJsonArray)
             {
-                string actualStates = obj["act"].ToString();
+                string actualStates = JsonConvert.SerializeObject(obj["act"], Formatting.None).ToString();
                 Thread.Sleep(1000);
                 yolo.Publish(YOLO_RESULT_TOPIC, $"{actualStates}");
-                Thread.Sleep(100000);
+                Thread.Sleep(13000);
             }
         }
 

@@ -93,7 +93,6 @@ namespace ExecutionEngine
             Console.WriteLine("List of electrodes need to be manipulated for calibration:\n[");
             foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForCalibration)
             {
-                Console.WriteLine("---------------");
                 foreach (KeyValuePair<string, HashSet<int>> kvp in elsPerDroplet)
                 {
                     Console.Write("   {0}: ", kvp.Key);
@@ -104,7 +103,6 @@ namespace ExecutionEngine
                     }
                     Console.WriteLine("]");
                 }
-                Console.WriteLine("---------------");
             }
             Console.WriteLine("]");
 
@@ -127,9 +125,13 @@ namespace ExecutionEngine
             result += "   ]\n";
             result += "==========================";
             string fileName = "G:\\01_dmf_calibration_system\\ExecutionEnv\\reult.txt";
-            using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
+/*            using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
             using StreamWriter writerFile = new StreamWriter(fs, Encoding.UTF8);
-            writerFile.Write(result);
+            writerFile.WriteLine(result);*/
+            using (StreamWriter writer = File.AppendText(fileName))
+            {
+                writer.WriteLine(result);
+            }
         }
     }
 }

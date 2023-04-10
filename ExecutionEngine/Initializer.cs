@@ -35,7 +35,7 @@ namespace ExecutionEngine
             JArray electrodeArr = obj.electrodes;
 
             // Print object properties
-            Console.WriteLine($"sizeX: {width}");
+            // Console.WriteLine($"sizeX: {width}");
 
             // Traverse all electrodes
             foreach (JObject elInfo in electrodeArr)
