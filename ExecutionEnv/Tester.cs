@@ -31,25 +31,32 @@ namespace ExecutionEnv
 
         public void ExecRun()
         {
-            for (int i = 0; i < numOfTestCases; i++)
+            for (int i = 0; i < numOfTestCases; i++) /
             {
                 Thread.Sleep(3000);
                 Console.WriteLine($"Exec is running for round {i}");
 
                 // Subscribe expected states and actual states from router and yolo respectively.
-                while (actualStates is null)
-                    executor.Subscribe(YOLO_RESULT_TOPIC);
-                while (expectedStates is null)
+                while (expectedStates == null)
                     executor.Subscribe(ROUTER_RESULT_TOPIC);
+                
+                List<Dictionary<string, HashSet<int>>> electrodesForCalibration;
+                do 
+                {
+                    while (actualStates == null)
+                        executor.Subscribe(YOLO_RESULT_TOPIC);
 
-                // TODO: calibration should run in a loop.
-                // Calibrate by given expected states and actual states.
-                Calibrator calibrator = new Calibrator();
-                calibrator.Run(expectedStates, actualStates);
-
-                // Done calibration, then give feedback to executor.
-                executor.Publish(EXE_FEEDBACK_TOPIC, "ok");
-                Thread.Sleep(8000);
+                    // TODO: calibration should run in a loop.
+                    // Calibrate by given expected states and actual states.
+                    Calibrator calibrator = new Calibrator();
+                    electrodesForCalibration = calibrator.Run(expectedStates, actualStates);
+                
+                    // Done calibration, then give feedback to executor.
+                    executor.Publish(EXE_FEEDBACK_TOPIC, "ok");
+                    actualStates = null;
+                    Thread.Sleep(8000);
+                } while (electrodesForCalibration.Count != 0);
+                expectedStates = null;
             }
         }
 
@@ -60,15 +67,17 @@ namespace ExecutionEnv
             JArray routerJsonArray = JArray.Parse(routerJsonText);
 
             // # of test cases is the size of the JSON array in router.json file.
-            numOfTestCases = routerJsonArray.Count;
+            numOfTestCases = routerJsonArray.Count; 
+
+            router.Subscribe(EXE_FEEDBACK_TOPIC);
 
             // Publish next expected state whenever executeCompletedFlag = true (i.e. calibration was done).
             foreach (JObject obj in routerJsonArray)
             {
                 string expectedStates = JsonConvert.SerializeObject(obj["exp"], Formatting.None).ToString();
                 Thread.Sleep(2000);
-                router.Subscribe(EXE_FEEDBACK_TOPIC);
-                while (executeCompletedFlag)
+
+                while (executeCompletedFlag)  // TODO:
                 {
                     router.Publish(ROUTER_RESULT_TOPIC, $"{expectedStates}");
                     executeCompletedFlag = false;

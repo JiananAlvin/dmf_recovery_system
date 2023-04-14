@@ -20,7 +20,7 @@ namespace ExecutionEngine
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
 
-        public void Run(string expectedS, string actualS)
+        public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS)
         {
             // Init two maps in terms of input JSON file
             Initializer init = new Initializer();
@@ -132,6 +132,9 @@ namespace ExecutionEngine
             {
                 writer.WriteLine(result);
             }
+
+            // Return the list of electrodes need to be manipulated.
+            return electrodesForCalibration;
         }
     }
 }
