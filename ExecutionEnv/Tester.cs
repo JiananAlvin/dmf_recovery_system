@@ -31,7 +31,7 @@ namespace ExecutionEnv
 
         public void ExecRun()
         {
-            for (int i = 0; i < numOfTestCases; i++) /
+            for (int i = 0; i < numOfTestCases; i++) 
             {
                 Thread.Sleep(3000);
                 Console.WriteLine($"Exec is running for round {i}");
@@ -46,13 +46,15 @@ namespace ExecutionEnv
                     while (actualStates == null)
                         executor.Subscribe(YOLO_RESULT_TOPIC);
 
-                    // TODO: calibration should run in a loop.
                     // Calibrate by given expected states and actual states.
                     Calibrator calibrator = new Calibrator();
                     electrodesForCalibration = calibrator.Run(expectedStates, actualStates);
                 
-                    // Done calibration, then give feedback to executor.
-                    executor.Publish(EXE_FEEDBACK_TOPIC, "ok");
+                    // If calibration result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
+                    if (electrodesForCalibration.Count == 0)
+                    {
+                        executor.Publish(EXE_FEEDBACK_TOPIC, "ok");
+                    }
                     actualStates = null;
                     Thread.Sleep(8000);
                 } while (electrodesForCalibration.Count != 0);
@@ -77,11 +79,15 @@ namespace ExecutionEnv
                 string expectedStates = JsonConvert.SerializeObject(obj["exp"], Formatting.None).ToString();
                 Thread.Sleep(2000);
 
-                while (executeCompletedFlag)  // TODO:
+                Console.WriteLine("Here is the value of executeCompletedFlag:" + executeCompletedFlag);
+                while (true)
                 {
-                    router.Publish(ROUTER_RESULT_TOPIC, $"{expectedStates}");
-                    executeCompletedFlag = false;
-                    break;
+                   if (executeCompletedFlag)
+                    {
+                        router.Publish(ROUTER_RESULT_TOPIC, $"{expectedStates}");
+                        executeCompletedFlag = false;
+                        break;
+                    }
                 }
                 Thread.Sleep(12000);
             }    
