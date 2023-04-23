@@ -2,89 +2,110 @@
 [   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   ]
+[   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 332 ]   tail: [ 300 ]   ]
+[   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   head: [ 331 ]   tail: [ 332 ]   head: [ 348 380 ]   tail: [ 350 382 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   head: [ 331 ]   tail: [ 332 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 205 237 ]   tail: [ 203 235 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 286 ]   tail: [ 285 ]   head: [ 330 ]   tail: [ 331 ]   head: [ 347 379 ]   tail: [ 349 381 ]   head: [ 563 564 565 566 ]   tail: [ 467 468 469 470 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 347 379 ]   tail: [ 349 381 ]   head: [ 563 564 565 566 ]   tail: [ 467 468 469 470 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 499 500 501 502 ]   tail: [ 403 404 405 406 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   head: [ 331 ]   tail: [ 332 ]   head: [ 348 380 ]   tail: [ 350 382 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   head: [ 331 ]   tail: [ 332 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 205 237 ]   tail: [ 203 235 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 284 ]   tail: [ 283 ]   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 332 ]   tail: [ 333 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   head: [ 331 ]   tail: [ 332 ]   head: [ 348 380 ]   tail: [ 350 382 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   head: [ 331 ]   tail: [ 332 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 86 ]   tail: [ 118 ]   head: [ 205 237 ]   tail: [ 203 235 ]   head: [ 285 ]   tail: [ 284 ]   ]
 ==========================
 List of electrodes need to be manipulated for calibration:
-[   head: [ 118 ]   tail: [ 150 ]   head: [ 204 236 ]   tail: [ 202 234 ]   head: [ 284 ]   tail: [ 252 ]   head: [ 332 ]   tail: [ 300 ]   head: [ 349 381 ]   tail: [ 351 383 ]   head: [ 435 467 499 ]   tail: [ 439 471 503 ]   ]
+[   head: [ 205 237 ]   tail: [ 203 235 ]   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   head: [ 286 ]   tail: [ 285 ]   head: [ 330 ]   tail: [ 331 ]   head: [ 347 379 ]   tail: [ 349 381 ]   head: [ 563 564 565 566 ]   tail: [ 467 468 469 470 ]   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   head: [ 347 379 ]   tail: [ 349 381 ]   head: [ 563 564 565 566 ]   tail: [ 467 468 469 470 ]   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   head: [ 207 239 ]   tail: [ 205 237 ]   head: [ 287 ]   tail: [ 286 ]   head: [ 329 ]   tail: [ 330 ]   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   head: [ 287 ]   tail: [ 286 ]   head: [ 329 ]   tail: [ 330 ]   ]
+==========================
+List of electrodes need to be manipulated for calibration:
+[   ]
 ==========================

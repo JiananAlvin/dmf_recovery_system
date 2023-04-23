@@ -24,6 +24,7 @@ namespace ExecutionEnv
         internal string PATH_TO_ROUTER = "../../../router.json";
 
         internal static bool executeCompletedFlag = true;
+        internal static bool calibrationCompletedFlag = true;  // Only used for test
         internal static string expectedStates = null;
         internal static string actualStates = null;
 
@@ -31,34 +32,33 @@ namespace ExecutionEnv
 
         public void ExecRun()
         {
+            // Subscribe expected states and actual states from router and yolo respectively.
+            executor.Subscribe(ROUTER_RESULT_TOPIC);
+            executor.Subscribe(YOLO_RESULT_TOPIC);
+
+            Thread.Sleep(1000);  // Wait for YOLO and router to publish.
+
             for (int i = 0; i < numOfTestCases; i++) 
             {
-                Thread.Sleep(3000);
                 Console.WriteLine($"Exec is running for round {i}");
-
-                // Subscribe expected states and actual states from router and yolo respectively.
-                while (expectedStates == null)
-                    executor.Subscribe(ROUTER_RESULT_TOPIC);
                 
                 List<Dictionary<string, HashSet<int>>> electrodesForCalibration;
                 do 
                 {
-                    while (actualStates == null)
-                        executor.Subscribe(YOLO_RESULT_TOPIC);
-
                     // Calibrate by given expected states and actual states.
                     Calibrator calibrator = new Calibrator();
                     electrodesForCalibration = calibrator.Run(expectedStates, actualStates);
-                
+
                     // If calibration result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
                     if (electrodesForCalibration.Count == 0)
                     {
                         executor.Publish(EXE_FEEDBACK_TOPIC, "ok");
                     }
-                    actualStates = null;
-                    Thread.Sleep(8000);
+
+                    calibrationCompletedFlag = true;
+                    // Wait for YOLO and router to publish.
+                    Thread.Sleep(1000);
                 } while (electrodesForCalibration.Count != 0);
-                expectedStates = null;
             }
         }
 
@@ -77,19 +77,16 @@ namespace ExecutionEnv
             foreach (JObject obj in routerJsonArray)
             {
                 string expectedStates = JsonConvert.SerializeObject(obj["exp"], Formatting.None).ToString();
-                Thread.Sleep(2000);
 
-                Console.WriteLine("Here is the value of executeCompletedFlag:" + executeCompletedFlag);
                 while (true)
                 {
                    if (executeCompletedFlag)
-                    {
+                   {
                         router.Publish(ROUTER_RESULT_TOPIC, $"{expectedStates}");
                         executeCompletedFlag = false;
                         break;
-                    }
+                   }
                 }
-                Thread.Sleep(12000);
             }    
         }
 
@@ -103,9 +100,17 @@ namespace ExecutionEnv
             foreach (JObject obj in yoloJsonArray)
             {
                 string actualStates = JsonConvert.SerializeObject(obj["act"], Formatting.None).ToString();
-                Thread.Sleep(1000);
-                yolo.Publish(YOLO_RESULT_TOPIC, $"{actualStates}");
-                Thread.Sleep(13000);
+                
+                while (true)
+                {
+                    if (calibrationCompletedFlag)
+                    {
+                        
+                        yolo.Publish(YOLO_RESULT_TOPIC, $"{actualStates}");
+                        calibrationCompletedFlag = false;
+                        break;
+                    }
+                }
             }
         }
 
@@ -115,7 +120,6 @@ namespace ExecutionEnv
             // Yolo -> Router -> Execution engine
             new Thread(YoloRun).Start();
             new Thread(RouterRun).Start();
-            Thread.Sleep(1000);
             ExecRun();
         }
     }
