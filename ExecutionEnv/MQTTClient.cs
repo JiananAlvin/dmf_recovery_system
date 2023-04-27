@@ -1,4 +1,5 @@
 using ExecutionEnv;
+using ExecutionEngine;
 using System.Text;
 // including the M2Mqtt Library
 using uPLibrary.Networking.M2Mqtt;
@@ -66,9 +67,12 @@ public class MQTTClient
         {
             Tester.actualStates = receivedMessage;
         } 
-        else 
+        else if (topic.Equals("router/exp"))
         {
             Tester.expectedStates = receivedMessage;
+        } else
+        {
+            Part1Tester.yolo = receivedMessage;
         }
 
         // Console.WriteLine($"[Receive][{topic}]:{receivedMessage}");

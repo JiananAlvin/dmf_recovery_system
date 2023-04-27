@@ -235,8 +235,11 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
 
     # J --------------------------------
+    # Publish result
+    postprocess.postprocess(results)
+
     # Return
-    return results
+    # return results
 
 
 def parse_opt():
