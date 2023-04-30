@@ -4,7 +4,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        Tester tester = new Tester();
+        Part2Tester tester = new Part2Tester();
         tester.Run();
     }
 }

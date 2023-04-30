@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ExecutionEnv
 {
-    internal class Tester
+    internal class Part2Tester
     {
         internal MQTTClient yolo = new MQTTClient("yolo");
         internal MQTTClient executor = new MQTTClient("executor");

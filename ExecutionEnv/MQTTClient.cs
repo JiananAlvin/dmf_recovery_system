@@ -61,15 +61,15 @@ public class MQTTClient
 
         if (topic.Equals("exe/feedback") && receivedMessage.Equals("ok"))
         {
-            Tester.executeCompletedFlag = true;
+            Part2Tester.executeCompletedFlag = true;
         } 
         else if (topic.Equals("yolo/act"))
         {
-            Tester.actualStates = receivedMessage;
+            Part2Tester.actualStates = receivedMessage;
         } 
         else if (topic.Equals("router/exp"))
         {
-            Tester.expectedStates = receivedMessage;
+            Part2Tester.expectedStates = receivedMessage;
         } else
         {
             Part1Tester.yolo = receivedMessage;
