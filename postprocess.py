@@ -10,7 +10,7 @@ E_WIDTH = 671
 E_HEIGHT = 320
 IP = "localhost"
 PORT = 1883
-TOPIC = "yolo"
+TOPIC = "yolo/det"
 
 
 # This function returns digital info about bounding boxes of detected droplets. The format is
@@ -24,5 +24,5 @@ def postprocess(arr):
         d_info.append([(xyxy[2] + xyxy[0]) / 2, (xyxy[3] + xyxy[1]) / 2, xyxy[2] - xyxy[0], xyxy[3] - xyxy[1]])
     output['d_info'] = d_info
     # return output
-    
+
     publisher.publisher(TOPIC, str(output))

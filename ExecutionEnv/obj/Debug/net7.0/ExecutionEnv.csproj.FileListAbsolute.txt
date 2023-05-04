@@ -18,9 +18,6 @@ G:\01_dmf_calibration_system\ExecutionEnv\obj\Debug\net7.0\refint\ExecutionEnv.d
 G:\01_dmf_calibration_system\ExecutionEnv\obj\Debug\net7.0\ExecutionEnv.pdb
 G:\01_dmf_calibration_system\ExecutionEnv\obj\Debug\net7.0\ExecutionEnv.genruntimeconfig.cache
 G:\01_dmf_calibration_system\ExecutionEnv\obj\Debug\net7.0\ref\ExecutionEnv.dll
-G:\01_dmf_calibration_system\ExecutionEnv\bin\Debug\net7.0\ExecutionEngine.deps.json
-G:\01_dmf_calibration_system\ExecutionEnv\bin\Debug\net7.0\ExecutionEngine.runtimeconfig.json
-G:\01_dmf_calibration_system\ExecutionEnv\bin\Debug\net7.0\ExecutionEngine.exe
 G:\01_dmf_calibration_system\ExecutionEnv\bin\Debug\net7.0\NetTopologySuite.dll
 G:\01_dmf_calibration_system\ExecutionEnv\bin\Debug\net7.0\ExecutionEngine.dll
 G:\01_dmf_calibration_system\ExecutionEnv\bin\Debug\net7.0\ExecutionEngine.pdb

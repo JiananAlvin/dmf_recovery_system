@@ -5,18 +5,26 @@ using System.Text;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-public class MQTTClient
+public class MqttClient
 {
-    private MqttClient client;
+    private uPLibrary.Networking.M2Mqtt.MqttClient client;
     private string clientId;
-    private string name;
+    private string clientName;
     private string BrokerAddress = "test.mosquitto.org";
 
-    public MQTTClient(string name)
+    public MqttClient(string clientName, string brokerHostName)
     {
-        client = new MqttClient(BrokerAddress);
+        if (String.Equals("remote", brokerHostName))
+        {
+            client = new uPLibrary.Networking.M2Mqtt.MqttClient(BrokerAddress);
+        } else if (String.Equals("local", brokerHostName)) {
+            client = new uPLibrary.Networking.M2Mqtt.MqttClient("localhost");
+        } else
+        {
+            client = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerHostName);
+        }
 
-        this.name = name;
+        this.clientName = clientName;
 
         // register a callback-function (we have to implement, see below) which is called by the library when a message was received
         client.MqttMsgPublishReceived += ClientMqttMsgPublishReceived;

@@ -122,10 +122,6 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
 
-    # J --------------------------------
-    # Declare an empty list to receive digital info about bounding boxes of detected droplets
-    results = []
-
     # Run inference
     model.warmup(imgsz=(1 if pt else bs, 3, *imgsz), half=half)  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
@@ -152,6 +148,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         # Second-stage classifier (optional)
         # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)
 
+        # J --------------------------------
+        # Declare an empty list to receive digital info about bounding boxes of detected droplets
+        results = []
         # Process predictions
         for i, det in enumerate(pred):  # per image
             seen += 1
@@ -224,6 +223,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
 
         # Print time (inference-only)
         LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s)')
+        # J --------------------------------
+        # publish results
+        postprocess.postprocess(results)
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
@@ -235,9 +237,6 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
 
     # J --------------------------------
-    # Publish result
-    postprocess.postprocess(results)
-
     # Return
     # return results
 
@@ -278,8 +277,7 @@ def parse_opt():
 
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
-    r = run(**vars(opt))
-    postprocess.postprocess(r)
+    run(**vars(opt))
 
 
 if __name__ == "__main__":

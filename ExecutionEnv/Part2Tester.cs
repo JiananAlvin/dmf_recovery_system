@@ -12,9 +12,9 @@ namespace ExecutionEnv
 {
     internal class Part2Tester
     {
-        internal MQTTClient yolo = new MQTTClient("yolo");
-        internal MQTTClient executor = new MQTTClient("executor");
-        internal MQTTClient router = new MQTTClient("router");
+        internal MqttClient yolo = new MqttClient("yolo", "remote");
+        internal MqttClient executor = new MqttClient("executor", "remote");
+        internal MqttClient router = new MqttClient("router", "remote");
 
         internal string YOLO_RESULT_TOPIC = "yolo/act";
         internal string ROUTER_RESULT_TOPIC = "router/exp";

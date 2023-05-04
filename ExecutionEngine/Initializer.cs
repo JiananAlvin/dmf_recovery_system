@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace ExecutionEngine
 {
-    internal class Initializer
+    public class Initializer
     {
-        internal int width { get; set; }
-        internal int height { get; set; }
-        internal int minStep { get; set; }
-        internal Dictionary<int, Dictionary<int, Electrode>> layout { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
-        internal Dictionary<int, Dictionary<int, Electrode>> layoutTri { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+        public int width { get; set; }
+        public int height { get; set; }
+        public int minStep { get; set; }
+        public Dictionary<int, Dictionary<int, Electrode>> layout { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+        public Dictionary<int, Dictionary<int, Electrode>> layoutTri { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
 
         public void Initilalize()
         {

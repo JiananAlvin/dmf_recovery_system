@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml.Serialization;
 
-internal class Mapper
+public class Mapper
 {
     // Maps image-based droplets' imformation to simulator-based droplets' information
     // the out put format is [[eltrodeID, xcenter, ycenter, width, height, xoffset, yoffset], [], [], ...]
