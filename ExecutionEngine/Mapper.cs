@@ -30,6 +30,7 @@ public class Mapper
         {
             List<int> info = new List<int>();
             Electrode el = GetElectrode((int)dropletInfo[0], (int)dropletInfo[1], minSize, layout, layoutTri);
+            Console.WriteLine("el is" + el);
             int elNo = el.Id;
             int xCenter = (int)Math.Round((int)dropletInfo[0] * widthRatio);
             int yCenter = (int)Math.Round((int)dropletInfo[1] * heightRatio);
@@ -53,6 +54,8 @@ public class Mapper
     {
         int keyX = (int)(xPixel / minSize) * minSize;
         int keyY = (int)(yPixel / minSize) * minSize;
+        Console.WriteLine("keyX: " + keyX);
+        Console.WriteLine("keyY: " + keyY);
         if (layoutTri.ContainsKey(keyY) && layoutTri[keyY].ContainsKey(keyX))
         {
             // See if it in the triangular electrode area

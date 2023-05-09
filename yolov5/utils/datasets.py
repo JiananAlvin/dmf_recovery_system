@@ -30,6 +30,10 @@ from utils.augmentations import Albumentations, augment_hsv, copy_paste, letterb
 from utils.general import (DATASETS_DIR, LOGGER, NUM_THREADS, check_dataset, check_requirements, check_yaml, clean_str,
                            segments2boxes, xyn2xy, xywh2xyxy, xywhn2xyxy, xyxy2xywhn)
 from utils.torch_utils import torch_distributed_zero_first
+# J --------------------------------
+import sys
+sys.path.append("../")
+import preprocess
 
 # Parameters
 HELP_URL = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
@@ -189,6 +193,7 @@ class LoadImages:
 
     def __iter__(self):
         self.count = 0
+        self.counter = 0
         return self
 
     def __next__(self):
@@ -219,6 +224,16 @@ class LoadImages:
             img0 = cv2.imread(path)  # BGR
             assert img0 is not None, f'Image Not Found {path}'
             s = f'image {self.count}/{self.nf} {path}: '
+
+        # J----------------------------------------
+        # Save im0s
+        # counter = 0
+        # if img0 is not None:
+        # if ret_val != False:
+
+        img0 = preprocess.preprocess(img0, 0)
+        #         cv2.imwrite('../../test_video/img0{}.png'.format(self.counter), img0)
+        self.counter += 1
 
         # Padded resize
         img = letterbox(img0, self.img_size, stride=self.stride, auto=self.auto)[0]
@@ -641,6 +656,7 @@ class LoadImagesAndLabels(Dataset):
                 im = cv2.resize(im,
                                 (int(w0 * r), int(h0 * r)),
                                 interpolation=cv2.INTER_LINEAR if (self.augment or r > 1) else cv2.INTER_AREA)
+
             return im, (h0, w0), im.shape[:2]  # im, hw_original, hw_resized
         else:
             return self.imgs[i], self.img_hw0[i], self.img_hw[i]  # im, hw_original, hw_resized

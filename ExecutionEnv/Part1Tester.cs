@@ -22,9 +22,11 @@ namespace ExecutionEnv
             Initializer init = new Initializer();
             init.Initilalize();
             width = init.width;
+            Console.WriteLine("width is:" + width);
             height = init.height;
             minStep = init.minStep;
             layout = init.layout;
+            Console.WriteLine("Is layout null:" + layout is null);
             layoutTri = init.layoutTri;
 
             // Subscribe YOLO output
@@ -40,6 +42,7 @@ namespace ExecutionEnv
             while (true) {
                 while (yolo is not null)
                 {
+                    Console.WriteLine(yolo.ToString());
                     // yolo is actualS
                     List<List<int>> result = mapper.Map(yolo, width, height, minStep, layout, layoutTri); //TODO
 
