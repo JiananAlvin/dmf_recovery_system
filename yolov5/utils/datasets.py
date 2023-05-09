@@ -193,7 +193,6 @@ class LoadImages:
 
     def __iter__(self):
         self.count = 0
-        self.counter = 0
         return self
 
     def __next__(self):
@@ -226,14 +225,8 @@ class LoadImages:
             s = f'image {self.count}/{self.nf} {path}: '
 
         # J----------------------------------------
-        # Save im0s
-        # counter = 0
-        # if img0 is not None:
-        # if ret_val != False:
-
+        # Preprocess image
         img0 = preprocess.preprocess(img0, 0)
-        #         cv2.imwrite('../../test_video/img0{}.png'.format(self.counter), img0)
-        self.counter += 1
 
         # Padded resize
         img = letterbox(img0, self.img_size, stride=self.stride, auto=self.auto)[0]
