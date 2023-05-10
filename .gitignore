@@ -131,4 +131,6 @@ dmypy.json
 # Running results of YOLO
 yolov5/runs/detect/
 
-
+# Editor
+.vs
+.idea
