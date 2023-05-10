@@ -1,55 +1,0 @@
-Modules Release 4.8.0 (2021-07-14)
-DCC-SW: Added modules (2021-nov/XeonGold6142)
-DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
-DCC-SW: Using gnu/11.2.0 compiler
-DCC-SW: Released modules (2021-nov/XeonGold6142)
-DCC-SW: Added modules (2020-aug/XeonGold6142)
-DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
-DCC-SW: Using gnu/9.3.0 compiler
-Loaded module: cuda/11.5
-ERROR: Unable to locate a modulefile for 'python3/3.8.11'
-[34m[1mval: [0mdata=/zhome/e7/5/156694/yolov5_droplet/data/model_bubble_rgb.yaml, weights=['../runs/train/model_bubble_rgb/weights/best.pt'], batch_size=32, imgsz=640, conf_thres=0.001, iou_thres=0.6, task=val, device=, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=False, project=../runs/val, name=exp, exist_ok=False, half=False, dnn=False
-YOLOv5 🚀 v6.0-253-ga45e4723 torch 1.10.0+cu102 CUDA:0 (Tesla V100-SXM2-32GB, 32511MiB)
-
-Traceback (most recent call last):
-  File "../val.py", line 383, in <module>
-    main(opt)
-  File "../val.py", line 356, in main
-    run(**vars(opt))
-  File "/zhome/e7/5/156694/.local/python-3.8.5-gnu-9.3.0/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 28, in decorate_context
-    return func(*args, **kwargs)
-  File "../val.py", line 139, in run
-    model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data)
-  File "/zhome/e7/5/156694/yolov5_droplet/models/common.py", line 305, in __init__
-    model = attempt_load(weights if isinstance(weights, list) else w, map_location=device)
-  File "/zhome/e7/5/156694/yolov5_droplet/models/experimental.py", line 96, in attempt_load
-    ckpt = torch.load(attempt_download(w), map_location=map_location)  # load
-  File "/zhome/e7/5/156694/.local/python-3.8.5-gnu-9.3.0/lib/python3.8/site-packages/torch/serialization.py", line 594, in load
-    with _open_file_like(f, 'rb') as opened_file:
-  File "/zhome/e7/5/156694/.local/python-3.8.5-gnu-9.3.0/lib/python3.8/site-packages/torch/serialization.py", line 230, in _open_file_like
-    return _open_file(name_or_buffer, mode)
-  File "/zhome/e7/5/156694/.local/python-3.8.5-gnu-9.3.0/lib/python3.8/site-packages/torch/serialization.py", line 211, in __init__
-    super(_open_file, self).__init__(open(name, mode))
-FileNotFoundError: [Errno 2] No such file or directory: '../runs/train/model_bubble_rgb/weights/best.pt'
-Modules Release 4.8.0 (2021-07-14)
-DCC-SW: Added modules (2021-nov/XeonGold6142)
-DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
-DCC-SW: Using gnu/11.2.0 compiler
-DCC-SW: Released modules (2021-nov/XeonGold6142)
-DCC-SW: Added modules (2020-aug/XeonGold6142)
-DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
-DCC-SW: Using gnu/9.3.0 compiler
-Loaded module: cuda/11.5
-ERROR: Unable to locate a modulefile for 'python3/3.8.11'
-[34m[1mval: [0mdata=/zhome/e7/5/156694/yolov5_droplet/data/model_bubble_rgb.yaml, weights=['../runs/train/model_bubble_rgb/weights/best.pt'], batch_size=32, imgsz=640, conf_thres=0.001, iou_thres=0.6, task=val, device=, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=False, project=../runs/val, name=exp, exist_ok=False, half=False, dnn=False
-YOLOv5 🚀 v6.0-253-ga45e4723 torch 1.10.0+cu102 CUDA:0 (Tesla V100-SXM2-32GB, 32511MiB)
-
-Fusing layers... 
-Model Summary: 213 layers, 7015519 parameters, 0 gradients, 15.8 GFLOPs
-[34m[1mval: [0mScanning '/zhome/e7/5/156694/dataset-bubble-2022-8-19-full-rgb/valid/labels.cache' images and labels... 166 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 166/166 [00:00<?, ?it/s][34m[1mval: [0mScanning '/zhome/e7/5/156694/dataset-bubble-2022-8-19-full-rgb/valid/labels.cache' images and labels... 166 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 166/166 [00:00<00:00, 2468987.46it/s]
-               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:   0%|          | 0/6 [00:00<?, ?it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  17%|█▋        | 1/6 [00:01<00:05,  1.03s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  33%|███▎      | 2/6 [00:02<00:04,  1.04s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  50%|█████     | 3/6 [00:03<00:03,  1.05s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  67%|██████▋   | 4/6 [00:04<00:02,  1.02s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  83%|████████▎ | 5/6 [00:04<00:00,  1.28it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 6/6 [00:04<00:00,  1.37it/s]
-                 all        166       2694      0.943      0.974      0.982       0.71
-              bubble        166       1698      0.888      0.984      0.969      0.613
-             droplet        166        996      0.999      0.965      0.995      0.807
-Speed: 0.1ms pre-process, 1.9ms inference, 5.5ms NMS per image at shape (32, 3, 640, 640)
-Results saved to [1m../runs/val/exp[0m

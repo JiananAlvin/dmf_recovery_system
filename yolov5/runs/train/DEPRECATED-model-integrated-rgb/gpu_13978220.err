@@ -1,8 +1,0 @@
-﻿Validating ../runs/train/exp/weights/best.pt...
-Fusing layers... 
-Model Summary: 213 layers, 7015519 parameters, 0 gradients, 15.8 GFLOPs
-               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:   0%|          | 0/6 [00:00<?, ?it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  17%|█▋        | 1/6 [00:00<00:01,  3.90it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  33%|███▎      | 2/6 [00:01<00:01,  2.17it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  50%|█████     | 3/6 [00:02<00:01,  1.64it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  67%|██████▋   | 4/6 [00:03<00:01,  1.45it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  83%|████████▎ | 5/6 [00:03<00:00,  1.84it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 6/6 [00:03<00:00,  1.83it/s]
-                 all        166       2694      0.864      0.969      0.947      0.689
-              bubble        166       1698      0.759      0.957      0.903      0.601
-             droplet        166        996       0.97      0.981      0.992      0.777
-Results saved to #[1m../runs/train/exp#[0m
