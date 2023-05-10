@@ -1,0 +1,134 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "ExecutionEnv/1.0.0": {
+        "dependencies": {
+          "ExecutionEngine": "1.0.0",
+          "M2Mqtt": "4.3.0",
+          "MQTTnet.Extensions.ManagedClient": "3.1.1",
+          "Newtonsoft.Json": "13.0.2"
+        },
+        "runtime": {
+          "ExecutionEnv.dll": {}
+        }
+      },
+      "M2Mqtt/4.3.0": {
+        "runtime": {
+          "lib/net45/M2Mqtt.Net.dll": {
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.3.0.0"
+          }
+        }
+      },
+      "MQTTnet/3.1.1": {
+        "runtime": {
+          "lib/net5.0/MQTTnet.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
+        }
+      },
+      "MQTTnet.Extensions.ManagedClient/3.1.1": {
+        "dependencies": {
+          "MQTTnet": "3.1.1"
+        },
+        "runtime": {
+          "lib/net5.0/MQTTnet.Extensions.ManagedClient.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
+        }
+      },
+      "NetTopologySuite/2.5.0": {
+        "dependencies": {
+          "System.Memory": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.2": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.2.27524"
+          }
+        }
+      },
+      "System.Memory/4.5.4": {},
+      "ExecutionEngine/1.0.0": {
+        "dependencies": {
+          "M2Mqtt": "4.3.0",
+          "MQTTnet.Extensions.ManagedClient": "3.1.1",
+          "NetTopologySuite": "2.5.0",
+          "Newtonsoft.Json": "13.0.2"
+        },
+        "runtime": {
+          "ExecutionEngine.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ExecutionEnv/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "M2Mqtt/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2A1uM20uxuovQKPA0dkZUqD9gUpIMaX7KxdLiVM7IEXdPRL709hGuudHnvlDxm2/6b2LcOjshrYGVG9vdpipag==",
+      "path": "m2mqtt/4.3.0",
+      "hashPath": "m2mqtt.4.3.0.nupkg.sha512"
+    },
+    "MQTTnet/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vMHOmkEZ5YuLMDMpRqoUF42NVEwkCCM4sEEHnoc0KFr799eYa8p7lY/I2r7y+cFrT7RyDBwy3W+BjfEZlbLz5A==",
+      "path": "mqttnet/3.1.1",
+      "hashPath": "mqttnet.3.1.1.nupkg.sha512"
+    },
+    "MQTTnet.Extensions.ManagedClient/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7Y/GnuYNp8+DKuzCrYteUs1wSesYlN8tr0tMMP8kRBGZ4Ah3aMKI0u4GVIlJ1Uypb7M8tJ7F7X4Dr2Kn7dQUZw==",
+      "path": "mqttnet.extensions.managedclient/3.1.1",
+      "hashPath": "mqttnet.extensions.managedclient.3.1.1.nupkg.sha512"
+    },
+    "NetTopologySuite/2.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5/+2O2ADomEdUn09mlSigACdqvAf0m/pVPGtIPEPQWnyrVykYY0NlfXLIdkMgi41kvH9kNrPqYaFBTZtHYH7Xw==",
+      "path": "nettopologysuite/2.5.0",
+      "hashPath": "nettopologysuite.2.5.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
+      "path": "newtonsoft.json/13.0.2",
+      "hashPath": "newtonsoft.json.13.0.2.nupkg.sha512"
+    },
+    "System.Memory/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
+      "path": "system.memory/4.5.4",
+      "hashPath": "system.memory.4.5.4.nupkg.sha512"
+    },
+    "ExecutionEngine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
