@@ -37,7 +37,7 @@ namespace ExecutionEnv
 
             // Map
             Mapper mapper = new Mapper();
-            // string yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
+            // string yolo = "{ 'img_dimension': [671, 320], 'droplet_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
 
             while (true) {
                 while (yolo is not null)

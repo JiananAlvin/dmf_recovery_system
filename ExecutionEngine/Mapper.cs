@@ -18,15 +18,15 @@ public class Mapper
     // the out put format is [[eltrodeID, xcenter, ycenter, width, height, xoffset, yoffset], [], [], ...]
     public List<List<int>> Map(string yolo, int chipWidth, int chipHeight, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
     {
-        // yolo = "{ 'e_dimension': [671, 320], 'd_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
+        // yolo = "{ 'img_dimension': [671, 320], 'droplet_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
         dynamic json = JsonConvert.DeserializeObject(yolo);
-        int picWidth = (int)json.e_dimension[0];
-        int picHeight = (int)json.e_dimension[1];
+        int picWidth = (int)json.img_dimension[0];
+        int picHeight = (int)json.img_dimension[1];
         float widthRatio = (float)chipWidth / picWidth;
         float heightRatio = (float)chipHeight / picHeight;
 
         List<List<int>> output = new List<List<int>>();
-        foreach (JArray dropletInfo in json.d_info)
+        foreach (JArray dropletInfo in json.droplet_info)
         {
             List<int> info = new List<int>();
             Electrode el = GetElectrode((int)dropletInfo[0], (int)dropletInfo[1], minSize, layout, layoutTri);

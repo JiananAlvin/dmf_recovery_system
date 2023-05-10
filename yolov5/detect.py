@@ -46,9 +46,8 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, time_sync
 # J --------------------------------
-import sys
-sys.path.append("../")
-import postprocess
+from postprocessor import postprocess
+
 
 # J --------------------------------
 # This function returns digital info about bounding boxes of detected droplets.
@@ -225,7 +224,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s)')
         # J --------------------------------
         # publish results
-        postprocess.postprocess(results)
+        postprocess(results)
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image

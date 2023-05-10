@@ -31,9 +31,7 @@ from utils.general import (DATASETS_DIR, LOGGER, NUM_THREADS, check_dataset, che
                            segments2boxes, xyn2xy, xywh2xyxy, xywhn2xyxy, xyxy2xywhn)
 from utils.torch_utils import torch_distributed_zero_first
 # J --------------------------------
-import sys
-sys.path.append("../")
-import preprocess
+from preprocessor import preprocess
 
 # Parameters
 HELP_URL = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
@@ -226,7 +224,7 @@ class LoadImages:
 
         # J----------------------------------------
         # Preprocess image
-        img0 = preprocess.preprocess(img0, 0)
+        img0 = preprocess(img0)
 
         # Padded resize
         img = letterbox(img0, self.img_size, stride=self.stride, auto=self.auto)[0]

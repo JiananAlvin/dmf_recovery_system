@@ -9,7 +9,8 @@ HEIGHT = 780
 # image_path = './image_dataset/biochip.jpg'
 # img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-def preprocess(img, COUNTER):
+
+def preprocess(img):
     at_detector = Detector(
         families="tagStandard41h12",
         nthreads=1,
@@ -22,9 +23,7 @@ def preprocess(img, COUNTER):
 
     # RGB to Grayscale
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # print(img_new.shape)
     results = at_detector.detect(gray_img)
-    # results = at_detector.detect(img)
 
     # Specify the four corners of our interested area
     tr = np.array([results[0].corners[2][0], results[0].corners[2][1]])  # 0 // tr
@@ -59,15 +58,16 @@ def preprocess(img, COUNTER):
     # The perspective to grab the screen
     M = cv2.getPerspectiveTransform(rect, dst)
     warp = cv2.warpPerspective(img, M, (max_width, max_height))
+    # cv2.imwrite('../../test_video/warp{}.png'.format(0), warp)
 
     # Always resize image to a specific dimension to make sure we can crop out the active biochip area by subtracting
     # the same bleeds
     warp = cv2.resize(warp, dsize=(WIDTH, HEIGHT), interpolation=cv2.INTER_CUBIC)
-    # cv2.imwrite('../../test_video/warp{}.png'.format(COUNTER), warp)
+    # cv2.imwrite('../../test_video/resize{}.png'.format(0), warp)
 
     # Crop the image to get the active biochip area, warp.shape[0] == height, warp.shape[1] == width
     active_area = warp[BLEED_Y:warp.shape[0]-BLEED_Y, BLEED_X:warp.shape[1]-BLEED_X, :]
-    # cv2.imwrite('../../test_video/active_area{}.png'.format(COUNTER), active_area)
+    # cv2.imwrite('../../test_video/active_area{}.png'.format(0), active_area)
 
     # Return the de-warped image
     return active_area
