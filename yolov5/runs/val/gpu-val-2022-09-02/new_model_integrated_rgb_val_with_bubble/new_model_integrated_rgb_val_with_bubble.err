@@ -1,0 +1,22 @@
+Modules Release 4.8.0 (2021-07-14)
+DCC-SW: Added modules (2021-nov/XeonGold6242)
+DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
+DCC-SW: Using gnu/11.2.0 compiler
+DCC-SW: Released modules (2021-nov/XeonGold6242)
+DCC-SW: Added modules (2020-aug/XeonGold6242)
+DCC-SW: Removed standard modules: /apps/dcc/etc/ModulesSL73/modulefiles
+DCC-SW: Using gnu/9.3.0 compiler
+Loaded module: cuda/11.5
+ERROR: Unable to locate a modulefile for 'python3/3.8.11'
+[34m[1mval: [0mdata=/zhome/e7/5/156694/yolov5_droplet/data/model_bubble_rgb.yaml, weights=['../runs/train/new_model_intergrated_rgb/weights/best.pt'], batch_size=32, imgsz=640, conf_thres=0.001, iou_thres=0.6, task=val, device=, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=False, project=../runs/val, name=exp, exist_ok=False, half=False, dnn=False
+YOLOv5 🚀 v6.0-253-ga45e4723 torch 1.10.0+cu102 CUDA:0 (Tesla V100-PCIE-32GB, 32511MiB)
+
+Fusing layers... 
+Model Summary: 213 layers, 7015519 parameters, 0 gradients, 15.8 GFLOPs
+[34m[1mval: [0mScanning '/zhome/e7/5/156694/dataset-bubble-2022-8-19-full-rgb/valid/labels.cache' images and labels... 166 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 166/166 [00:00<?, ?it/s][34m[1mval: [0mScanning '/zhome/e7/5/156694/dataset-bubble-2022-8-19-full-rgb/valid/labels.cache' images and labels... 166 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 166/166 [00:00<00:00, 2550382.65it/s]
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:   0%|          | 0/6 [00:00<?, ?it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  17%|█▋        | 1/6 [00:01<00:07,  1.53s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  33%|███▎      | 2/6 [00:02<00:05,  1.40s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  50%|█████     | 3/6 [00:03<00:03,  1.30s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  67%|██████▋   | 4/6 [00:04<00:02,  1.19s/it]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95:  83%|████████▎ | 5/6 [00:04<00:00,  1.09it/s]               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 6/6 [00:04<00:00,  1.21it/s]
+                 all        166       2694      0.906      0.971      0.959      0.724
+              bubble        166       1698      0.813      0.989      0.923      0.637
+             droplet        166        996      0.998      0.953      0.994      0.811
+Speed: 0.2ms pre-process, 2.0ms inference, 5.9ms NMS per image at shape (32, 3, 640, 640)
+Results saved to [1m../runs/val/exp[0m

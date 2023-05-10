@@ -1,0 +1,14 @@
+C:\Users\Wenjie\Desktop\dmf_new\yolov5> py ./val.py --data full-gray-bubble.yaml --weights './runs/train/new_model_intergrated_gray/weights/best.pt'
+val: data=C:\Users\Wenjie\Desktop\dmf_new\yolov5\data\full-gray-bubble.yaml, weights=['./runs/train/new_model_intergrated_gray/weights/best.pt'], batch_size=32, imgsz=640, conf_thres=0.001, iou_thres=0.6, task=val, device=, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=False, project=runs\val, name=exp, exist_ok=False, half=False, dnn=False
+YOLOv5  2022-2-14 torch 1.9.1+cpu CPU
+
+Fusing layers...
+Model Summary: 213 layers, 7015519 parameters, 0 gradients, 15.8 GFLOPs
+val: Scanning 'C:\Users\Wenjie\Desktop\dmf_new\image_dataset\dataset-droplet-2022-7-5-full-gray-bubble\valid\labels' im
+val: WARNING: Cache directory C:\Users\Wenjie\Desktop\dmf_new\image_dataset\dataset-droplet-2022-7-5-full-gray-bubble\valid is not writeable: [WinError 183] Cannot create a file when that file already exists: 'C:\\Users\\Wenjie\\Desktop\\dmf_new\\image_dataset\\dataset-droplet-2022-7-5-full-gray-bubble\\valid\\labels.cache.npy' -> 'C:\\Users\\Wenjie\\Desktop\\dmf_new\\image_dataset\\dataset-droplet-2022-7-5-full-gray-bubble\\valid\\labels.cache'
+               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 6/6 [00:16<00:
+                 all        166       2694       0.93      0.985      0.984      0.706
+              bubble        166       1698       0.86      0.985      0.974       0.63
+             droplet        166        996          1      0.986      0.995      0.783
+Speed: 1.0ms pre-process, 92.3ms inference, 1.2ms NMS per image at shape (32, 3, 640, 640)
+Results saved to runs\val\exp

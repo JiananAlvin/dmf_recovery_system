@@ -1,0 +1,6 @@
+[34m[1mgithub: [0mskipping check (not a git repository), for updates see https://github.com/ultralytics/yolov5
+[34m[1mWeights & Biases: [0mrun 'pip install wandb' to automatically track and visualize YOLOv5 🚀 runs (RECOMMENDED)
+Downloading https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt to ../yolov5s.pt...
+ERROR: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1123)>
+Re-attempting https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt to ../yolov5s.pt...
+
