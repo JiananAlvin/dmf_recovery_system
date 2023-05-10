@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+ExecutionEngine/bin
+ExecutionEngine/obj
+ExecutionEnv/bin
+ExecutionEnv/obj
 
 # C extensions
 *.so
