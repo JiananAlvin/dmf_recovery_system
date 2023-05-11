@@ -2,15 +2,7 @@
 using ExecutionEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Drawing;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Xml.Serialization;
 
 public class Mapper
 {
@@ -29,13 +21,13 @@ public class Mapper
         foreach (JArray dropletInfo in json.droplet_info)
         {
             List<int> info = new List<int>();
-            Electrode el = GetElectrode((int)dropletInfo[0], (int)dropletInfo[1], minSize, layout, layoutTri);
-            Console.WriteLine("el is" + el);
-            int elNo = el.Id;
             int xTopLeft = (int)Math.Round((int)dropletInfo[0] * widthRatio);
             int yTopLeft = (int)Math.Round((int)dropletInfo[1] * heightRatio);
             int dropletWidth = (int)Math.Round((int)dropletInfo[2] * widthRatio);
             int dropletHeight = (int)Math.Round((int)dropletInfo[3] * heightRatio);
+            // Gets the electrode object
+            Electrode el = GetElectrode(xTopLeft, yTopLeft, minSize, layout, layoutTri);
+            int elNo = el.Id;
             int xOffset = (int)Math.Round((int)dropletInfo[0] * widthRatio) - el.PositionX;
             int yOffset = (int)Math.Round((int)dropletInfo[1] * heightRatio) - el.PositionY;
             info.Add(elNo);

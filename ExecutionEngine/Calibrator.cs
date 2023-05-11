@@ -1,17 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExecutionEngine
 {
     public class Calibrator
     {
-        const String IP = "localhost";
-        const int PORT = 1883;
-        const String TOPIC = "yolo";
         public static int width;
         public static int height;
         public static int minStep;
@@ -28,7 +20,6 @@ namespace ExecutionEngine
             width = init.width;
             height = init.height;
             minStep = init.minStep;
-            //minStep = 10;
             layout = init.layout;
             layoutTri = init.layoutTri;
 
@@ -125,9 +116,7 @@ namespace ExecutionEngine
             result += "   ]\n";
             result += "==========================";
             string fileName = "G:\\01_dmf_calibration_system\\ExecutionEnv\\reult.txt";
-/*            using FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
-            using StreamWriter writerFile = new StreamWriter(fs, Encoding.UTF8);
-            writerFile.WriteLine(result);*/
+
             using (StreamWriter writer = File.AppendText(fileName))
             {
                 writer.WriteLine(result);

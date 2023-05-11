@@ -4,8 +4,6 @@ namespace ExecutionEnv
 {
     public class Part1Tester
     {
-        const String IP = "localhost";
-        const int PORT = 1883;
         internal string TOPIC = "yolo/det";
         public static int width;
         public static int height;
@@ -30,8 +28,6 @@ namespace ExecutionEnv
             layoutTri = init.layoutTri;
 
             // Subscribe YOLO output
-            // String yolo = null;
-            
             MqttClient s = new MqttClient("yolo", "local");
             s.Subscribe(TOPIC);
 
