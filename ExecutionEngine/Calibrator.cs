@@ -7,7 +7,7 @@ namespace ExecutionEngine
         public static int width;
         public static int height;
         public static int minStep;
-        public static double tolerance = 1;  // This one should be user input.
+        public static double tolerance = 0;  // This one should be user input.
         public static int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;

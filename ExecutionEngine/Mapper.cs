@@ -46,8 +46,8 @@ public class Mapper
     {
         int keyX = (int)(xPixel / minSize) * minSize;
         int keyY = (int)(yPixel / minSize) * minSize;
-        Console.WriteLine("keyX: " + keyX);
-        Console.WriteLine("keyY: " + keyY);
+/*        Console.WriteLine("keyX: " + keyX);
+        Console.WriteLine("keyY: " + keyY);*/
         if (layoutTri.ContainsKey(keyY) && layoutTri[keyY].ContainsKey(keyX))
         {
             // See if it in the triangular electrode area

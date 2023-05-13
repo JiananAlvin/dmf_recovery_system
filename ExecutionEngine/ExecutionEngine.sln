@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExecutionEngine", "ExecutionEngine.csproj", "{D9F2BDF7-83ED-47A0-B685-B2217914D088}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecutionEnv", "..\ExecutionEnv\ExecutionEnv.csproj", "{D2F0A931-8D7A-4471-A19E-15441790950D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExecutionEnv", "..\ExecutionEnv\ExecutionEnv.csproj", "{D2F0A931-8D7A-4471-A19E-15441790950D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

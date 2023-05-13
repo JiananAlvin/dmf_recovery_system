@@ -26,11 +26,11 @@ namespace ExecutionEngine
         // It takes O(n log n).
         public List<Tuple<int, int>> Match(List<List<int>> statesExp, List<List<int>> statesAct)
         {  
-            KdTree<IntegerWrapper> treeExp = BuildKdTree(statesExp);
+            // KdTree<IntegerWrapper> treeExp = BuildKdTree(statesExp);
             KdTree<IntegerWrapper> treeAct = BuildKdTree(statesAct);
 
             List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
-            for (int indexExp = 0; indexExp < treeExp.Count; indexExp++)
+            for (int indexExp = 0; indexExp < statesExp.Count; indexExp++)
             {
                 Coordinate coordExp = new Coordinate(statesExp[indexExp][1], statesExp[indexExp][2]);
                 // NearestNeighbor() takes O(log n), where n is the number of nodes in the tree
@@ -65,7 +65,7 @@ namespace ExecutionEngine
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
              
-                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1]))
+                if (IsStuck(tolerance, squareExp.IoU(squareAct)))
                 {
                     List<int> stuckDropletInfo = statesExp[pair.Item1];
                     int xtl = stuckDropletInfo[1];
@@ -131,9 +131,9 @@ namespace ExecutionEngine
             return elsPerFrame;
         }
 
-        public bool IsStuck(double tolerance, double actualIou, List<int> stateExp)
+        public bool IsStuck(double tolerance, double actExpIou)
         {
-            double iouOfPerfectMove;
+/*            double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
                 iouOfPerfectMove = (double)(stateExp[4] - Calibrator.sizeOfSquareEl) / (double)(stateExp[4] + Calibrator.sizeOfSquareEl);
@@ -141,8 +141,10 @@ namespace ExecutionEngine
             else // If the droplet wanna goes left or right, then we are interested in width
             {
                 iouOfPerfectMove = (double)(stateExp[3] - Calibrator.sizeOfSquareEl) / (double)(stateExp[3] + Calibrator.sizeOfSquareEl);
-            }
-            return actualIou <= tolerance * iouOfPerfectMove;  // TODO: should not be multiplication, should be a function f(tolerance, iouOfPerfectMove) -> (IOU of the worst case, 1]
+            }*/
+            // return actualIou <= tolerance * iouOfPerfectMove;  // TODO: should not be multiplication, should be a function f(tolerance, iouOfPerfectMove) -> (IOU of the worst case, 1]
+            // return actualIou > iouOfPerfectMove + tolerance * (1 - iouOfPerfectMove);
+            return 1 - actExpIou > tolerance;
         }
     }
 }

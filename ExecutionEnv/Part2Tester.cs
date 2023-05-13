@@ -1,6 +1,7 @@
 ﻿using ExecutionEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace ExecutionEnv
 {
@@ -16,6 +17,7 @@ namespace ExecutionEnv
 
         internal string PATH_TO_YOLO = "../../../yolo.json";
         internal string PATH_TO_ROUTER = "../../../router.json";
+        internal string PATH_TO_RESULT_TXT = "G:\\01_dmf_calibration_system\\ExecutionEnv\\reult.txt";
 
         internal static bool executeCompletedFlag = true;
         internal static bool calibrationCompletedFlag = true;  // Only used for test
@@ -29,6 +31,8 @@ namespace ExecutionEnv
             // Subscribe expected states and actual states from router and yolo respectively.
             executor.Subscribe(ROUTER_RESULT_TOPIC);
             executor.Subscribe(YOLO_RESULT_TOPIC);
+            // Clear content in result.txt
+            File.Create(PATH_TO_RESULT_TXT).Close();
 
             Thread.Sleep(1000);  // Wait for YOLO and router to publish.
 
