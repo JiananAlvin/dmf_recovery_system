@@ -65,7 +65,7 @@ namespace ExecutionEngine
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
              
-                if (IsStuck(tolerance, squareExp.IoU(squareAct)))
+                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1]))
                 {
                     List<int> stuckDropletInfo = statesExp[pair.Item1];
                     int xtl = stuckDropletInfo[1];
@@ -131,20 +131,20 @@ namespace ExecutionEngine
             return elsPerFrame;
         }
 
-        public bool IsStuck(double tolerance, double actExpIou)
+        public bool IsStuck(double tolerance, double actExpIou, List<int> stateExp)
         {
-/*            double iouOfPerfectMove;
+            double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
                 iouOfPerfectMove = (double)(stateExp[4] - Calibrator.sizeOfSquareEl) / (double)(stateExp[4] + Calibrator.sizeOfSquareEl);
             }
             else // If the droplet wanna goes left or right, then we are interested in width
-            {
+            {   // TODO: Calibrator.sizeOfSquareEl should be size of exp left corner size !!!
                 iouOfPerfectMove = (double)(stateExp[3] - Calibrator.sizeOfSquareEl) / (double)(stateExp[3] + Calibrator.sizeOfSquareEl);
-            }*/
-            // return actualIou <= tolerance * iouOfPerfectMove;  // TODO: should not be multiplication, should be a function f(tolerance, iouOfPerfectMove) -> (IOU of the worst case, 1]
-            // return actualIou > iouOfPerfectMove + tolerance * (1 - iouOfPerfectMove);
-            return 1 - actExpIou > tolerance;
+            }
+            // return actualIou <= tolerance * iouOfPerfectMove; 
+            return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);
+            // return 1 - actExpIou > tolerance;
         }
     }
 }
