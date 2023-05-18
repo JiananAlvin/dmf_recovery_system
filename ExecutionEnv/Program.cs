@@ -7,8 +7,8 @@ public class Program
         Part2Tester tester = new Part2Tester();
         tester.Run();
 
-/*        Part1Tester part1Tester = new Part1Tester();
-        part1Tester.Run();*/
+        /*        Part1Tester part1Tester = new Part1Tester();
+                part1Tester.Run();*/
     }
 }
 

@@ -2,12 +2,12 @@
 
 namespace ExecutionEngine
 {
-    public class Calibrator
+    public class Corrector
     {
         public static int width;
         public static int height;
         public static int minStep;
-        public static double tolerance = 0;  // This one should be user input.
+        public static double tolerance = 0.6;  // This one should be user input.
         public static int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
         public static Dictionary<int, Dictionary<int, Electrode>> layout;
         public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
@@ -78,7 +78,7 @@ namespace ExecutionEngine
             }
 
             // Give a list of electrodes need to be manipulated for calibration
-            List<Dictionary<string, HashSet<int>>> electrodesForCalibration = checker.GetStuckRegion(Calibrator.tolerance, pairs, statesExp, statesAct);
+            List<Dictionary<string, HashSet<int>>> electrodesForCalibration = checker.GetStuckRegion(Corrector.tolerance, pairs, statesExp, statesAct);
 
             // Print the list of electrodes 
             Console.WriteLine("List of electrodes need to be manipulated for calibration:\n[");

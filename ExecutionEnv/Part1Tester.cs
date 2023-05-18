@@ -20,35 +20,50 @@ namespace ExecutionEnv
             Initializer init = new Initializer();
             init.Initilalize();
             width = init.width;
-            Console.WriteLine("width is:" + width);
             height = init.height;
             minStep = init.minStep;
             layout = init.layout;
-            Console.WriteLine("Is layout null:" + layout is null);
             layoutTri = init.layoutTri;
 
             // Subscribe YOLO output
             MqttClient s = new MqttClient("yolo", "local");
             s.Subscribe(TOPIC);
+            // string yolo = "{ 'img_dimension': [671, 320], 'droplet_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
 
             // Map
             Mapper mapper = new Mapper();
-            // string yolo = "{ 'img_dimension': [671, 320], 'droplet_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
+            
+            // Wait for the first message
+            while (yolo == null)
+            {
 
+            }
+
+            int frameCounter = -1;
             while (true) {
+                Console.WriteLine("Frame " + ++frameCounter + ":");
+
+                int dropletCounter = -1;
                 while (yolo is not null)
                 {
-                    Console.WriteLine(yolo.ToString());
+                    // Console.WriteLine(yolo.ToString());
                     // yolo is actualS
                     List<List<int>> result = mapper.Map(yolo, width, height, minStep, layout, layoutTri); //TODO
 
-
-                    // overlap (expected, result)
-                    // recover miss-movement
-                    foreach (List<int> list in result)
+                    // Print results in the terminal
+                    Console.WriteLine("  Droplet " + ++dropletCounter + ":");
+                    for (int i = 0; i < result.Count; i++)
                     {
-                        Console.WriteLine(string.Join(",", list) + "\n");
+                        Console.Write("    electrodeId': " + result[i][0] + "; ");
+                        Console.Write("xTopLeft': "        + result[i][1] + "; ");
+                        Console.Write("yTopLeft': "        + result[i][2] + "; ");
+                        Console.Write("width': "           + result[i][3] + "; ");
+                        Console.Write("height': "          + result[i][4] + "; ");
+                        Console.Write("xOffset': "         + result[i][5] + "; ");
+                        Console.WriteLine("yOffset': "     + result[i][6]);
                     }
+                    // Empty message from "yolo/det"
+                    yolo = null;
                 }
             }
         }

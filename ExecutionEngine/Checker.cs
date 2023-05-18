@@ -22,11 +22,10 @@ namespace ExecutionEngine
 
     internal class Checker
     {
-        //  Uses kdTree to find the nearest neighbor pair between two lists of points
+        // Uses kdTree to find the nearest neighbor pair between two lists of points
         // It takes O(n log n).
         public List<Tuple<int, int>> Match(List<List<int>> statesExp, List<List<int>> statesAct)
         {  
-            // KdTree<IntegerWrapper> treeExp = BuildKdTree(statesExp);
             KdTree<IntegerWrapper> treeAct = BuildKdTree(statesAct);
 
             List<Tuple<int, int>> pairs = new List<Tuple<int, int>>();
@@ -49,7 +48,6 @@ namespace ExecutionEngine
             for (int i = 0; i < S.Count; i++)
             {
                 Coordinate point = new Coordinate(S[i][1], S[i][2]);
-                // treeS.Insert(point);
                 treeS.Insert(point, new IntegerWrapper(i));
             }
             return treeS;
@@ -83,38 +81,38 @@ namespace ExecutionEngine
                     switch (direction)
                     {
                         case 0:  // Up
-                            for (x = xtl; x < xtl + width; x += Calibrator.minStep)
+                            for (x = xtl; x < xtl + width; x += Corrector.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 1:  // Right
-                            for (y = ytl; y < ytl + height; y += Calibrator.minStep)
+                            for (y = ytl; y < ytl + height; y += Corrector.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl - Calibrator.minStep, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl - Corrector.minStep, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl + width - Calibrator.minStep, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl + width - Corrector.minStep, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 2:  // Down
-                            for (x = xtl; x < xtl + width; x += Calibrator.minStep)
+                            for (x = xtl; x < xtl + width; x += Corrector.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl - Calibrator.minStep, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl - Corrector.minStep, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl + height - Calibrator.minStep, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl + height - Corrector.minStep, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 3:  // Left
-                            for (y = ytl; y < ytl + height; y += Calibrator.minStep)
+                            for (y = ytl; y < ytl + height; y += Corrector.minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl, y, Calibrator.minStep, Calibrator.layout, Calibrator.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
@@ -136,15 +134,14 @@ namespace ExecutionEngine
             double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
-                iouOfPerfectMove = (double)(stateExp[4] - Calibrator.sizeOfSquareEl) / (double)(stateExp[4] + Calibrator.sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[4] - Corrector.sizeOfSquareEl) / (double)(stateExp[4] + Corrector.sizeOfSquareEl);
             }
             else // If the droplet wanna goes left or right, then we are interested in width
-            {   // TODO: Calibrator.sizeOfSquareEl should be size of exp left corner size !!!
-                iouOfPerfectMove = (double)(stateExp[3] - Calibrator.sizeOfSquareEl) / (double)(stateExp[3] + Calibrator.sizeOfSquareEl);
+            {   // TODO: Corrector.sizeOfSquareEl should be size of exp left corner size !!!
+                iouOfPerfectMove = (double)(stateExp[3] - Corrector.sizeOfSquareEl) / (double)(stateExp[3] + Corrector.sizeOfSquareEl);
             }
-            // return actualIou <= tolerance * iouOfPerfectMove; 
+            // The rhs is the minimum acceptable actual IoU
             return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);
-            // return 1 - actExpIou > tolerance;
         }
     }
 }

@@ -44,8 +44,8 @@ namespace ExecutionEnv
                 do 
                 {
                     // Calibrate by given expected states and actual states.
-                    Calibrator calibrator = new Calibrator();
-                    electrodesForCalibration = calibrator.Run(expectedStates, actualStates);
+                    Corrector corrector = new Corrector();
+                    electrodesForCalibration = corrector.Run(expectedStates, actualStates);
 
                     // If calibration result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
                     if (electrodesForCalibration.Count == 0)
