@@ -30,5 +30,10 @@ namespace ExecutionEngine
             float t3 = PC.X * PA.Y - PC.Y * PA.X;  // PC x PA
             return t1 * t2 >= 0 && t1 * t3 >= 0;
         }
+
+        public override string ToString()
+        {
+            return $"[VertexA:{VertexA}, VertexB:{VertexB}, VertexC:{VertexC}]";
+        }
     }
 }

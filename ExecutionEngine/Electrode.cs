@@ -21,5 +21,11 @@
             this.PositionY = positionY;
             this.Triangle = triangle;
         }
+
+
+        public override string ToString()
+        {
+            return $"[Id:{Id}, PositionX, PositionY"+ (Triangle==null?"]": $",[Triangle:{Triangle.ToString()}]");
+        }
     }
 }
