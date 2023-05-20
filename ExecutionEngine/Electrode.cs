@@ -25,7 +25,7 @@
 
         public override string ToString()
         {
-            return $"[Id:{Id}, PositionX, PositionY"+ (Triangle==null?"]": $",[Triangle:{Triangle.ToString()}]");
+            return $"[Id:{Id}, PositionX:{PositionX}, PositionY:{PositionY}"+ (Triangle==null?"]": $",[Triangle:{Triangle.ToString()}]");
         }
     }
 }
