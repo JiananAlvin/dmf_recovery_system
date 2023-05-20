@@ -51,7 +51,7 @@ public class Mapper
         {
             // See if it in the triangular electrode area
             Point p = new Point(xPixel, yPixel);
-            if (layoutTri[keyY][keyX].Shape.IsPointInTriangle4(p))
+            if (layoutTri[keyY][keyX].Triangle.IsPointInTriangle(p))
             {
                 return layoutTri[keyY][keyX];
             }

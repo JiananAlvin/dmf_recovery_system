@@ -55,7 +55,7 @@ namespace ExecutionEngine
 
         // expectedS: [electrod id of left top, left top x coord, left top y coord, width, height, direction] 
         // actualS:   [electrod id of left top, left top x coord, left top y coord, width, height, xoffset, yoffset]
-        public List<Dictionary<string, HashSet<int>>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct)
+        public List<Dictionary<string, HashSet<int>>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri, int minStep, int sizeOfSquareEl)
         {
             List<Dictionary<string, HashSet<int>>> elsPerFrame = new List<Dictionary<string, HashSet<int>>>();
             foreach (Tuple<int, int> pair in pairs)
@@ -63,7 +63,7 @@ namespace ExecutionEngine
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
              
-                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1]))
+                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1], sizeOfSquareEl))
                 {
                     List<int> stuckDropletInfo = statesExp[pair.Item1];
                     int xtl = stuckDropletInfo[1];
@@ -81,38 +81,38 @@ namespace ExecutionEngine
                     switch (direction)
                     {
                         case 0:  // Up
-                            for (x = xtl; x < xtl + width; x += Corrector.minStep)
+                            for (x = xtl; x < xtl + width; x += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, minStep, layout, layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl, minStep, layout, layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 1:  // Right
-                            for (y = ytl; y < ytl + height; y += Corrector.minStep)
+                            for (y = ytl; y < ytl + height; y += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl - Corrector.minStep, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl - minStep, y, minStep, layout, layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl + width - Corrector.minStep, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl + width - minStep, y, minStep, layout, layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 2:  // Down
-                            for (x = xtl; x < xtl + width; x += Corrector.minStep)
+                            for (x = xtl; x < xtl + width; x += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl - Corrector.minStep, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl - minStep, minStep, layout, layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl + height - Corrector.minStep, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl + height - minStep, minStep, layout, layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 3:  // Left
-                            for (y = ytl; y < ytl + height; y += Corrector.minStep)
+                            for (y = ytl; y < ytl + height; y += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, minStep, layout, layoutTri);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl, y, Corrector.minStep, Corrector.layout, Corrector.layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl, y, minStep, layout, layoutTri);
                                 headEls.Add(headEl.Id);
                             }
                             break;
@@ -129,16 +129,16 @@ namespace ExecutionEngine
             return elsPerFrame;
         }
 
-        public bool IsStuck(double tolerance, double actExpIou, List<int> stateExp)
+        public bool IsStuck(double tolerance, double actExpIou, List<int> stateExp, int sizeOfSquareEl)
         {
             double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
-                iouOfPerfectMove = (double)(stateExp[4] - Corrector.sizeOfSquareEl) / (double)(stateExp[4] + Corrector.sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[4] - sizeOfSquareEl) / (double)(stateExp[4] + sizeOfSquareEl);
             }
             else // If the droplet wanna goes left or right, then we are interested in width
             {   // TODO: Corrector.sizeOfSquareEl should be size of exp left corner size !!!
-                iouOfPerfectMove = (double)(stateExp[3] - Corrector.sizeOfSquareEl) / (double)(stateExp[3] + Corrector.sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[3] - sizeOfSquareEl) / (double)(stateExp[3] + sizeOfSquareEl);
             }
             // The rhs is the minimum acceptable actual IoU
             return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);

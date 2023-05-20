@@ -17,10 +17,10 @@ namespace ExecutionEnv
 
         internal string PATH_TO_YOLO = "../../../yolo.json";
         internal string PATH_TO_ROUTER = "../../../router.json";
-        internal string PATH_TO_RESULT_TXT = "G:\\01_dmf_calibration_system\\ExecutionEnv\\reult.txt";
+        internal string PATH_TO_RESULT_TXT = "G:\\01_dmf_recovery_system\\ExecutionEnv\\recovery_output.txt";
 
-        internal static bool executeCompletedFlag = true;
-        internal static bool calibrationCompletedFlag = true;  // Only used for test
+        internal static bool executionCompletedFlag = true;
+        internal static bool recoveryCompletedFlag = true;  // Only used for test
         internal static string expectedStates = null;
         internal static string actualStates = null;
 
@@ -28,6 +28,9 @@ namespace ExecutionEnv
 
         public void ExecRun()
         {
+            // Initialize a corrector
+            Corrector corrector = new Corrector();
+
             // Subscribe expected states and actual states from router and yolo respectively.
             executor.Subscribe(ROUTER_RESULT_TOPIC);
             executor.Subscribe(YOLO_RESULT_TOPIC);
@@ -40,23 +43,22 @@ namespace ExecutionEnv
             {
                 Console.WriteLine($"Exec is running for round {i}");
                 
-                List<Dictionary<string, HashSet<int>>> electrodesForCalibration;
+                List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
                 do 
                 {
-                    // Calibrate by given expected states and actual states.
-                    Corrector corrector = new Corrector();
-                    electrodesForCalibration = corrector.Run(expectedStates, actualStates);
+                    // Correct by given expected states and actual states.
+                    electrodesForRecovery = corrector.Run(expectedStates, actualStates);
 
-                    // If calibration result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
-                    if (electrodesForCalibration.Count == 0)
+                    // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
+                    if (electrodesForRecovery.Count == 0)
                     {
                         executor.Publish(EXE_FEEDBACK_TOPIC, "ok");
                     }
 
-                    calibrationCompletedFlag = true;
+                    recoveryCompletedFlag = true;
                     // Wait for YOLO and router to publish.
                     Thread.Sleep(1000);
-                } while (electrodesForCalibration.Count != 0);
+                } while (electrodesForRecovery.Count != 0);
             }
         }
 
@@ -71,17 +73,17 @@ namespace ExecutionEnv
 
             router.Subscribe(EXE_FEEDBACK_TOPIC);
 
-            // Publish next expected state whenever executeCompletedFlag = true (i.e. calibration was done).
+            // Publish next expected state whenever executeCompletedFlag = true (i.e. correction was done).
             foreach (JObject obj in routerJsonArray)
             {
                 string expectedStates = JsonConvert.SerializeObject(obj["exp"], Formatting.None).ToString();
 
                 while (true)
                 {
-                   if (executeCompletedFlag)
+                   if (executionCompletedFlag)
                    {
                         router.Publish(ROUTER_RESULT_TOPIC, $"{expectedStates}");
-                        executeCompletedFlag = false;
+                        executionCompletedFlag = false;
                         break;
                    }
                 }
@@ -101,11 +103,11 @@ namespace ExecutionEnv
                 
                 while (true)
                 {
-                    if (calibrationCompletedFlag)
+                    if (recoveryCompletedFlag)
                     {
                         
                         yolo.Publish(YOLO_RESULT_TOPIC, $"{actualStates}");
-                        calibrationCompletedFlag = false;
+                        recoveryCompletedFlag = false;
                         break;
                     }
                 }

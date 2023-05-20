@@ -1,9 +1,11 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("UnitTest")]
 namespace ExecutionEngine
 {
-    internal class Triangle : Shape
+    public class Triangle
     {
         private Point VertexA;
         private Point VertexB;
@@ -16,7 +18,7 @@ namespace ExecutionEngine
             this.VertexC = c;
         }
 
-        public override bool IsPointInTriangle4(Point p)
+        public bool IsPointInTriangle(Point p)
         {
             Vector2 PA = new Vector2(this.VertexA.X - p.X, this.VertexA.Y - p.Y);
             Vector2 PB = new Vector2(this.VertexB.X - p.X, this.VertexB.Y - p.Y);

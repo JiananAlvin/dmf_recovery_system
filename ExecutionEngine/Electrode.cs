@@ -12,7 +12,7 @@ namespace ExecutionEngine
         public int Id { get; }
         public int PositionX { get; }
         public int PositionY { get; }
-        public Shape Shape { get; set; } = default!;
+        public Triangle Triangle { get; set; } = default!;
 
         public Electrode(int id, int positionX, int positionY)
         {
@@ -21,12 +21,12 @@ namespace ExecutionEngine
             this.PositionY = positionY;
         }
 
-        public Electrode(int id, int positionX, int positionY, Shape shape)
+        public Electrode(int id, int positionX, int positionY, Triangle triangle)
         {
             this.Id = id;
             this.PositionX = positionX;
             this.PositionY = positionY;
-            this.Shape = shape;
+            this.Triangle = triangle;
         }
     }
 }

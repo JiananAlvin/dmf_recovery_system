@@ -11,6 +11,7 @@ namespace ExecutionEngine
         public int minStep { get; set; }
         public Dictionary<int, Dictionary<int, Electrode>> layout { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
         public Dictionary<int, Dictionary<int, Electrode>> layoutTri { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+        public int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
 
         public void Initilalize()
         {
@@ -61,7 +62,7 @@ namespace ExecutionEngine
                         Point p1 = new Point((int)cornersJArr[0][0] + positionX, (int)cornersJArr[0][1] + positionY);
                         Point p2 = new Point((int)cornersJArr[1][0] + positionX, (int)cornersJArr[1][1] + positionY);
                         Point p3 = new Point((int)cornersJArr[2][0] + positionX, (int)cornersJArr[2][1] + positionY);
-                        el.Shape = new Triangle(p1, p2, p3);
+                        el.Triangle = new Triangle(p1, p2, p3);
                         // Put current electrode into dictionary
                         Rec2dict(this.layoutTri, el, minSize, xMin, xMax, yMin, yMax);
                     }
