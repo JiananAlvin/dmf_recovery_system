@@ -2,7 +2,7 @@ using ExecutionEngine;
 using System.Drawing;
 namespace UnitTest
 {
-    public class Tests
+    public class TestChecker
     {
         [SetUp]
         public void Setup()

@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using ExecutionEngine;
+﻿using ExecutionEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Drawing;
