@@ -15,12 +15,14 @@
             Height = height;
         }
 
+        // TODO: TEST
         // Calculate the area of the square
         internal double Area()
         {
             return Width * Height;
         }
 
+        // TODO: TEST
         // Calculate the intersection of two squares
         internal double Intersection(Square s)
         {
@@ -30,6 +32,7 @@
             return xOverlap * yOverlap;
         }
 
+        // TODO: TEST
         // Calculate the IoU of two squares
         internal double IoU(Square s)
         {

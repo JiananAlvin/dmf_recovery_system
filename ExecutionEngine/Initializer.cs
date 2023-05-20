@@ -97,6 +97,7 @@ namespace ExecutionEngine
             }
         }
 
+        // TODO: TEST
         private static void Rec2dict(Dictionary<int, Dictionary<int, Electrode>> layout, Electrode el, int minSize, int xMin, int xMax, int yMin, int yMax)
         {
             int keyY = yMin;

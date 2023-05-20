@@ -8,6 +8,7 @@ public class Mapper
 {
     // Maps image-based droplets' imformation to simulator-based droplets' information
     // the out put format is [[eltrodeID, xTopLeft, yTopLeft, width, height, xoffset, yoffset], [], [], ...]
+    // TODO: TEST
     public List<List<int>> Map(string yolo, int chipWidth, int chipHeight, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
     {
         // yolo = "{ 'img_dimension': [671, 320], 'droplet_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
@@ -42,6 +43,7 @@ public class Mapper
         return output;
     }
 
+    // TODO: TEST
     public Electrode GetElectrode(int xPixel, int yPixel, int minSize, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri)
     {
         int keyX = (int)(xPixel / minSize) * minSize;
