@@ -6,7 +6,6 @@ namespace ExecutionEngine
     {
         public double tolerance = 0.6;  // This one should be user input.
         public Initializer init;
-        string outputFile = "G:\\01_dmf_recovery_system\\ExecutionEnv\\recovery_output.txt";
 
         public Corrector()
         {
@@ -14,7 +13,7 @@ namespace ExecutionEngine
             init.Initilalize();
         }
 
-        public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS)
+        public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS, string output)
         {
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
@@ -79,7 +78,7 @@ namespace ExecutionEngine
             }
             result += "   ]\n";
 
-            using (StreamWriter writer = File.AppendText(outputFile))
+            using (StreamWriter writer = File.AppendText(output))
             {
                 writer.WriteLine(result);
             }
