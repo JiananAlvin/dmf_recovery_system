@@ -14,7 +14,7 @@ namespace UnitTest
         public void Setup()
         {
             // Read the JSON file contents into a string
-            json = File.ReadAllText(@"../../../platform640v2.json");
+            json = File.ReadAllText(@"../../../../ExecutionEnv/platform640v2.json");
 
             // Deserialize the JSON string into a C# object
             obj = JsonConvert.DeserializeObject(json)!;

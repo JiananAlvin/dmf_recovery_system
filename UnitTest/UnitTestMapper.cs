@@ -1,5 +1,7 @@
 using ExecutionEngine;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
+
 namespace UnitTest
 {
     public class TestMapper
@@ -127,6 +129,75 @@ namespace UnitTest
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[50.0,259.0 ,10,12]]}";
             List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
             Assert.That(result[0][0], Is.EqualTo(665));
+        }
+
+        // No electrode at (770, 80)
+        [Test]
+        public void TestGetElectrodeNull()
+        {
+            int x = 770;
+            int y = 80;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode, Is.EqualTo(null));
+        }
+
+        // Point (110, 0) falls on Electrode 1
+        [Test]
+        public void TestGetElectrode1()
+        {
+            int x = 110;
+            int y = 0;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode.Id, Is.EqualTo(1));
+        }
+
+        // Point (130, 0) falls on Electrode 2
+        [Test]
+        public void TestGetElectrode2()
+        {
+            int x = 130;
+            int y = 0;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode.Id, Is.EqualTo(2));
+        }
+
+        // Point (277, 247) falls on Electrode 393
+        [Test]
+        public void TestGetElectrode393()
+        {
+            int x = 277;
+            int y = 247;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode.Id, Is.EqualTo(393));
+        }
+
+        // Point (45, 241) falls on Electrode 664
+        [Test]
+        public void TestGetElectrode664()
+        {
+            int x = 45;
+            int y = 241;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode.Id, Is.EqualTo(664));
+        }
+
+        // Point (50, 334) falls on Electrode 673
+        [Test]
+        public void TestGetElectrode673()
+        {
+            int x = 50;
+            int y = 334;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode.Id, Is.EqualTo(673));
+        }
+
+        [Test]
+        public void TestGetElectrode717()
+        {
+            int x = 815;
+            int y = 343;
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Assert.That(electrode.Id, Is.EqualTo(717));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ExecutionEngine
         public void Initilalize()
         {
             // Read the JSON file contents into a string
-            string json = File.ReadAllText(@"../../../platform640v2.json");
+            string json = File.ReadAllText(@"../../../../ExecutionEnv/platform640v2.json");
 
             // Deserialize the JSON string into a C# object
             dynamic obj = JsonConvert.DeserializeObject(json)!;
