@@ -4,14 +4,14 @@
     "G:\\01_dmf_recovery_system\\UnitTest\\UnitTest.csproj": {}
   },
   "projects": {
-    "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj": {
+    "G:\\01_dmf_recovery_system\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj",
-        "projectName": "ExecutionEngine",
-        "projectPath": "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj",
+        "projectUniqueName": "G:\\01_dmf_recovery_system\\Model\\Model.csproj",
+        "projectName": "Model",
+        "projectPath": "G:\\01_dmf_recovery_system\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\19869\\.nuget\\packages\\",
-        "outputPath": "G:\\01_dmf_recovery_system\\ExecutionEngine\\obj\\",
+        "outputPath": "G:\\01_dmf_recovery_system\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\19869\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -101,8 +101,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj": {
-                "projectPath": "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj"
+              "G:\\01_dmf_recovery_system\\Model\\Model.csproj": {
+                "projectPath": "G:\\01_dmf_recovery_system\\Model\\Model.csproj"
               }
             }
           }

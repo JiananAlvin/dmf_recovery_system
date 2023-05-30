@@ -1,0 +1,12 @@
+G:\01_dmf_recovery_system\Model\bin\Debug\net7.0\Model.deps.json
+G:\01_dmf_recovery_system\Model\bin\Debug\net7.0\Model.dll
+G:\01_dmf_recovery_system\Model\bin\Debug\net7.0\Model.pdb
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.csproj.AssemblyReference.cache
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.AssemblyInfoInputs.cache
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.AssemblyInfo.cs
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.csproj.CoreCompileInputs.cache
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.dll
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\refint\Model.dll
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\Model.pdb
+G:\01_dmf_recovery_system\Model\obj\Debug\net7.0\ref\Model.dll

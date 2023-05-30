@@ -449,7 +449,7 @@
           }
         }
       },
-      "ExecutionEngine/1.0.0": {
+      "Model/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
@@ -459,10 +459,10 @@
           "Newtonsoft.Json": "13.0.2"
         },
         "compile": {
-          "bin/placeholder/ExecutionEngine.dll": {}
+          "bin/placeholder/Model.dll": {}
         },
         "runtime": {
-          "bin/placeholder/ExecutionEngine.dll": {}
+          "bin/placeholder/Model.dll": {}
         }
       }
     }
@@ -1485,16 +1485,16 @@
         "version.txt"
       ]
     },
-    "ExecutionEngine/1.0.0": {
+    "Model/1.0.0": {
       "type": "project",
-      "path": "../ExecutionEngine/ExecutionEngine.csproj",
-      "msbuildProject": "../ExecutionEngine/ExecutionEngine.csproj"
+      "path": "../Model/Model.csproj",
+      "msbuildProject": "../Model/Model.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "ExecutionEngine >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.3.2",
+      "Model >= 1.0.0",
       "NUnit >= 3.13.3",
       "NUnit.Analyzers >= 3.5.0",
       "NUnit3TestAdapter >= 4.3.0",
@@ -1528,8 +1528,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj": {
-              "projectPath": "G:\\01_dmf_recovery_system\\ExecutionEngine\\ExecutionEngine.csproj"
+            "G:\\01_dmf_recovery_system\\Model\\Model.csproj": {
+              "projectPath": "G:\\01_dmf_recovery_system\\Model\\Model.csproj"
             }
           }
         }
