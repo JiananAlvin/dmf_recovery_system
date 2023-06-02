@@ -41,7 +41,7 @@ namespace Model
             }
             
             // Give a list of electrodes need to be manipulated for recovery
-            List<Dictionary<string, HashSet<int>>> electrodesForRecovery = checker.GetStuckRegion(tolerance, pairs, statesExp, statesAct, init.layout, init.layoutTri, init.minStep, init.sizeOfSquareEl);
+            List<Dictionary<string, HashSet<int>>> electrodesForRecovery = checker.GetStuckRegion(tolerance, pairs, statesExp, statesAct, init.nonTriangleHashMap, init.triangleHashMap, init.minStep, init.sizeOfSquareEl);
 
             // Print the list of electrodes 
             Console.WriteLine("List of electrodes need to be manipulated for recovery:\n[");

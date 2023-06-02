@@ -47,7 +47,7 @@ namespace Model
         // expectedS: [electrod id of left top, left top x coord, left top y coord, width, height, direction] 
         // actualS:   [electrod id of left top, left top x coord, left top y coord, width, height, xoffset, yoffset]
         // TODO: TEST
-        public List<Dictionary<string, HashSet<int>>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct, Dictionary<int, Dictionary<int, Electrode>> layout, Dictionary<int, Dictionary<int, Electrode>> layoutTri, int minStep, int sizeOfSquareEl)
+        public List<Dictionary<string, HashSet<int>>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct, Dictionary<int, Dictionary<int, Electrode>> nonTriangleHashMap, Dictionary<int, Dictionary<int, Electrode>> triangleHashMap, int minStep, int sizeOfSquareEl)
         {
             List<Dictionary<string, HashSet<int>>> elsPerFrame = new List<Dictionary<string, HashSet<int>>>();
             foreach (Tuple<int, int> pair in pairs)
@@ -75,36 +75,36 @@ namespace Model
                         case 0:  // Up
                             for (x = xtl; x < xtl + width; x += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, minStep, layout, layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl + height, minStep, nonTriangleHashMap, triangleHashMap);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl, minStep, layout, layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl, minStep, nonTriangleHashMap, triangleHashMap);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 1:  // Right
                             for (y = ytl; y < ytl + height; y += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl - minStep, y, minStep, layout, layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl - minStep, y, minStep, nonTriangleHashMap, triangleHashMap);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl + width - minStep, y, minStep, layout, layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl + width - minStep, y, minStep, nonTriangleHashMap, triangleHashMap);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 2:  // Down
                             for (x = xtl; x < xtl + width; x += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(x, ytl - minStep, minStep, layout, layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(x, ytl - minStep, minStep, nonTriangleHashMap, triangleHashMap);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(x, ytl + height - minStep, minStep, layout, layoutTri);
+                                Electrode headEl = mapper.GetElectrode(x, ytl + height - minStep, minStep, nonTriangleHashMap, triangleHashMap);
                                 headEls.Add(headEl.Id);
                             }
                             break;
                         case 3:  // Left
                             for (y = ytl; y < ytl + height; y += minStep)
                             {
-                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, minStep, layout, layoutTri);
+                                Electrode tailEl = mapper.GetElectrode(xtl + width, y, minStep, nonTriangleHashMap, triangleHashMap);
                                 tailEls.Add(tailEl.Id);
-                                Electrode headEl = mapper.GetElectrode(xtl, y, minStep, layout, layoutTri);
+                                Electrode headEl = mapper.GetElectrode(xtl, y, minStep, nonTriangleHashMap, triangleHashMap);
                                 headEls.Add(headEl.Id);
                             }
                             break;

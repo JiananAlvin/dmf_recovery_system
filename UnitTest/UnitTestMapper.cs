@@ -27,7 +27,7 @@ namespace UnitTest
         public void TestMapperToSquare1()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[110.0,0.0,10, 12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(1));
 /*            for (int i = 0; i < result.Count; i++)
             {
@@ -46,7 +46,7 @@ namespace UnitTest
         public void TestMapperToSquare2()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[110.0,5.0,10, 12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(1));
         }
 
@@ -55,7 +55,7 @@ namespace UnitTest
         public void TestMapperToSquare3()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[130.0,5.0,10, 12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(2));
         }
 
@@ -64,7 +64,7 @@ namespace UnitTest
         public void TestMapperToSquare4()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[130.0,5.0,10, 12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(2));
         }
         // imgSize: 860 * 400 , [730,0] is eleId 32
@@ -72,7 +72,7 @@ namespace UnitTest
         public void TestMapperToSquare5()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[730.0,0.0,10, 12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(32));
         }
         // imgSize: 860 * 400 , [730,5] is eleId 32
@@ -80,7 +80,7 @@ namespace UnitTest
         public void TestMapperToSquare6()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[730.0,5.0,10, 12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(32));
         }
 
@@ -89,7 +89,7 @@ namespace UnitTest
         public void TestMapperToPoli1()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[10.0,255.0 ,10,12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(664));
         }
 
@@ -98,7 +98,7 @@ namespace UnitTest
         public void TestMapperToPoli2()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[40.0,240.0 ,10,12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(664));
         }
 
@@ -107,7 +107,7 @@ namespace UnitTest
         public void TestMapperToPoli3()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[49.0,240.0 ,10,12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(664));
         }
 
@@ -118,7 +118,7 @@ namespace UnitTest
         public void TestMapperToTriangle1()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[55.0,255.0 ,10,12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(665));
         }
 
@@ -127,7 +127,7 @@ namespace UnitTest
         public void TestMapperToTriangle2()
         {
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[50.0,259.0 ,10,12]]}";
-            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.layout, init.layoutTri);
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(665));
         }
 
@@ -137,7 +137,7 @@ namespace UnitTest
         {
             int x = 770;
             int y = 80;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode, Is.EqualTo(null));
         }
 
@@ -147,7 +147,7 @@ namespace UnitTest
         {
             int x = 110;
             int y = 0;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode.Id, Is.EqualTo(1));
         }
 
@@ -157,7 +157,7 @@ namespace UnitTest
         {
             int x = 130;
             int y = 0;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode.Id, Is.EqualTo(2));
         }
 
@@ -167,7 +167,7 @@ namespace UnitTest
         {
             int x = 277;
             int y = 247;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode.Id, Is.EqualTo(393));
         }
 
@@ -177,7 +177,7 @@ namespace UnitTest
         {
             int x = 45;
             int y = 241;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode.Id, Is.EqualTo(664));
         }
 
@@ -187,7 +187,7 @@ namespace UnitTest
         {
             int x = 50;
             int y = 334;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode.Id, Is.EqualTo(673));
         }
 
@@ -196,7 +196,7 @@ namespace UnitTest
         {
             int x = 815;
             int y = 343;
-            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.layout, init.layoutTri);
+            Electrode electrode = mapper.GetElectrode(x, y, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(electrode.Id, Is.EqualTo(717));
         }
     }

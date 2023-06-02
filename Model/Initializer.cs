@@ -10,8 +10,8 @@ namespace Model
         public int width { get; set; }
         public int height { get; set; }
         public int minStep { get; set; }
-        public Dictionary<int, Dictionary<int, Electrode>> layout { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
-        public Dictionary<int, Dictionary<int, Electrode>> layoutTri { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+        public Dictionary<int, Dictionary<int, Electrode>> nonTriangleHashMap { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
+        public Dictionary<int, Dictionary<int, Electrode>> triangleHashMap { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
 
         public int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
 
@@ -59,7 +59,7 @@ namespace Model
                 JArray cornersJArr = (JArray)elInfo["corners"]!;
 
                 // Put current electrode into dictionary
-                Rec2dict(this.layout, el, MIN_SIZE, positionX, positionX + sizeX, positionY, positionY + sizeY);
+                Rec2dict(this.nonTriangleHashMap, el, MIN_SIZE, positionX, positionX + sizeX, positionY, positionY + sizeY);
             }
         }
 
@@ -93,17 +93,17 @@ namespace Model
                     Point p3 = new Point((int)cornersJArr[2][0] + positionX, (int)cornersJArr[2][1] + positionY);
                     el.Triangle = new Triangle(p1, p2, p3);
                     // Put current electrode into dictionary
-                    Rec2dict(this.layoutTri, el, minSize, xMin, xMax, yMin, yMax);
+                    Rec2dict(this.triangleHashMap, el, minSize, xMin, xMax, yMin, yMax);
                 }
                 else  // Custom polygon with sides >= 4
                 {
                     // Put current electrode into dictionary
-                    Rec2dict(this.layout, el, minSize, xMin, xMax, yMin, yMax);
+                    Rec2dict(this.nonTriangleHashMap, el, minSize, xMin, xMax, yMin, yMax);
                 }
             }
         }
 
-        private static void Rec2dict(Dictionary<int, Dictionary<int, Electrode>> layout, Electrode el, int minSize, int xMin, int xMax, int yMin, int yMax)
+        private static void Rec2dict(Dictionary<int, Dictionary<int, Electrode>> nonTriangleHashMap, Electrode el, int minSize, int xMin, int xMax, int yMin, int yMax)
         {
             int keyY = yMin;
             while (keyY < yMax)
@@ -111,11 +111,11 @@ namespace Model
                 int keyX = xMin;
                 while (keyX < xMax)
                 {
-                    if (!layout.ContainsKey(keyY))
+                    if (!nonTriangleHashMap.ContainsKey(keyY))
                     {
-                        layout[keyY] = new Dictionary<int, Electrode>();
+                        nonTriangleHashMap[keyY] = new Dictionary<int, Electrode>();
                     }
-                    layout[keyY][keyX] = el;
+                    nonTriangleHashMap[keyY][keyX] = el;
                     keyX += minSize;
                 }
                 keyY += minSize;

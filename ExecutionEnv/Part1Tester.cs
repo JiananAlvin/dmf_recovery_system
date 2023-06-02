@@ -10,8 +10,8 @@ namespace ExecutionEnv
         public static int minStep;
         public static double tolerance = 0;  // This one should be user input.
         public static int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
-        public static Dictionary<int, Dictionary<int, Electrode>> layout;
-        public static Dictionary<int, Dictionary<int, Electrode>> layoutTri;
+        public static Dictionary<int, Dictionary<int, Electrode>> nonTriangleHashMap;
+        public static Dictionary<int, Dictionary<int, Electrode>> triangleHashMap;
         public static String yolo = null;
 
         public void Run() 
@@ -22,8 +22,8 @@ namespace ExecutionEnv
             width = init.width;
             height = init.height;
             minStep = init.minStep;
-            layout = init.layout;
-            layoutTri = init.layoutTri;
+            nonTriangleHashMap = init.nonTriangleHashMap;
+            triangleHashMap = init.triangleHashMap;
 
             // Subscribe YOLO output
             MqttClient s = new MqttClient("yolo", "local");
@@ -48,7 +48,7 @@ namespace ExecutionEnv
                 {
                     // Console.WriteLine(yolo.ToString());
                     // yolo is actualS
-                    List<List<int>> result = mapper.Map(yolo, width, height, minStep, layout, layoutTri); //TODO
+                    List<List<int>> result = mapper.Map(yolo, width, height, minStep, nonTriangleHashMap, triangleHashMap); //TODO
 
                     // Print results in the terminal
                     Console.WriteLine("  Droplet " + ++dropletCounter + ":");
