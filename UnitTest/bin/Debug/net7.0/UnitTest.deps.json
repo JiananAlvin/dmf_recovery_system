@@ -8,8 +8,8 @@
     ".NETCoreApp,Version=v7.0": {
       "UnitTest/1.0.0": {
         "dependencies": {
-          "ExecutionEngine": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.3.2",
+          "Model": "1.0.0",
           "NUnit": "3.13.3",
           "NUnit.Analyzers": "3.5.0",
           "NUnit3TestAdapter": "4.3.0",
@@ -356,7 +356,7 @@
       "NUnit3TestAdapter/4.3.0": {},
       "System.Memory/4.5.4": {},
       "System.Reflection.Metadata/1.6.0": {},
-      "ExecutionEngine/1.0.0": {
+      "Model/1.0.0": {
         "dependencies": {
           "M2Mqtt": "4.3.0",
           "MQTTnet.Extensions.ManagedClient": "3.1.1",
@@ -364,7 +364,7 @@
           "Newtonsoft.Json": "13.0.2"
         },
         "runtime": {
-          "ExecutionEngine.dll": {}
+          "Model.dll": {}
         }
       }
     }
@@ -501,7 +501,7 @@
       "path": "system.reflection.metadata/1.6.0",
       "hashPath": "system.reflection.metadata.1.6.0.nupkg.sha512"
     },
-    "ExecutionEngine/1.0.0": {
+    "Model/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
