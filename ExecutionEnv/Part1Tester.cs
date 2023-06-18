@@ -41,26 +41,29 @@ namespace ExecutionEnv
 
             int frameCounter = -1;
             while (true) {
-                Console.WriteLine("Frame " + ++frameCounter + ":");
+                // Console.WriteLine("Frame " + ++frameCounter + ":");
 
                 int dropletCounter = -1;
                 while (yolo is not null)
                 {
-                    // Console.WriteLine(yolo.ToString());
+                    // Slow down the terminal output for our inspection
+                    Thread.Sleep(1500);
+                    Console.WriteLine("\n-------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("Frame " + ++frameCounter + ":");
+
                     // yolo is actualS
                     List<List<int>> result = mapper.Map(yolo, width, height, minStep, nonTriangleHashMap, triangleHashMap); //TODO
 
                     // Print results in the terminal
-                    Console.WriteLine("  Droplet " + ++dropletCounter + ":");
                     for (int i = 0; i < result.Count; i++)
                     {
+                        Console.WriteLine("  Droplet " + ++dropletCounter + ": ");
                         Console.Write("    electrodeId': " + result[i][0] + "; ");
                         Console.Write("xTopLeft': "        + result[i][1] + "; ");
                         Console.Write("yTopLeft': "        + result[i][2] + "; ");
                         Console.Write("width': "           + result[i][3] + "; ");
                         Console.Write("height': "          + result[i][4] + "; ");
-                        Console.Write("xOffset': "         + result[i][5] + "; ");
-                        Console.WriteLine("yOffset': "     + result[i][6]);
+                        Console.Write("xOffset': "         + result[i][5] + ";\n");
                     }
                     // Empty message from "yolo/det"
                     yolo = null;

@@ -14,7 +14,6 @@ namespace Model
     {
         // Uses kdTree to find the nearest neighbor pair between two lists of points
         // It takes O(n log n).
-        // TODO: TEST
         public List<Tuple<int, int>> Match(List<List<int>> statesExp, List<List<int>> statesAct)
         {  
             KdTree<IntegerWrapper> treeAct = BuildKdTree(statesAct);
@@ -31,7 +30,6 @@ namespace Model
             return pairs;  // (expected, actual)
         }
 
-        // TODO: TEST
         public KdTree<IntegerWrapper> BuildKdTree(List<List<int>> S)
         {
             // Create points
@@ -46,7 +44,6 @@ namespace Model
 
         // expectedS: [electrod id of left top, left top x coord, left top y coord, width, height, direction] 
         // actualS:   [electrod id of left top, left top x coord, left top y coord, width, height, xoffset, yoffset]
-        // TODO: TEST
         public List<Dictionary<string, HashSet<int>>> GetStuckRegion(double tolerance, List<Tuple<int, int>> pairs, List<List<int>> statesExp, List<List<int>> statesAct, Dictionary<int, Dictionary<int, Electrode>> nonTriangleHashMap, Dictionary<int, Dictionary<int, Electrode>> triangleHashMap, int minStep, int sizeOfSquareEl)
         {
             List<Dictionary<string, HashSet<int>>> elsPerFrame = new List<Dictionary<string, HashSet<int>>>();
@@ -121,7 +118,6 @@ namespace Model
             return elsPerFrame;
         }
 
-        // TODO: TEST
         public bool IsStuck(double tolerance, double actExpIou, List<int> stateExp, int sizeOfSquareEl)
         {
             double iouOfPerfectMove;

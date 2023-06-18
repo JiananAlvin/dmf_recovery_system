@@ -2,10 +2,10 @@
 {
     public class Electrode
     {
-        public int Id { get; }
-        public int PositionX { get; }
-        public int PositionY { get; }
-        public Triangle Triangle { get; set; } = default!;
+        internal int Id { get; }
+        internal int PositionX { get; }
+        internal int PositionY { get; }
+        internal Triangle Triangle { get; set; } = default!;
 
         public Electrode(int id, int positionX, int positionY)
         {

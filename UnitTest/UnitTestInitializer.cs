@@ -44,7 +44,7 @@ namespace UnitTest
             // Traverse all electrodes
             foreach (JObject elInfo in electrodeArr)
             {
-                i.InitTriangleHashMap(Initializer.MIN_SIZE, elInfo);
+                i.InitTriangleHashMap(i.minStep, elInfo);
             }
             string result = NestedDictIteration(i.triangleHashMap);
 

@@ -333,7 +333,9 @@ class LoadStreams:
 
     def update(self, i, cap, stream):
         # Read stream `i` frames in daemon thread
-        n, f, read = 0, self.frames[i], 1  # frame number, frame array, inference every 'read' frame
+        # J----------------------------------------
+        # If I want to skip 30 frames, I need to set read = 30.
+        n, f, read = 0, self.frames[i], 300  # frame number, frame array, inference every 'read' frame
         while cap.isOpened() and n < f:
             n += 1
             # _, self.imgs[index] = cap.read()

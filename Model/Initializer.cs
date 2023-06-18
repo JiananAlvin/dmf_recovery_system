@@ -6,7 +6,6 @@ namespace Model
 {
     public class Initializer
     {
-        public static int MIN_SIZE = 10;
         public int width { get; set; }
         public int height { get; set; }
         public int minStep { get; set; }
@@ -32,7 +31,7 @@ namespace Model
             // Traverse all electrodes
             foreach (JObject elInfo in electrodeArr)
             {
-                InitTriangleHashMap(MIN_SIZE, elInfo);
+                InitTriangleHashMap(this.minStep, elInfo);
             }
 
             // Traverse all electrodes, and overwrite "the custom polygons with sides >= 4"
@@ -59,7 +58,7 @@ namespace Model
                 JArray cornersJArr = (JArray)elInfo["corners"]!;
 
                 // Put current electrode into dictionary
-                Rec2dict(this.nonTriangleHashMap, el, MIN_SIZE, positionX, positionX + sizeX, positionY, positionY + sizeY);
+                Rec2dict(this.nonTriangleHashMap, el, this.minStep, positionX, positionX + sizeX, positionY, positionY + sizeY);
             }
         }
 
