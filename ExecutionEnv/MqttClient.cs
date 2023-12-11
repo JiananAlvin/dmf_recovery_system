@@ -1,4 +1,5 @@
 using ExecutionEnv;
+using Model;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -67,19 +68,42 @@ public class MqttClient
         if (topic.Equals("exe/feedback") && receivedMessage.Equals("ok"))
         {
             Part2Tester.executionCompletedFlag = true;
+            Video01Tester.executionCompletedFlag = true;
         } 
         else if (topic.Equals("yolo/act"))
         {
             Part2Tester.actualStates = receivedMessage;
+            Video01Tester.actualStates = MapYoloInput(receivedMessage);
         } 
         else if (topic.Equals("router/exp"))
         {
             Part2Tester.expectedStates = receivedMessage;
+            Video01Tester.expectedStates = receivedMessage;
         } else
         {
             Part1Tester.yolo = receivedMessage;
         }
 
         // Console.WriteLine($"[Receive][{topic}]:{receivedMessage}");
+    }
+
+    string MapYoloInput(string receivedMessage)
+    {
+        Initializer init = new Initializer();
+        init.Initilalize();
+        Mapper mapper = new Mapper();
+        List<List<int>> result = mapper.Map(receivedMessage, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
+        return ListOfListsToString(result);
+    }
+
+    string ListOfListsToString(List<List<int>> listOfLists)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append("[");
+        sb.Append(string.Join(",", listOfLists.Select(innerList => "[" + string.Join(",", innerList) + "]")));
+        sb.Append("]");
+
+        return sb.ToString();
     }
 }
