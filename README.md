@@ -47,5 +47,8 @@ python detect.py --weight {path of your trained weight}    --source 0  # webcam
 Our Recovery System is based on dotnet.
 Hence ensure you have installed correct version dotnet.
 
+### Run Tests
+
+
 
 :link: Link to videos that demonstrate functional tests on detection and recovery parts: https://github.com/JiananAlvin/image_bed/tree/master/images/BachelorThesis

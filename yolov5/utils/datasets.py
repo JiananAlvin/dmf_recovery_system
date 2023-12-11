@@ -160,7 +160,7 @@ class _RepeatSampler:
 
 class LoadImages:
     # YOLOv5 image/video dataloader, i.e. `python detect.py --source image.jpg/vid.mp4`
-    def __init__(self, path, img_size=640, stride=32, auto=True):
+    def __init__(self, path, img_size=640, stride=32, auto=True, require_preprocess=False):
         p = str(Path(path).resolve())  # os-agnostic absolute path
         if '*' in p:
             files = sorted(glob.glob(p, recursive=True))  # glob
@@ -182,6 +182,7 @@ class LoadImages:
         self.video_flag = [False] * ni + [True] * nv
         self.mode = 'image'
         self.auto = auto
+        self.require_preprocess = require_preprocess
         if any(videos):
             self.new_video(videos[0])  # new video
         else:
@@ -197,7 +198,6 @@ class LoadImages:
         if self.count == self.nf:
             raise StopIteration
         path = self.files[self.count]
-
         if self.video_flag[self.count]:
             # Read video
             self.mode = 'video'
@@ -214,7 +214,6 @@ class LoadImages:
 
             self.frame += 1
             s = f'video {self.count + 1}/{self.nf} ({self.frame}/{self.frames}) {path}: '
-
         else:
             # Read image
             self.count += 1
@@ -224,7 +223,8 @@ class LoadImages:
 
         # J----------------------------------------
         # Preprocess image
-        img0 = preprocess(img0)
+        if self.require_preprocess:
+            img0 = preprocess(img0)
 
         # Padded resize
         img = letterbox(img0, self.img_size, stride=self.stride, auto=self.auto)[0]

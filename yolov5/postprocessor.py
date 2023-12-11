@@ -8,7 +8,7 @@ import publisher
 # NUM_OF_ELS_IN_A_CLMN = 20
 IMG_WIDTH = 870
 IMG_HEIGHT = 404
-TOPIC = "yolo/det"
+TOPIC = "yolo/act"
 
 
 # This function returns digital info about bounding boxes of detected droplets. The format is

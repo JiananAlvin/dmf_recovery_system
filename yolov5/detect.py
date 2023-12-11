@@ -86,6 +86,8 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         hide_conf=False,  # hide confidences
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
+        require_preprocess=False,
+        mmap_treshold=0.9,
         ):
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
@@ -117,7 +119,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt)
         bs = len(dataset)  # batch_size
     else:
-        dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt)
+        dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt,require_preprocess=require_preprocess)
         bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
 
@@ -179,7 +181,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                 for *xyxy, conf, cls in reversed(det):
                     # J --------------------------------
                     # If class name is "droplet", append its digital info to results[]
-                    if (names[int(cls)] == "droplet"):
+                    if (names[int(cls)] == "droplet" and conf > mmap_treshold):
                         results.append([int(t) for t in xyxy])  # Convert a tensor[] to a int[]
 
                     if save_txt:  # Write to file
@@ -268,6 +270,7 @@ def parse_opt():
     parser.add_argument('--hide-conf', default=False, action='store_true', help='hide confidences')
     parser.add_argument('--half', action='store_true', help='use FP16 half-precision inference')
     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
+    parser.add_argument('--require-preprocess', default=False, action='store_true', help='require preprocess')
     opt = parser.parse_args()
     opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
     print_args(FILE.stem, opt)
