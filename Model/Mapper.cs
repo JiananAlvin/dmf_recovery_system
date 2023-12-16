@@ -24,6 +24,21 @@ public class Mapper
             int yTopLeft = (int)Math.Round((int)dropletInfo[1] * heightRatio);
             int dropletWidth = (int)Math.Round((int)dropletInfo[2] * widthRatio);
             int dropletHeight = (int)Math.Round((int)dropletInfo[3] * heightRatio);
+
+            // TODO:  Remove offset if the offset is too small
+            int deltaX = xTopLeft % Initializer.sizeOfSquareEl;
+            int deltaY = yTopLeft % Initializer.sizeOfSquareEl;
+            if (deltaX < Initializer.sizeOfSquareEl / 2)
+            {
+                xTopLeft += deltaX;
+                dropletWidth -= deltaX;
+            }
+            if (deltaY < Initializer.sizeOfSquareEl / 2) 
+            { 
+                yTopLeft += deltaY; 
+                dropletHeight -= deltaY;
+            }
+
             // Gets the electrode object
             Electrode el = GetElectrode(xTopLeft, yTopLeft, minSize, nonTriangleHashMap, triangleHashMap);
             int elNo = el.Id;

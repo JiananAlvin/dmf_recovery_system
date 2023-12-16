@@ -12,7 +12,7 @@ namespace Model
         public Dictionary<int, Dictionary<int, Electrode>> nonTriangleHashMap { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
         public Dictionary<int, Dictionary<int, Electrode>> triangleHashMap { get; set; } = new Dictionary<int, Dictionary<int, Electrode>>();
 
-        public int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
+        public static int sizeOfSquareEl = 20; // TODO: This should be read from JSON somehow.
 
         public void Initilalize()
         {

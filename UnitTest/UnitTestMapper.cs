@@ -9,7 +9,7 @@ namespace UnitTest
 
         public double tolerance;
         public int sizeOfSquareEl;
-        public String yolo = null;
+        public string yolo = null;
         public Initializer init;
         public Mapper mapper;
         [SetUp]
@@ -22,6 +22,16 @@ namespace UnitTest
             mapper = new Mapper();
         }
 
+        // [228, 223, 265, 283]
+        // {'img_dimension': [870, 404], 'droplet_info': [[228, 223, 37, 60]]
+        [Test]
+        public void TestMapperDropletOverBoxes1()
+        {
+            yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[228, 223, 37, 60]]}";
+            List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
+            Assert.That(result[0][0], Is.EqualTo(359));
+        }
+
         // imgSize: 860 * 400 , [110,0] is eleId 1
         [Test]
         public void TestMapperToSquare1()
@@ -29,16 +39,6 @@ namespace UnitTest
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[110.0,0.0,10, 12]]}";
             List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(1));
-/*            for (int i = 0; i < result.Count; i++)
-            {
-                Console.Write("    electrodeId': " + result[i][0] + "; ");
-                Console.Write("xTopLeft': " + result[i][1] + "; ");
-                Console.Write("yTopLeft': " + result[i][2] + "; ");
-                Console.Write("width': " + result[i][3] + "; ");
-                Console.Write("height': " + result[i][4] + "; ");
-                Console.Write("xOffset': " + result[i][5] + "; ");
-                Console.WriteLine("yOffset': " + result[i][6]);
-            }*/
         }
 
         // imgSize: 860 * 400 , [110,5] is eleId 1
