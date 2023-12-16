@@ -32,6 +32,7 @@ pip install -r .\requirements.txt
 
 # Run the detecter
 # python ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.pt --source 0
+# python ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.pt --source ..\image_dataset\CorrectionTest\ --require-preprocess
 python detect.py --weight {path of your trained weight}    --source 0  # webcam      
                             										img.jpg  # image
                             										vid.mp4  # video

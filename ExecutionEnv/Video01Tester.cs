@@ -48,8 +48,10 @@ namespace ExecutionEnv
                         Thread.Sleep(100);
                     }
                     // Correct by given expected states and actual states.
+                    Console.WriteLine(expectedStates);
+                    Console.WriteLine(actualStates);
                     electrodesForRecovery = corrector.Run(expectedStates, actualStates, PATH_TO_RESULT_TXT);
-
+                    
                     // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
                     if (electrodesForRecovery.Count == 0)
                     {

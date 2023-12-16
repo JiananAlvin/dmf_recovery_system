@@ -30,6 +30,8 @@ namespace UnitTest
             yolo = "{ 'img_dimension': [860, 400], 'droplet_info': [[228, 223, 37, 60]]}";
             List<List<int>> result = mapper.Map(yolo, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
             Assert.That(result[0][0], Is.EqualTo(359));
+            Assert.That(result[0][1], Is.EqualTo(230));
+            Assert.That(result[0][2], Is.EqualTo(223));
         }
 
         // imgSize: 860 * 400 , [110,0] is eleId 1

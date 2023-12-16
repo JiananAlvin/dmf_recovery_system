@@ -6,7 +6,7 @@ ExecutionEngine/bin
 ExecutionEngine/obj
 ExecutionEnv/bin
 ExecutionEnv/obj
-
+global.json
 # C extensions
 *.so
 

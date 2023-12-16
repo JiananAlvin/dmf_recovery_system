@@ -26,17 +26,29 @@ public class Mapper
             int dropletHeight = (int)Math.Round((int)dropletInfo[3] * heightRatio);
 
             // TODO:  Remove offset if the offset is too small
-            int deltaX = xTopLeft % Initializer.sizeOfSquareEl;
-            int deltaY = yTopLeft % Initializer.sizeOfSquareEl;
-            if (deltaX < Initializer.sizeOfSquareEl / 2)
+            if (xTopLeft >= 110 && xTopLeft <= 750 && yTopLeft >= 0 && yTopLeft <= 400)
             {
-                xTopLeft += deltaX;
-                dropletWidth -= deltaX;
-            }
-            if (deltaY < Initializer.sizeOfSquareEl / 2) 
-            { 
-                yTopLeft += deltaY; 
-                dropletHeight -= deltaY;
+                int deltaX = (xTopLeft - 110) % Initializer.sizeOfSquareEl;
+                int deltaY = yTopLeft % Initializer.sizeOfSquareEl;
+                if (deltaX >= Initializer.sizeOfSquareEl / 2)
+                {
+                    xTopLeft += (Initializer.sizeOfSquareEl - deltaX);
+                    dropletWidth -= (Initializer.sizeOfSquareEl - deltaX);
+                }
+                if ((xTopLeft + dropletWidth - 110) % 20 < Initializer.sizeOfSquareEl / 2)
+                {
+                    dropletWidth -= ((xTopLeft + dropletWidth - 110) % 20);
+                }
+
+                if (deltaY >= Initializer.sizeOfSquareEl / 2)
+                {
+                    yTopLeft += (Initializer.sizeOfSquareEl - deltaY);
+                    dropletHeight -= (Initializer.sizeOfSquareEl - deltaY);
+                }
+                if ((yTopLeft + dropletHeight) % 20 < Initializer.sizeOfSquareEl / 2)
+                {
+                    dropletHeight -= ((yTopLeft + dropletHeight) % 20);
+                }
             }
 
             // Gets the electrode object
