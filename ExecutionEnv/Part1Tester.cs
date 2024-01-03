@@ -1,6 +1,6 @@
 ﻿using Model;
 
-namespace ExecutionEnv
+namespace EndToEndTest
 {
     public class Part1Tester
     {
