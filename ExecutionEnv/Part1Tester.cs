@@ -26,7 +26,7 @@ namespace EndToEndTest
             triangleHashMap = init.triangleHashMap;
 
             // Subscribe YOLO output
-            MqttClient s = new MqttClient("yolo", "local");
+            MqttClientForTest s = new MqttClientForTest("yolo", "local");
             s.Subscribe(TOPIC);
             // string yolo = "{ 'img_dimension': [671, 320], 'droplet_info': [[632.0, 239.0, 10, 12], [298.0, 353.0, 28, 30], [581.0, 310.0, 30, 32]]}";
 

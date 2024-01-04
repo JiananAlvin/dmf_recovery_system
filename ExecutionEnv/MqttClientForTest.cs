@@ -3,14 +3,14 @@ using Model;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-public class MqttClient
+public class MqttClientForTest
 {
     private uPLibrary.Networking.M2Mqtt.MqttClient client;
     private string clientId;
     private string clientName;
     private string BrokerAddress = "test.mosquitto.org";
 
-    public MqttClient(string clientName, string brokerHostName)
+    public MqttClientForTest(string clientName, string brokerHostName)
     {
         if (String.Equals("remote", brokerHostName))
         {

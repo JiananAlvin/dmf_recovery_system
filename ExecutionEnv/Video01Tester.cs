@@ -6,8 +6,8 @@ namespace EndToEndTest
 {
     internal class Video01Tester
     {
-        internal MqttClient executor = new MqttClient("executor", "local");
-        internal MqttClient router = new MqttClient("router", "local");
+        internal MqttClientForTest executor = new MqttClientForTest("executor", "local");
+        internal MqttClientForTest router = new MqttClientForTest("router", "local");
 
         internal string YOLO_RESULT_TOPIC = "yolo/act";
         internal string ROUTER_RESULT_TOPIC = "router/exp";
@@ -62,25 +62,6 @@ namespace EndToEndTest
                 } while (electrodesForRecovery.Count != 0);
             }
         }
-
-        //public void YoloRun()
-        //{
-
-        //    router.Subscribe(YOLO_RESULT_TOPIC);
-        //    string actualStates = JsonConvert.SerializeObject(obj["act"], Formatting.None).ToString();
-
-        //        while (true)
-        //        {
-        //            if (recoveryCompletedFlag)
-        //            {
-
-        //                yolo.Publish(YOLO_RESULT_TOPIC, $"{actualStates}");
-        //                recoveryCompletedFlag = false;
-        //                break;
-        //            }
-        //        }
-            
-        //}
 
         public void RouterRun()
         {

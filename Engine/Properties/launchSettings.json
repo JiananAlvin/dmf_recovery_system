@@ -2,7 +2,7 @@
   "profiles": {
     "Engine": {
       "commandName": "Project",
-      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\Case0\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\Case0\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\Case0\\exec_bio_assembly.txt\""
+      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\Case0\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\Case0\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\Case0\\exec_bio_assembly.txt\"\r\n--path-to-result \"..\\..\\..\\..\\Cases\\Case0\\result.txt\""
     }
   }
 }
