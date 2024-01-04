@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Diagnostics.Metrics;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace Engine // Note: actual namespace depends on the project name.
 {
@@ -71,6 +72,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             return routerJsonArray;
         }
 
+        //static void Parse
         static void ExecuteCorrection(List<List<string>> basmInstructions, JArray expectedPositions, string pathToResult)
         {
             MqttClient client = new MqttClient("localhost");
@@ -118,8 +120,44 @@ namespace Engine // Note: actual namespace depends on the project name.
                     }
                     else
                     {
-                        //todo: parse    //head: [ 326 327 328 ]   //tail: [ 422 423 424 ] to basm
-                        Console.WriteLine("*****TODO: parse head: [ 326 327 328 ] tail: [ 422 423 424 ] to basm");
+                        Console.WriteLine("******************************************");
+                        Console.WriteLine("TICK;");
+                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                        {
+                            foreach (int element in elsPerDroplet["tail"])
+                            {
+                                Console.WriteLine($"SETELI {element};");
+                            }
+                        }
+                        Console.WriteLine("TICK;");
+                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                        {
+                            foreach (int element in elsPerDroplet["head"])
+                            {
+                                Console.WriteLine($"CLRELI {element};");
+                            }
+                        }
+
+                        Console.WriteLine("TICK;");
+                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                        {
+                            foreach (int element in elsPerDroplet["head"])
+                            {
+                                Console.WriteLine($"SETELI {element};");
+                            }
+                        }
+
+                        Console.WriteLine("TICK;");
+                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                        {
+                            foreach (int element in elsPerDroplet["tail"])
+                            {
+                                Console.WriteLine($"CLRELI {element};");
+                            }
+                        }
+                        Console.WriteLine("******************************************");
+                        // wait for execution correction
+                        Thread.Sleep(5000);
                     }
 
                     // Wait for YOLO and router to publish.
