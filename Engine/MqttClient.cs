@@ -1,35 +1,22 @@
-using ExecutionEnv;
-using Model;
 using System.Text;
+using Model;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
 public class MqttClient
 {
     private uPLibrary.Networking.M2Mqtt.MqttClient client;
     private string clientId;
-    private string clientName;
-    private string BrokerAddress = "test.mosquitto.org";
+    public DateTime previousUpdateTime { get; set; }
+    public string previousActualState { get; set; }
 
-    public MqttClient(string clientName, string brokerHostName)
+    public MqttClient(string brokerHostName)
     {
-        if (String.Equals("remote", brokerHostName))
-        {
-            client = new uPLibrary.Networking.M2Mqtt.MqttClient(BrokerAddress);
-        } else if (String.Equals("local", brokerHostName)) {
-            client = new uPLibrary.Networking.M2Mqtt.MqttClient("localhost");
-        } else
-        {
-            client = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerHostName);
-        }
-
-        this.clientName = clientName;
-
+        previousActualState = "";
+        client = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerHostName);
         // Register a callback-function (we have to implement, see below) which is called by the library when a message was received
-        client.MqttMsgPublishReceived += ClientMqttMsgPublishReceived;
-
+        client.MqttMsgPublishReceived += YOLOActualReceived;
         // Use a unique id as client id, each time we start the application
         clientId = Guid.NewGuid().ToString();
-
         client.Connect(clientId);
     }
 
@@ -59,32 +46,14 @@ public class MqttClient
         Console.WriteLine($"[Publish][{topic}]:{content}");
     }
 
-    // This code runs when a message was received
-    public void ClientMqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+    public void YOLOActualReceived(object sender, MqttMsgPublishEventArgs e)
     {
         string receivedMessage = Encoding.UTF8.GetString(e.Message);
         string topic = e.Topic;
 
-        if (topic.Equals("exe/feedback") && receivedMessage.Equals("ok"))
-        {
-            Part2Tester.executionCompletedFlag = true;
-            Video01Tester.executionCompletedFlag = true;
-        } 
-        else if (topic.Equals("yolo/act"))
-        {
-            Part2Tester.actualStates = receivedMessage;
-            Video01Tester.actualStates = MapYoloInput(receivedMessage);
-        } 
-        else if (topic.Equals("router/exp"))
-        {
-            Part2Tester.expectedStates = receivedMessage;
-            Video01Tester.expectedStates = receivedMessage;
-        } else
-        {
-            Part1Tester.yolo = receivedMessage;
-        }
-
-        // Console.WriteLine($"[Receive][{topic}]:{receivedMessage}");
+        this.previousActualState = MapYoloInput(receivedMessage);
+        this.previousUpdateTime = DateTime.Now;
+        Console.WriteLine($"[YOLOActualReceived][{topic}]:{receivedMessage}");
     }
 
     string MapYoloInput(string receivedMessage)

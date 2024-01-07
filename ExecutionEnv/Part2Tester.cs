@@ -2,13 +2,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ExecutionEnv
+namespace EndToEndTest
 {
     internal class Part2Tester
     {
-        internal MqttClient yolo = new MqttClient("yolo", "remote");
-        internal MqttClient executor = new MqttClient("executor", "remote");
-        internal MqttClient router = new MqttClient("router", "remote");
+        internal MqttClientForTest yolo = new MqttClientForTest("yolo", "remote");
+        internal MqttClientForTest executor = new MqttClientForTest("executor", "remote");
+        internal MqttClientForTest router = new MqttClientForTest("router", "remote");
 
         internal string YOLO_RESULT_TOPIC = "yolo/act";
         internal string ROUTER_RESULT_TOPIC = "router/exp";
