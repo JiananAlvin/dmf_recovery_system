@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Diagnostics.Metrics;
 using System.Threading;
 using System.Xml.Linq;
+using NetTopologySuite.Index.HPRtree;
+using System.Linq;
 
 namespace Engine // Note: actual namespace depends on the project name.
 {
@@ -150,13 +152,22 @@ namespace Engine // Note: actual namespace depends on the project name.
                     {
                         Console.WriteLine("******************************************");
                         Console.WriteLine("TICK;");
+                        HashSet<int> toClear = new HashSet<int>();
+                        HashSet<int> toAct = new HashSet<int>();
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
                             foreach (int element in elsPerDroplet["tail"])
                             {
                                 Console.WriteLine($"SETELI {element};");
+
                             }
+                            toAct.UnionWith(elsPerDroplet["tail"]);
                         }
+                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        SendToDMF(manager);
+
+                        toClear.Clear();
+                        toAct.Clear();
                         Console.WriteLine("TICK;");
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
@@ -164,8 +175,14 @@ namespace Engine // Note: actual namespace depends on the project name.
                             {
                                 Console.WriteLine($"CLRELI {element};");
                             }
+                            toClear.UnionWith(elsPerDroplet["head"]);
                         }
+                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        SendToDMF(manager);
 
+
+                        toClear.Clear();
+                        toAct.Clear();
                         Console.WriteLine("TICK;");
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
@@ -173,8 +190,13 @@ namespace Engine // Note: actual namespace depends on the project name.
                             {
                                 Console.WriteLine($"SETELI {element};");
                             }
+                            toAct.UnionWith(elsPerDroplet["head"]);
                         }
+                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        SendToDMF(manager);
 
+                        toClear.Clear();
+                        toAct.Clear();
                         Console.WriteLine("TICK;");
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
@@ -182,7 +204,11 @@ namespace Engine // Note: actual namespace depends on the project name.
                             {
                                 Console.WriteLine($"CLRELI {element};");
                             }
+                            toClear.UnionWith(elsPerDroplet["tail"]);
                         }
+                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        SendToDMF(manager);
+
                         Console.WriteLine("******************************************");
                         // wait for execution correction
                         Thread.Sleep(5000);
