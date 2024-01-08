@@ -2,16 +2,14 @@
 using Model;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Diagnostics.Metrics;
-using System.Threading;
-using System.Xml.Linq;
-using NetTopologySuite.Index.HPRtree;
-using System.Linq;
 
 namespace Engine // Note: actual namespace depends on the project name.
 {
     internal class Program
     {
+
+        static Platform GUIPlatform = PlatformUtilities.Generate32x20();
+
         /********************************
          args:
         --platform-setting : The json file of the description of the platform
@@ -43,7 +41,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             ExecuteCorrection(basmInstructions, expectedPositions, config["path-to-result"]!, manager);
         }
 
-        public static List<Tuple<List<int>, List<int>>> InitBasmInstructions(string pathToBasmFile)
+        static List<Tuple<List<int>, List<int>>> InitBasmInstructions(string pathToBasmFile)
         {
             var basmPerTick = new List<Tuple<List<int>, List<int>>>();
             List<int> clearElectrodes = null;
@@ -81,7 +79,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             return basmPerTick;
         }
 
-        public static JArray InitExpectedStatus(string pathToExp)
+         static JArray InitExpectedStatus(string pathToExp)
         {
             // Parse router.json file.
             string routerJsonText = File.ReadAllText(@$"{pathToExp}");
@@ -103,6 +101,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             for (int i = 0; i < expectedPositions.Count; i++)
             {
                 Console.WriteLine($"Exec is running for round {i}");
+                // todo: check the logic here 
                 DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
                 string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
 
@@ -125,21 +124,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         Console.WriteLine("-------------------------------------------");
                         do
                         {
-                            // Print setElectrodes and clearElectrodes of currrent TiCK
-                            Console.WriteLine("TICK;");
-
-                            // Print setElectrodes list
-                            Console.Write("  setElectrodes: [");
-                            Console.Write(string.Join(", ", basmPerTick[counter].Item1));
-                            Console.WriteLine("]");
-
-                            // Print clearElectrodes list
-                            Console.Write("  clearElectrodes: [");
-                            Console.Write(string.Join(", ", basmPerTick[counter].Item2));
-                            Console.WriteLine("]");
-
-                            Console.WriteLine(); // Adding a blank line for better readability
-
+                            PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                             UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                             SendToDMF(manager);
 
@@ -150,66 +135,53 @@ namespace Engine // Note: actual namespace depends on the project name.
                     }
                     else
                     {
-                        Console.WriteLine("******************************************");
-                        Console.WriteLine("TICK;");
+                        Console.WriteLine("********************START CORRECTION**********************");
                         HashSet<int> toClear = new HashSet<int>();
-                        HashSet<int> toAct = new HashSet<int>();
+                        HashSet<int> toSet = new HashSet<int>();
+                        
+                        // 1. the first step to correct: set tails
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
-                            foreach (int element in elsPerDroplet["tail"])
-                            {
-                                Console.WriteLine($"SETELI {element};");
-
-                            }
-                            toAct.UnionWith(elsPerDroplet["tail"]);
+                            toSet.UnionWith(elsPerDroplet["tail"]);
                         }
-                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
                         SendToDMF(manager);
 
                         toClear.Clear();
-                        toAct.Clear();
-                        Console.WriteLine("TICK;");
+                        toSet.Clear();
+                        // 2. the second step to correct: clear head
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
-                            foreach (int element in elsPerDroplet["head"])
-                            {
-                                Console.WriteLine($"CLRELI {element};");
-                            }
                             toClear.UnionWith(elsPerDroplet["head"]);
                         }
-                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
                         SendToDMF(manager);
 
-
                         toClear.Clear();
-                        toAct.Clear();
-                        Console.WriteLine("TICK;");
+                        toSet.Clear();
+                        // 3. the third step to correct: select head
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
-                            foreach (int element in elsPerDroplet["head"])
-                            {
-                                Console.WriteLine($"SETELI {element};");
-                            }
-                            toAct.UnionWith(elsPerDroplet["head"]);
+                            toSet.UnionWith(elsPerDroplet["head"]);
                         }
-                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
                         SendToDMF(manager);
 
                         toClear.Clear();
-                        toAct.Clear();
-                        Console.WriteLine("TICK;");
+                        toSet.Clear();
+                        // 4. the forth step: clear tail
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
-                            foreach (int element in elsPerDroplet["tail"])
-                            {
-                                Console.WriteLine($"CLRELI {element};");
-                            }
                             toClear.UnionWith(elsPerDroplet["tail"]);
                         }
-                        UpdateElectrodes(toClear.ToList(), toAct.ToList());
+                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
                         SendToDMF(manager);
 
-                        Console.WriteLine("******************************************");
+                        Console.WriteLine("********************END CORRECTION**********************");
                         // wait for execution correction
                         Thread.Sleep(5000);
                     }
@@ -218,11 +190,27 @@ namespace Engine // Note: actual namespace depends on the project name.
                     Thread.Sleep(1000);
                 } while (electrodesForRecovery.Count != 0);
             }
+
+            static void PrintContentOfSetAndClearList(List<int> setElec, List<int>clearElec)
+            {
+                // Print setElectrodes and clearElectrodes of currrent TiCK
+                Console.WriteLine("TICK;");
+
+                // Print setElectrodes list
+                Console.Write("  setElectrodes: [");
+                Console.Write(string.Join(", ", setElec));
+                Console.WriteLine("]");
+
+                // Print clearElectrodes list
+                Console.Write("  clearElectrodes: [");
+                Console.Write(string.Join(", ", clearElec));
+                Console.WriteLine("]");
+
+                Console.WriteLine(); // Adding a blank line for better readability
+            }
         }
 
-        static Platform GUIPlatform = PlatformUtilities.Generate32x20();
-
-        public static void UpdateElectrodes(List<int> electrodesToClear, List<int> electrodesToSet)
+         static void UpdateElectrodes(List<int> electrodesToClear, List<int> electrodesToSet)
         {
             const int maxElectrodeInCommand = 10;
 
@@ -309,7 +297,6 @@ namespace Engine // Note: actual namespace depends on the project name.
                 GUIPlatform.commands.Add(command);
                 command = "";
             }
-
             //Clear electrodes
             if (electrodesToClear.Count != 0)
             {
@@ -320,7 +307,6 @@ namespace Engine // Note: actual namespace depends on the project name.
                     answer += '\n' + electrode.ToString();
                     GUIPlatform.electrodes[electrode - 1].status = false;
                 }
-                //logger.Debug(answer);
             }
             //Set electrodes
             if (electrodesToSet.Count != 0)
@@ -332,11 +318,10 @@ namespace Engine // Note: actual namespace depends on the project name.
                     answer += '\n' + electrode.ToString();
                     GUIPlatform.electrodes[electrode - 1].status = true;
                 }
-                //logger.Debug(answer);
             }
         }
 
-        public static void ClearAllElectrodes()
+         static void ClearAllElectrodes()
         {
             GUIPlatform.commands.Add(Commands.CLR_ALL + " 0");
             GUIPlatform.commands.Add(Commands.CLR_ALL + " 1");
@@ -347,19 +332,20 @@ namespace Engine // Note: actual namespace depends on the project name.
             //logger.Debug("Clearing all electrodes.");
         }
 
-        public static void SendToDMF(SerialManager manager)
+         static void SendToDMF(SerialManager manager)
         {
             Console.WriteLine("Sending to DMF (PLACEHOLDER)");
             manager.OpenPort();
+            Console.WriteLine("Content:");
             foreach (var command in GUIPlatform.commands)
             {
-                Console.WriteLine(command);
+                Console.Write(command+"    ");
                 manager.Write(command);
 
             }
+            Console.WriteLine();
             GUIPlatform.commands.Clear();
         }
-
         /*        public static void SelectSerialPort()
                 {
                     Console.WriteLine("Available serial ports:");

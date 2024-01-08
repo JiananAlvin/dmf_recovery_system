@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json;
 
 namespace Engine
 {
-       
+
     class Platform
     {
         public int sizeX { get; set; }
@@ -21,7 +14,7 @@ namespace Engine
         public List<Element.RGBSensor> RGBSensors { get; set; } = new List<Element.RGBSensor>();
         public List<Element.Nunchuck> nunchucks { get; set; } = new List<Element.Nunchuck>();
         public List<Element.Winner> winners { get; set; } = new List<Element.Winner>();
-        public Dictionary<string,int> data { get; set; } = new Dictionary<string,int>();
+        public Dictionary<string, int> data { get; set; } = new Dictionary<string, int>();
 
         public List<string> commands { get; set; } = new List<string>();
 
@@ -79,7 +72,7 @@ namespace Engine
             const int dropletSize = 40; // X and Y size of an electrode
             const int arrayXCount = 32;
             const int arrayYCount = 20;
-            const int reservXOffset = 3 * electrodeSize + (int) (2.5 * electrodeSize);
+            const int reservXOffset = 3 * electrodeSize + (int)(2.5 * electrodeSize);
 
             platform.sizeX = reservXOffset + electrodeSize * arrayXCount + reservXOffset;
             platform.sizeY = electrodeSize * arrayYCount;
@@ -98,7 +91,7 @@ namespace Engine
             platform.winners[0].name = "winner";
             platform.winners[0].ID = 0;
             platform.winners[0].winner = 0;
-            
+
             // Generate the Nunchucks
             platform.nunchucks.Add(new Element.Nunchuck());
             platform.nunchucks[0].name = "NC1";
@@ -153,10 +146,10 @@ namespace Engine
                 {
                     index = x + arrayXCount * y;
                     platform.electrodes.Add(new Element.Electrode());
-                    platform.electrodes[index].ID = index+1;
-                    platform.electrodes[index].name = "arrel" + (index+1).ToString();
+                    platform.electrodes[index].ID = index + 1;
+                    platform.electrodes[index].name = "arrel" + (index + 1).ToString();
                     platform.electrodes[index].positionX = offsetX + x * electrodeSize + reservXOffset;
-                    platform.electrodes[index].positionY = offsetY + y * electrodeSize; 
+                    platform.electrodes[index].positionY = offsetY + y * electrodeSize;
                     platform.electrodes[index].sizeX = electrodeSize;
                     platform.electrodes[index].sizeY = electrodeSize;
                     platform.electrodes[index].shape = Element.Electrode.Shape.RECTANGLE;
@@ -294,7 +287,7 @@ namespace Engine
             platform.electrodes[index].name = "res2el" + (index + 1).ToString();
             platform.electrodes[index].positionX = offsetX + (int)(2 * electrodeSize);
             platform.electrodes[index].positionY = offsetY + 6 * (electrodeSize);
-            platform.electrodes[index].sizeX = (int) (1.5*electrodeSize);
+            platform.electrodes[index].sizeX = (int)(1.5 * electrodeSize);
             platform.electrodes[index].sizeY = electrodeSize;
             platform.electrodes[index].shape = Element.Electrode.Shape.RECTANGLE;
             platform.electrodes[index].status = false;
@@ -364,7 +357,7 @@ namespace Engine
             platform.electrodes[index].positionX = offsetX + (int)(4.5 * electrodeSize);
             platform.electrodes[index].positionY = offsetY + (int)(9 * electrodeSize);
             platform.electrodes[index].sizeX = electrodeSize;
-            platform.electrodes[index].sizeY = (int)(0.5*electrodeSize);
+            platform.electrodes[index].sizeY = (int)(0.5 * electrodeSize);
             platform.electrodes[index].shape = Element.Electrode.Shape.RECTANGLE;
             platform.electrodes[index].status = false;
             index++;
@@ -591,7 +584,7 @@ namespace Engine
             platform.electrodes.Add(new Element.Electrode());
             platform.electrodes[index].ID = index + 1;
             platform.electrodes[index].name = "res5el" + (index + 1).ToString();
-            platform.electrodes[index].positionX = offsetX + (int)(2.5 * electrodeSize) ;
+            platform.electrodes[index].positionX = offsetX + (int)(2.5 * electrodeSize);
             platform.electrodes[index].positionY = offsetY + 17 * (electrodeSize);
             platform.electrodes[index].sizeX = (int)(0.5 * electrodeSize);
             platform.electrodes[index].sizeY = electrodeSize;
@@ -665,7 +658,7 @@ namespace Engine
             platform.electrodes.Add(new Element.Electrode());
             platform.electrodes[index].ID = index + 1;
             platform.electrodes[index].name = "res6el" + (index + 1).ToString();
-            platform.electrodes[index].positionX = offsetX + 2*reservXOffset + arrayXCount*electrodeSize;
+            platform.electrodes[index].positionX = offsetX + 2 * reservXOffset + arrayXCount * electrodeSize;
             platform.electrodes[index].positionY = offsetY + 1 * electrodeSize;
             platform.electrodes[index].shape = Element.Electrode.Shape.POLIGON;
             platform.electrodes[index].status = false;
