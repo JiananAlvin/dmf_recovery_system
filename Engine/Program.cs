@@ -96,7 +96,7 @@ namespace Engine // Note: actual namespace depends on the project name.
         static void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToResult, SerialManager manager)
         {
             ExecutePreTest(manager);
-
+/*
             MqttClient client = new MqttClient("localhost");
             client.Subscribe(MqttTopic.YOLO_ACTUAL);
 
@@ -199,7 +199,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             static void PrintContentOfSetAndClearList(List<int> clearElec, List<int> setElec)
             {
                 // Print setElectrodes and clearElectrodes of currrent TiCK
-                /*                Console.WriteLine("TICK;");
+                                Console.WriteLine("TICK;");
 
                                 // Print setElectrodes list
                                 Console.Write("  clearElectrodes: [");
@@ -211,83 +211,89 @@ namespace Engine // Note: actual namespace depends on the project name.
                                 Console.Write(string.Join(", ", setElec));
                                 Console.WriteLine("]");
 
-                                Console.WriteLine(); // Adding a blank line for better readability*/
-            }
+                                Console.WriteLine(); // Adding a blank line for better readability
+            }*/
 
             static void ExecutePreTest(SerialManager manager)
             {
                 Console.WriteLine("Start pre test******************************");
 
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 509, 508 });
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 516 });
                 SendToDMF(manager);
 
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
+
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 484 });
+                SendToDMF(manager);
+
+                // Thread.Sleep(100);
                 Console.WriteLine("step1******************************");
 
 
-                UpdateElectrodes(new List<int>() { 509 }, new List<int>() { 508 });
+                UpdateElectrodes(new List<int>() { 516 }, new List<int>() { });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step2******************************");
 
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 508, 507 });
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 452 });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step3******************************");
 
-                UpdateElectrodes(new List<int>() { 508 }, new List<int>() { 507 });
+                UpdateElectrodes(new List<int>() { 484 }, new List<int>() { });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step4******************************");
 
-                UpdateElectrodes(new List<int>() {  }, new List<int>() { 507,506 });
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 420 });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step5******************************");
 
-                UpdateElectrodes(new List<int>() { 507 }, new List<int>() { 506 });
+                UpdateElectrodes(new List<int>() { 452 }, new List<int>() { });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step7******************************");
 
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 505,506 });
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 388 });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
-                UpdateElectrodes(new List<int>() { 506 }, new List<int>() { 505 });
+                UpdateElectrodes(new List<int>() { 420 }, new List<int>() { });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step8******************************");
 
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 505, 504 });
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 356 });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
 
-                UpdateElectrodes(new List<int>() { 505 }, new List<int>() { 504 });
+                UpdateElectrodes(new List<int>() { 388 }, new List<int>() {  });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("step9******************************");
 
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 504, 503 });
+                UpdateElectrodes(new List<int>() {  }, new List<int>() { 324 });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+                // Thread.Sleep(100);
 
                 Console.WriteLine("done******************************");
 
-                UpdateElectrodes(new List<int>() { 504, 503 }, new List<int>() { });
+                UpdateElectrodes(new List<int>() { 356, 324 }, new List<int>() { });
                 SendToDMF(manager);
-                Thread.Sleep(1000);
+/*                Thread.Sleep(500);
 
+                Console.WriteLine("Clear Board******************************");
                 ClearAllElectrodes();
-                SendToDMF(manager);
+                SendToDMF(manager);*/
             }
         }
 
@@ -425,23 +431,11 @@ namespace Engine // Note: actual namespace depends on the project name.
             Console.WriteLine();
             GUIPlatform.commands.Clear();
             Logger.LogSendToDMF("Delay...");
-            Thread.Sleep(500);
+            Thread.Sleep(100);
             Logger.LogSendToDMF("Done.");
         }
 
-        /*        public static void SelectSerialPort()
-                {
-                    Console.WriteLine("Available serial ports:");
 
-                     var serialPorts = SerialManager.ListSerialPorts();
-                    foreach (var port in serialPorts)
-                    {
-                        Console.WriteLine(port);
-                    }
-                    Console.Write("Enter port: ");
-                    string inputString = Console.ReadLine();
-                    Console.WriteLine("You entered: " + inputString);
-                }*/
 
         static void TurnOnHighVoltage()
         {
