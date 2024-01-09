@@ -55,7 +55,8 @@ namespace Engine
 
             this.previousActualState = MapYoloInput(receivedMessage);
             this.previousUpdateTime = DateTime.Now;
-            Console.WriteLine($"[YOLOActualReceived][{topic}]:{receivedMessage}");
+
+            Logger.LogReceivedFromYolo($"[{topic}]:{receivedMessage}");
         }
 
         string MapYoloInput(string receivedMessage)

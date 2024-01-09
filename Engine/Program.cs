@@ -15,7 +15,8 @@ namespace Engine // Note: actual namespace depends on the project name.
         --platform-setting : The json file of the description of the platform
         --expected-position : The file describing the expected positions
         --bio-assembly-src : The bio assembly source file (protocal)
-        --steps: The steps 
+        --steps : The steps 
+        --serial-port : COM4
         ********************************/
         static void Main(string[] args)
         {
@@ -30,13 +31,17 @@ namespace Engine // Note: actual namespace depends on the project name.
             JArray expectedPositions = InitExpectedStatus(config["expected-position"]!);
 
             // Read serial port
-            //SelectSerialPort();
+            // SelectSerialPort();
             // Clear the whole DMF chip
-            SerialManager manager = new SerialManager(config["serial-port"]!, 1000);
+            SerialManager manager = new SerialManager(config["serial-port"]!, 115200);
+            manager.OpenPort();
             // TIP: At the very beginning, we need to send some commands to clean the entire board.
-            ClearAllElectrodes();
+
+            TurnOnHighVoltage();
             SendToDMF(manager);
 
+            ClearAllElectrodes();
+            SendToDMF(manager);
 
             ExecuteCorrection(basmInstructions, expectedPositions, config["path-to-result"]!, manager);
         }
@@ -79,7 +84,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             return basmPerTick;
         }
 
-         static JArray InitExpectedStatus(string pathToExp)
+        static JArray InitExpectedStatus(string pathToExp)
         {
             // Parse router.json file.
             string routerJsonText = File.ReadAllText(@$"{pathToExp}");
@@ -87,9 +92,11 @@ namespace Engine // Note: actual namespace depends on the project name.
             return routerJsonArray;
         }
 
-        //static void Parse
+        // static void Parse
         static void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToResult, SerialManager manager)
         {
+            ExecutePreTest(manager);
+
             MqttClient client = new MqttClient("localhost");
             client.Subscribe(MqttTopic.YOLO_ACTUAL);
 
@@ -100,7 +107,7 @@ namespace Engine // Note: actual namespace depends on the project name.
 
             for (int i = 0; i < expectedPositions.Count; i++)
             {
-                Console.WriteLine($"Exec is running for round {i}");
+                // Console.WriteLine($"Exec is running for round {i}");
                 // todo: check the logic here 
                 DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
                 string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
@@ -117,28 +124,27 @@ namespace Engine // Note: actual namespace depends on the project name.
                     electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
 
                     // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
-                    if (electrodesForRecovery.Count == 0)
+                    if (IsEmpty(electrodesForRecovery))
                     {
                         // print basm 
                         // todo: send these instructions to simulator
-                        Console.WriteLine("-------------------------------------------");
                         do
                         {
+                            // TODO !!!!!!!
                             PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                             UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                             SendToDMF(manager);
+                            Thread.Sleep(100);
 
                             counter++;
                         }
-                        while (counter % 4 != 0);
-                        Console.WriteLine("------------------------------------------");
+                        while (counter % 4 != 0 && counter < basmPerTick.Count() - 1);
                     }
                     else
                     {
-                        Console.WriteLine("********************START CORRECTION**********************");
                         HashSet<int> toClear = new HashSet<int>();
                         HashSet<int> toSet = new HashSet<int>();
-                        
+
                         // 1. the first step to correct: set tails
                         foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
                         {
@@ -181,36 +187,111 @@ namespace Engine // Note: actual namespace depends on the project name.
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
                         SendToDMF(manager);
 
-                        Console.WriteLine("********************END CORRECTION**********************");
                         // wait for execution correction
                         Thread.Sleep(5000);
                     }
 
                     // Wait for YOLO and router to publish.
                     Thread.Sleep(1000);
-                } while (electrodesForRecovery.Count != 0);
+                } while (IsEmpty(electrodesForRecovery));
             }
 
-            static void PrintContentOfSetAndClearList(List<int> setElec, List<int>clearElec)
+            static void PrintContentOfSetAndClearList(List<int> clearElec, List<int> setElec)
             {
                 // Print setElectrodes and clearElectrodes of currrent TiCK
-                Console.WriteLine("TICK;");
+                /*                Console.WriteLine("TICK;");
 
-                // Print setElectrodes list
-                Console.Write("  setElectrodes: [");
-                Console.Write(string.Join(", ", setElec));
-                Console.WriteLine("]");
+                                // Print setElectrodes list
+                                Console.Write("  clearElectrodes: [");
+                                Console.Write(string.Join(", ", clearElec));
+                                Console.WriteLine("]");
 
-                // Print clearElectrodes list
-                Console.Write("  clearElectrodes: [");
-                Console.Write(string.Join(", ", clearElec));
-                Console.WriteLine("]");
+                                // Print clearElectrodes list
+                                Console.Write("  setElectrodes: [");
+                                Console.Write(string.Join(", ", setElec));
+                                Console.WriteLine("]");
 
-                Console.WriteLine(); // Adding a blank line for better readability
+                                Console.WriteLine(); // Adding a blank line for better readability*/
+            }
+
+            static void ExecutePreTest(SerialManager manager)
+            {
+                Console.WriteLine("Start pre test******************************");
+
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 509, 508 });
+                SendToDMF(manager);
+
+                Thread.Sleep(1000);
+                Console.WriteLine("step1******************************");
+
+
+                UpdateElectrodes(new List<int>() { 509 }, new List<int>() { 508 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step2******************************");
+
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 508, 507 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step3******************************");
+
+                UpdateElectrodes(new List<int>() { 508 }, new List<int>() { 507 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step4******************************");
+
+                UpdateElectrodes(new List<int>() {  }, new List<int>() { 507,506 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step5******************************");
+
+                UpdateElectrodes(new List<int>() { 507 }, new List<int>() { 506 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step7******************************");
+
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 505,506 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                UpdateElectrodes(new List<int>() { 506 }, new List<int>() { 505 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step8******************************");
+
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 505, 504 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+
+                UpdateElectrodes(new List<int>() { 505 }, new List<int>() { 504 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("step9******************************");
+
+                UpdateElectrodes(new List<int>() { }, new List<int>() { 504, 503 });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                Console.WriteLine("done******************************");
+
+                UpdateElectrodes(new List<int>() { 504, 503 }, new List<int>() { });
+                SendToDMF(manager);
+                Thread.Sleep(1000);
+
+                ClearAllElectrodes();
+                SendToDMF(manager);
             }
         }
 
-         static void UpdateElectrodes(List<int> electrodesToClear, List<int> electrodesToSet)
+        static void UpdateElectrodes(List<int> electrodesToClear, List<int> electrodesToSet)
         {
             const int maxElectrodeInCommand = 10;
 
@@ -297,7 +378,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 GUIPlatform.commands.Add(command);
                 command = "";
             }
-            //Clear electrodes
+            // Clear electrodes
             if (electrodesToClear.Count != 0)
             {
                 string answer = "";
@@ -308,7 +389,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                     GUIPlatform.electrodes[electrode - 1].status = false;
                 }
             }
-            //Set electrodes
+            // Set electrodes
             if (electrodesToSet.Count != 0)
             {
                 string answer = "";
@@ -321,31 +402,33 @@ namespace Engine // Note: actual namespace depends on the project name.
             }
         }
 
-         static void ClearAllElectrodes()
+        static void ClearAllElectrodes()
         {
             GUIPlatform.commands.Add(Commands.CLR_ALL + " 0");
             GUIPlatform.commands.Add(Commands.CLR_ALL + " 1");
-            foreach (var electrode in GUIPlatform.electrodes)
-            {
-                electrode.status = false;
-            }
-            //logger.Debug("Clearing all electrodes.");
+            // logger.Debug("Clearing all electrodes.");
         }
 
-         static void SendToDMF(SerialManager manager)
+        static void SendToDMF(SerialManager manager)
         {
-            Console.WriteLine("Sending to DMF (PLACEHOLDER)");
-            manager.OpenPort();
-            Console.WriteLine("Content:");
+            Logger.LogSendToDMF("Sending to DMF");
+            //manager.OpenPort();
+            Logger.LogSendToDMF("Content:");
             foreach (var command in GUIPlatform.commands)
             {
-                Console.Write(command+"    ");
-                manager.Write(command);
+                Logger.LogSendToDMF(command);
+                string serialCommand = command + Commands.TERMINATOR;
+                manager.Write(serialCommand);
+                Thread.Sleep(250);
 
             }
             Console.WriteLine();
             GUIPlatform.commands.Clear();
+            Logger.LogSendToDMF("Delay...");
+            Thread.Sleep(500);
+            Logger.LogSendToDMF("Done.");
         }
+
         /*        public static void SelectSerialPort()
                 {
                     Console.WriteLine("Available serial ports:");
@@ -359,5 +442,48 @@ namespace Engine // Note: actual namespace depends on the project name.
                     string inputString = Console.ReadLine();
                     Console.WriteLine("You entered: " + inputString);
                 }*/
+
+        static void TurnOnHighVoltage()
+        {
+            GUIPlatform.commands.Add(Commands.HV_SET + " 1 280");
+            GUIPlatform.commands.Add(Commands.HV_ON_OFF + " 1 1");
+        }
+
+        static void TurnOffHighVoltage()
+        {
+            GUIPlatform.commands.Add(Commands.HV_ON_OFF + " 1 0");
+        }
+
+        static bool IsEmpty(List<Dictionary<string, HashSet<int>>> list)
+        {
+            // Check if the list itself is empty
+            if (list.Count == 0)
+            {
+                return true;
+            }
+
+            // Iterate through each dictionary in the list
+            foreach (var dictionary in list)
+            {
+                // If any dictionary is empty, we continue to the next dictionary
+                if (dictionary.Count == 0)
+                {
+                    continue;
+                }
+
+                // Check each HashSet in the dictionary
+                foreach (var hashSet in dictionary.Values)
+                {
+                    // If any HashSet is not empty, the entire structure is not empty
+                    if (hashSet.Count != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // If all HashSets in all dictionaries are empty, then the structure is empty
+            return true;
+        }
     }
 }

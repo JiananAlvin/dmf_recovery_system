@@ -2,8 +2,8 @@ List of electrodes need to be manipulated for recovery:
 [   ]
 
 List of electrodes need to be manipulated for recovery:
-[   head: [ 326 327 328 ]   tail: [ 422 423 424 ]   ]
+[   head: [ ]   tail: [ ]   ]
 
 List of electrodes need to be manipulated for recovery:
-[   ]
+[   head: [ ]   tail: [ ]   ]
 

@@ -74,12 +74,12 @@ namespace Engine
             try
             {
                 char[] output = message.ToCharArray();
-
+/*                
                 foreach (var item in output)
                 {
                     Console.WriteLine("-> " + Convert.ToInt32(item));
-                }
-
+                }*/
+                
                 port.Write(output, 0, output.Length);
             }
             catch (Exception)
