@@ -2,77 +2,82 @@ using System.Text;
 using Model;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-public class MqttClient
+namespace Engine
 {
-    private uPLibrary.Networking.M2Mqtt.MqttClient client;
-    private string clientId;
-    public DateTime previousUpdateTime { get; set; }
-    public string previousActualState { get; set; }
-
-    public MqttClient(string brokerHostName)
+    public class MqttClient
     {
-        previousActualState = "";
-        client = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerHostName);
-        // Register a callback-function (we have to implement, see below) which is called by the library when a message was received
-        client.MqttMsgPublishReceived += YOLOActualReceived;
-        // Use a unique id as client id, each time we start the application
-        clientId = Guid.NewGuid().ToString();
-        client.Connect(clientId);
-    }
+        private uPLibrary.Networking.M2Mqtt.MqttClient client;
+        private string clientId;
+        public DateTime previousUpdateTime { get; set; }
+        public string previousActualState { get; set; }
 
-    protected void DisConnet()
-    {
-        client.Disconnect();
-    }
+        public MqttClient(string brokerHostName)
+        {
+            previousActualState = "";
+            client = new uPLibrary.Networking.M2Mqtt.MqttClient(brokerHostName);
+            // Register a callback-function (we have to implement, see below) which is called by the library when a message was received
+            client.MqttMsgPublishReceived += YOLOActualReceived;
+            // Use a unique id as client id, each time we start the application
+            clientId = Guid.NewGuid().ToString();
+            client.Connect(clientId);
+        }
 
-    public void Subscribe(string topic)
-    {
-        // Whole topic
-        string finalTopic = $"{topic}";
+        protected void DisConnet()
+        {
+            client.Disconnect();
+        }
 
-        // Subscribe to the topic with QoS 2
-        client.Subscribe(new string[] { finalTopic }, new byte[] { 2 });   // we need arrays as parameters because we can subscribe to different topics with one call
+        public void Subscribe(string topic)
+        {
+            // Whole topic
+            string finalTopic = $"{topic}";
 
-        // Console.WriteLine($"[Subscribe][{topic}]:Success");
-    }
+            // Subscribe to the topic with QoS 2
+            client.Subscribe(new string[] { finalTopic }, new byte[] { 2 });   // we need arrays as parameters because we can subscribe to different topics with one call
 
-    public void Publish(string topic, string content)
-    {
-        // Whole topic
-        string finalTopic = $"{topic}";
+            // Console.WriteLine($"[Subscribe][{topic}]:Success");
+        }
 
-        // publish a message with QoS 2
-        client.Publish(finalTopic, Encoding.UTF8.GetBytes(content), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-        Console.WriteLine($"[Publish][{topic}]:{content}");
-    }
+        public void Publish(string topic, string content)
+        {
+            // Whole topic
+            string finalTopic = $"{topic}";
 
-    public void YOLOActualReceived(object sender, MqttMsgPublishEventArgs e)
-    {
-        string receivedMessage = Encoding.UTF8.GetString(e.Message);
-        string topic = e.Topic;
+            // publish a message with QoS 2
+            client.Publish(finalTopic, Encoding.UTF8.GetBytes(content), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+            Console.WriteLine($"[Publish][{topic}]:{content}");
+        }
 
-        this.previousActualState = MapYoloInput(receivedMessage);
-        this.previousUpdateTime = DateTime.Now;
-        Console.WriteLine($"[YOLOActualReceived][{topic}]:{receivedMessage}");
-    }
+        public void YOLOActualReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+            string receivedMessage = Encoding.UTF8.GetString(e.Message);
+            string topic = e.Topic;
 
-    string MapYoloInput(string receivedMessage)
-    {
-        Initializer init = new Initializer();
-        init.Initilalize();
-        Mapper mapper = new Mapper();
-        List<List<int>> result = mapper.Map(receivedMessage, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
-        return ListOfListsToString(result);
-    }
+            this.previousActualState = MapYoloInput(receivedMessage);
+            this.previousUpdateTime = DateTime.Now;
+            Console.WriteLine($"[YOLOActualReceived][{topic}]:{receivedMessage}");
+        }
 
-    string ListOfListsToString(List<List<int>> listOfLists)
-    {
-        StringBuilder sb = new StringBuilder();
+        string MapYoloInput(string receivedMessage)
+        {
+            Initializer init = new Initializer();
+            init.Initilalize();
+            Mapper mapper = new Mapper();
+            List<List<int>> result = mapper.Map(receivedMessage, init.width, init.height, init.minStep, init.nonTriangleHashMap, init.triangleHashMap);
+            return ListOfListsToString(result);
+        }
 
-        sb.Append("[");
-        sb.Append(string.Join(",", listOfLists.Select(innerList => "[" + string.Join(",", innerList) + "]")));
-        sb.Append("]");
+        string ListOfListsToString(List<List<int>> listOfLists)
+        {
+            StringBuilder sb = new StringBuilder();
 
-        return sb.ToString();
+            sb.Append("[");
+            sb.Append(string.Join(",", listOfLists.Select(innerList => "[" + string.Join(",", innerList) + "]")));
+            sb.Append("]");
+
+            return sb.ToString();
+        }
     }
 }
+
+
