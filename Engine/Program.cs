@@ -96,206 +96,241 @@ namespace Engine // Note: actual namespace depends on the project name.
         static void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToResult, SerialManager manager)
         {
             ExecutePreTest(manager);
-/*
-            MqttClient client = new MqttClient("localhost");
-            client.Subscribe(MqttTopic.YOLO_ACTUAL);
+            /*
+                        MqttClient client = new MqttClient("localhost");
+                        client.Subscribe(MqttTopic.YOLO_ACTUAL);
 
-            // Initialize a corrector
-            Corrector corrector = new Corrector();
-            // output 4 group per second
-            int counter = 0;
+                        // Initialize a corrector
+                        Corrector corrector = new Corrector();
+                        // output 4 group per second
+                        int counter = 0;
 
-            for (int i = 0; i < expectedPositions.Count; i++)
-            {
-                // Console.WriteLine($"Exec is running for round {i}");
-                // todo: check the logic here 
-                DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
-                string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
-
-                List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
-                do
-                {
-                    while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
-                    {
-                        Thread.Sleep(100);
-                    }
-                    // Correct by given expected states and actual states
-                    recordTime = client.previousUpdateTime;
-                    electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
-
-                    // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
-                    if (IsEmpty(electrodesForRecovery))
-                    {
-                        // print basm 
-                        // todo: send these instructions to simulator
-                        do
+                        for (int i = 0; i < expectedPositions.Count; i++)
                         {
-                            // TODO !!!!!!!
-                            PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                            UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                            SendToDMF(manager);
-                            Thread.Sleep(100);
+                            // Console.WriteLine($"Exec is running for round {i}");
+                            // todo: check the logic here 
+                            DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
+                            string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
 
-                            counter++;
+                            List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
+                            do
+                            {
+                                while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
+                                {
+                                    Thread.Sleep(100);
+                                }
+                                // Correct by given expected states and actual states
+                                recordTime = client.previousUpdateTime;
+                                electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
+
+                                // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
+                                if (IsEmpty(electrodesForRecovery))
+                                {
+                                    // print basm 
+                                    // todo: send these instructions to simulator
+                                    do
+                                    {
+                                        // TODO !!!!!!!
+                                        PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
+                                        UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
+                                        SendToDMF(manager);
+                                        Thread.Sleep(100);
+
+                                        counter++;
+                                    }
+                                    while (counter % 4 != 0 && counter < basmPerTick.Count() - 1);
+                                }
+                                else
+                                {
+                                    HashSet<int> toClear = new HashSet<int>();
+                                    HashSet<int> toSet = new HashSet<int>();
+
+                                    // 1. the first step to correct: set tails
+                                    foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                                    {
+                                        toSet.UnionWith(elsPerDroplet["tail"]);
+                                    }
+                                    PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                                    UpdateElectrodes(toClear.ToList(), toSet.ToList());
+                                    SendToDMF(manager);
+
+                                    toClear.Clear();
+                                    toSet.Clear();
+                                    // 2. the second step to correct: clear head
+                                    foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                                    {
+                                        toClear.UnionWith(elsPerDroplet["head"]);
+                                    }
+                                    PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                                    UpdateElectrodes(toClear.ToList(), toSet.ToList());
+                                    SendToDMF(manager);
+
+                                    toClear.Clear();
+                                    toSet.Clear();
+                                    // 3. the third step to correct: select head
+                                    foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                                    {
+                                        toSet.UnionWith(elsPerDroplet["head"]);
+                                    }
+                                    PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                                    UpdateElectrodes(toClear.ToList(), toSet.ToList());
+                                    SendToDMF(manager);
+
+                                    toClear.Clear();
+                                    toSet.Clear();
+                                    // 4. the forth step: clear tail
+                                    foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                                    {
+                                        toClear.UnionWith(elsPerDroplet["tail"]);
+                                    }
+                                    PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
+                                    UpdateElectrodes(toClear.ToList(), toSet.ToList());
+                                    SendToDMF(manager);
+
+                                    // wait for execution correction
+                                    Thread.Sleep(5000);
+                                }
+
+                                // Wait for YOLO and router to publish.
+                                Thread.Sleep(1000);
+                            } while (IsEmpty(electrodesForRecovery));
                         }
-                        while (counter % 4 != 0 && counter < basmPerTick.Count() - 1);
-                    }
-                    else
-                    {
-                        HashSet<int> toClear = new HashSet<int>();
-                        HashSet<int> toSet = new HashSet<int>();
 
-                        // 1. the first step to correct: set tails
-                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
+                        static void PrintContentOfSetAndClearList(List<int> clearElec, List<int> setElec)
                         {
-                            toSet.UnionWith(elsPerDroplet["tail"]);
-                        }
-                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
-                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                            // Print setElectrodes and clearElectrodes of currrent TiCK
+                                            Console.WriteLine("TICK;");
 
-                        toClear.Clear();
-                        toSet.Clear();
-                        // 2. the second step to correct: clear head
-                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
-                        {
-                            toClear.UnionWith(elsPerDroplet["head"]);
-                        }
-                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
-                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                                            // Print setElectrodes list
+                                            Console.Write("  clearElectrodes: [");
+                                            Console.Write(string.Join(", ", clearElec));
+                                            Console.WriteLine("]");
 
-                        toClear.Clear();
-                        toSet.Clear();
-                        // 3. the third step to correct: select head
-                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
-                        {
-                            toSet.UnionWith(elsPerDroplet["head"]);
-                        }
-                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
-                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                                            // Print clearElectrodes list
+                                            Console.Write("  setElectrodes: [");
+                                            Console.Write(string.Join(", ", setElec));
+                                            Console.WriteLine("]");
 
-                        toClear.Clear();
-                        toSet.Clear();
-                        // 4. the forth step: clear tail
-                        foreach (Dictionary<string, HashSet<int>> elsPerDroplet in electrodesForRecovery)
-                        {
-                            toClear.UnionWith(elsPerDroplet["tail"]);
-                        }
-                        PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
-                        UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                                            Console.WriteLine(); // Adding a blank line for better readability
+                        }*/
 
-                        // wait for execution correction
-                        Thread.Sleep(5000);
-                    }
-
-                    // Wait for YOLO and router to publish.
-                    Thread.Sleep(1000);
-                } while (IsEmpty(electrodesForRecovery));
-            }
-
-            static void PrintContentOfSetAndClearList(List<int> clearElec, List<int> setElec)
-            {
-                // Print setElectrodes and clearElectrodes of currrent TiCK
-                                Console.WriteLine("TICK;");
-
-                                // Print setElectrodes list
-                                Console.Write("  clearElectrodes: [");
-                                Console.Write(string.Join(", ", clearElec));
-                                Console.WriteLine("]");
-
-                                // Print clearElectrodes list
-                                Console.Write("  setElectrodes: [");
-                                Console.Write(string.Join(", ", setElec));
-                                Console.WriteLine("]");
-
-                                Console.WriteLine(); // Adding a blank line for better readability
-            }*/
-
-            static void ExecutePreTest(SerialManager manager)
-            {
-                Console.WriteLine("Start pre test******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 516 });
-                SendToDMF(manager);
-
-                // Thread.Sleep(100);
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 484 });
-                SendToDMF(manager);
-
-                // Thread.Sleep(100);
-                Console.WriteLine("step1******************************");
-
-
-                UpdateElectrodes(new List<int>() { 516 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step2******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 452 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step3******************************");
-
-                UpdateElectrodes(new List<int>() { 484 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step4******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 420 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step5******************************");
-
-                UpdateElectrodes(new List<int>() { 452 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step7******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 388 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                UpdateElectrodes(new List<int>() { 420 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step8******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 356 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-
-                UpdateElectrodes(new List<int>() { 388 }, new List<int>() {  });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step9******************************");
-
-                UpdateElectrodes(new List<int>() {  }, new List<int>() { 324 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("done******************************");
-
-                UpdateElectrodes(new List<int>() { 356, 324 }, new List<int>() { });
-                SendToDMF(manager);
-/*                Thread.Sleep(500);
-
-                Console.WriteLine("Clear Board******************************");
-                ClearAllElectrodes();
-                SendToDMF(manager);*/
-            }
         }
+
+        static void ExecutePreTest(SerialManager manager)
+        {
+            Console.WriteLine("Start pre test******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 553, 554, 521, 522 });
+            SendToDMF(manager);
+
+            // Thread.Sleep(100);
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 489, 490 });
+            SendToDMF(manager);
+
+            // Thread.Sleep(100);
+            Console.WriteLine("step1******************************");
+
+
+            UpdateElectrodes(new List<int>() { 553, 554 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step2******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 457, 458 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step3******************************");
+
+            UpdateElectrodes(new List<int>() { 521, 522 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step4******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 425, 426 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step5******************************");
+
+            UpdateElectrodes(new List<int>() { 489, 490 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step7******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 393, 394 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            UpdateElectrodes(new List<int>() { 457, 458 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step8******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 361, 362 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+
+            UpdateElectrodes(new List<int>() { 425, 426 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step9******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 329, 330 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { 393, 394 }, new List<int>() { });
+            SendToDMF(manager);
+
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 297, 298 });
+            SendToDMF(manager);
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { 361, 362 }, new List<int>() { });
+            SendToDMF(manager);
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { });
+            SendToDMF(manager);
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() {  }, new List<int>() { });
+            SendToDMF(manager);
+
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 299, 331 });
+            SendToDMF(manager);
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { 361, 362 }, new List<int>() { });
+            SendToDMF(manager);
+
+
+            Console.WriteLine("done******************************");
+
+            UpdateElectrodes(new List<int>() { 329, 330, 297, 298 }, new List<int>() { });
+            SendToDMF(manager);
+            /*                Thread.Sleep(500);
+
+                            Console.WriteLine("Clear Board******************************");
+                            ClearAllElectrodes();
+                            SendToDMF(manager);*/
+        }
+
+
 
         static void UpdateElectrodes(List<int> electrodesToClear, List<int> electrodesToSet)
         {
@@ -425,13 +460,13 @@ namespace Engine // Note: actual namespace depends on the project name.
                 Logger.LogSendToDMF(command);
                 string serialCommand = command + Commands.TERMINATOR;
                 manager.Write(serialCommand);
-                Thread.Sleep(250);
+                Thread.Sleep(300);
 
             }
             Console.WriteLine();
             GUIPlatform.commands.Clear();
             Logger.LogSendToDMF("Delay...");
-            Thread.Sleep(100);
+            Thread.Sleep(300);
             Logger.LogSendToDMF("Done.");
         }
 
