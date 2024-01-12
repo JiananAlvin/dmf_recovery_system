@@ -220,85 +220,85 @@ namespace Engine // Note: actual namespace depends on the project name.
         {
             Console.WriteLine("Start pre test******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 553, 554, 521, 522 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 554 });
             SendToDMF(manager);
 
             // Thread.Sleep(100);
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 489, 490 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 522 });
             SendToDMF(manager);
 
             // Thread.Sleep(100);
             Console.WriteLine("step1******************************");
 
 
-            UpdateElectrodes(new List<int>() { 553, 554 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 554 }, new List<int>() { });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step2******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 457, 458 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 490 });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step3******************************");
 
-            UpdateElectrodes(new List<int>() { 521, 522 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 522 }, new List<int>() { });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step4******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 425, 426 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 458 });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step5******************************");
 
-            UpdateElectrodes(new List<int>() { 489, 490 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 490 }, new List<int>() { });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step7******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 393, 394 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 426 });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
-            UpdateElectrodes(new List<int>() { 457, 458 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 458 }, new List<int>() { });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step8******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 361, 362 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 394 });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
 
-            UpdateElectrodes(new List<int>() { 425, 426 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 426 }, new List<int>() { });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step9******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 329, 330 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 362 });
             SendToDMF(manager);
             // Thread.Sleep(100);
 
             Console.WriteLine("step******************************");
 
-            UpdateElectrodes(new List<int>() { 393, 394 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() {  394 }, new List<int>() { });
             SendToDMF(manager);
 
             Console.WriteLine("step******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 297, 298 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 330 });
             SendToDMF(manager);
             Console.WriteLine("step******************************");
 
-            UpdateElectrodes(new List<int>() { 361, 362 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 362 }, new List<int>() { });
             SendToDMF(manager);
             Console.WriteLine("step******************************");
 
@@ -306,22 +306,29 @@ namespace Engine // Note: actual namespace depends on the project name.
             SendToDMF(manager);
             Console.WriteLine("step******************************");
 
-            UpdateElectrodes(new List<int>() {  }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { });
             SendToDMF(manager);
 
             Console.WriteLine("step******************************");
 
-            UpdateElectrodes(new List<int>() { }, new List<int>() { 299, 331 });
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 362 });
             SendToDMF(manager);
             Console.WriteLine("step******************************");
 
-            UpdateElectrodes(new List<int>() { 361, 362 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 330 }, new List<int>() { });
             SendToDMF(manager);
 
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 330 });
+            SendToDMF(manager);
+            Console.WriteLine("step******************************");
+
+            UpdateElectrodes(new List<int>() { 362 }, new List<int>() { });
+            SendToDMF(manager);
+            Console.WriteLine("step******************************");
 
             Console.WriteLine("done******************************");
 
-            UpdateElectrodes(new List<int>() { 329, 330, 297, 298 }, new List<int>() { });
+            UpdateElectrodes(new List<int>() { 330 }, new List<int>() { });
             SendToDMF(manager);
             /*                Thread.Sleep(500);
 
