@@ -43,8 +43,14 @@ namespace Engine // Note: actual namespace depends on the project name.
             ClearAllElectrodes();
             SendToDMF(manager);
 
+            // ExecutePreTest(manager);
+
             ExecuteCorrection(basmInstructions, expectedPositions, config["path-to-result"]!, manager);
+
+            ClearAllElectrodes();
+            SendToDMF(manager);
         }
+
 
         static List<Tuple<List<int>, List<int>>> InitBasmInstructions(string pathToBasmFile)
         {
@@ -84,6 +90,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             return basmPerTick;
         }
 
+
         static JArray InitExpectedStatus(string pathToExp)
         {
             // Parse router.json file.
@@ -92,56 +99,64 @@ namespace Engine // Note: actual namespace depends on the project name.
             return routerJsonArray;
         }
 
+
         // static void Parse
         static void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToResult, SerialManager manager)
         {
-            ExecutePreTest(manager);
-/*
             MqttClient client = new MqttClient("localhost");
             client.Subscribe(MqttTopic.YOLO_ACTUAL);
 
             // Initialize a corrector
             Corrector corrector = new Corrector();
-            // output 4 group per second
-            int counter = 0;
 
+            // counter for tick
+            int counter = 0;
+            // Execute firt 3 ticks, i.e. the first movement
+            for (int j = 0; j < 3; j++)
+            {
+                PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
+                UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
+                SendToDMF(manager);
+                // Thread.Sleep(500);
+                counter++;
+            }
+           
+            DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
+            // i is the index of expected state
             for (int i = 0; i < expectedPositions.Count; i++)
             {
-                // Console.WriteLine($"Exec is running for round {i}");
-                // todo: check the logic here 
-                DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
                 string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
-
                 List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
-                do
+                while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
                 {
-                    while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
-                    {
-                        Thread.Sleep(100);
-                    }
-                    // Correct by given expected states and actual states
-                    recordTime = client.previousUpdateTime;
-                    electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
+                    Thread.Sleep(100);
+                }
+                // Correct by given expected states and actual states
+                recordTime = client.previousUpdateTime;
+                electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
 
-                    // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
-                    if (IsEmpty(electrodesForRecovery))
+                // If correction result is an empty list (i.e. Actual states match expected states), then execute next movement.
+                if (IsEmpty(electrodesForRecovery))
+                {
+                    Console.WriteLine("****************Is empty!****************");
+                    do
                     {
-                        // print basm 
-                        // todo: send these instructions to simulator
-                        do
-                        {
-                            // TODO !!!!!!!
-                            PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                            UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                            SendToDMF(manager);
-                            Thread.Sleep(100);
+                        PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
+                        UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
+                        SendToDMF(manager);
+                        // Thread.Sleep(500);
 
-                            counter++;
-                        }
-                        while (counter % 4 != 0 && counter < basmPerTick.Count() - 1);
+                        counter++;
                     }
-                    else
+                    while (counter % 2 != 0 && counter < basmPerTick.Count() - 1);
+                }
+                else
+                {
+                    // todo: do this recursively
+                    while (true)
                     {
+                        Console.WriteLine("****************NOT empty!****************");
+
                         HashSet<int> toClear = new HashSet<int>();
                         HashSet<int> toSet = new HashSet<int>();
 
@@ -187,115 +202,27 @@ namespace Engine // Note: actual namespace depends on the project name.
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
                         SendToDMF(manager);
 
-                        // wait for execution correction
-                        Thread.Sleep(5000);
+                        // wait for execution
+                        while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
+                        {
+                            Thread.Sleep(100);
+                            Console.WriteLine("Waiting for yolo update");
+                        }
+                        // Check if correnction is success. If the electrodesForRecovery is empty, the correnction is success.
+                        recordTime = client.previousUpdateTime;
+                        electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
+                        if (IsEmpty(electrodesForRecovery))
+                        {
+                            Console.WriteLine("****************Break****************");
+                            break;
+                        }
                     }
-
-                    // Wait for YOLO and router to publish.
-                    Thread.Sleep(1000);
-                } while (IsEmpty(electrodesForRecovery));
-            }
-
-            static void PrintContentOfSetAndClearList(List<int> clearElec, List<int> setElec)
-            {
-                // Print setElectrodes and clearElectrodes of currrent TiCK
-                                Console.WriteLine("TICK;");
-
-                                // Print setElectrodes list
-                                Console.Write("  clearElectrodes: [");
-                                Console.Write(string.Join(", ", clearElec));
-                                Console.WriteLine("]");
-
-                                // Print clearElectrodes list
-                                Console.Write("  setElectrodes: [");
-                                Console.Write(string.Join(", ", setElec));
-                                Console.WriteLine("]");
-
-                                Console.WriteLine(); // Adding a blank line for better readability
-            }*/
-
-            static void ExecutePreTest(SerialManager manager)
-            {
-                Console.WriteLine("Start pre test******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 516 });
-                SendToDMF(manager);
-
-                // Thread.Sleep(100);
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 484 });
-                SendToDMF(manager);
-
-                // Thread.Sleep(100);
-                Console.WriteLine("step1******************************");
-
-
-                UpdateElectrodes(new List<int>() { 516 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step2******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 452 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step3******************************");
-
-                UpdateElectrodes(new List<int>() { 484 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step4******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 420 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step5******************************");
-
-                UpdateElectrodes(new List<int>() { 452 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step7******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 388 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                UpdateElectrodes(new List<int>() { 420 }, new List<int>() { });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step8******************************");
-
-                UpdateElectrodes(new List<int>() { }, new List<int>() { 356 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-
-                UpdateElectrodes(new List<int>() { 388 }, new List<int>() {  });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("step9******************************");
-
-                UpdateElectrodes(new List<int>() {  }, new List<int>() { 324 });
-                SendToDMF(manager);
-                // Thread.Sleep(100);
-
-                Console.WriteLine("done******************************");
-
-                UpdateElectrodes(new List<int>() { 356, 324 }, new List<int>() { });
-                SendToDMF(manager);
-/*                Thread.Sleep(500);
-
-                Console.WriteLine("Clear Board******************************");
-                ClearAllElectrodes();
-                SendToDMF(manager);*/
+                }
+                // Wait for YOLO and router to publish. TODO: Is it needed?
+                // Thread.Sleep(1000);
             }
         }
+
 
         static void UpdateElectrodes(List<int> electrodesToClear, List<int> electrodesToSet)
         {
@@ -408,33 +335,30 @@ namespace Engine // Note: actual namespace depends on the project name.
             }
         }
 
+
         static void ClearAllElectrodes()
         {
             GUIPlatform.commands.Add(Commands.CLR_ALL + " 0");
             GUIPlatform.commands.Add(Commands.CLR_ALL + " 1");
-            // logger.Debug("Clearing all electrodes.");
         }
+
 
         static void SendToDMF(SerialManager manager)
         {
             Logger.LogSendToDMF("Sending to DMF");
-            //manager.OpenPort();
-            Logger.LogSendToDMF("Content:");
             foreach (var command in GUIPlatform.commands)
             {
                 Logger.LogSendToDMF(command);
                 string serialCommand = command + Commands.TERMINATOR;
                 manager.Write(serialCommand);
-                Thread.Sleep(250);
-
+                Thread.Sleep(200);
             }
             Console.WriteLine();
             GUIPlatform.commands.Clear();
             Logger.LogSendToDMF("Delay...");
-            Thread.Sleep(100);
+            Thread.Sleep(200);
             Logger.LogSendToDMF("Done.");
         }
-
 
 
         static void TurnOnHighVoltage()
@@ -443,10 +367,12 @@ namespace Engine // Note: actual namespace depends on the project name.
             GUIPlatform.commands.Add(Commands.HV_ON_OFF + " 1 1");
         }
 
+
         static void TurnOffHighVoltage()
         {
             GUIPlatform.commands.Add(Commands.HV_ON_OFF + " 1 0");
         }
+
 
         static bool IsEmpty(List<Dictionary<string, HashSet<int>>> list)
         {
@@ -478,6 +404,92 @@ namespace Engine // Note: actual namespace depends on the project name.
 
             // If all HashSets in all dictionaries are empty, then the structure is empty
             return true;
+        }
+
+
+        static void PrintContentOfSetAndClearList(List<int> clearElec, List<int> setElec)
+        {
+            // Print setElectrodes and clearElectrodes of currrent TiCK
+            Console.WriteLine("TICK;");
+
+            // Print setElectrodes list
+            Console.Write("  clearElectrodes: [");
+            Console.Write(string.Join(", ", clearElec));
+            Console.WriteLine("]");
+
+            // Print clearElectrodes list
+            Console.Write("  setElectrodes: [");
+            Console.Write(string.Join(", ", setElec));
+            Console.WriteLine("]");
+
+            Console.WriteLine(); // Adding a blank line for better readability
+        }
+
+
+        static void ExecutePreTest(SerialManager manager)
+        {
+            Console.WriteLine("Start pre test******************************");
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 545 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 513 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step1******************************");
+            UpdateElectrodes(new List<int>() { 545 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step2******************************");
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 481 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step3******************************");
+            UpdateElectrodes(new List<int>() { 513 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step4******************************");
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 449 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step5******************************");
+            UpdateElectrodes(new List<int>() { 481 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step7******************************");
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 417 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            UpdateElectrodes(new List<int>() { 449 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step8******************************");
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 385 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            UpdateElectrodes(new List<int>() { 417 }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("step9******************************");
+            UpdateElectrodes(new List<int>() { }, new List<int>() { 353 });
+            SendToDMF(manager);
+            // Thread.Sleep(100);
+
+            Console.WriteLine("done******************************");
+            UpdateElectrodes(new List<int>() { 
+            }, new List<int>() { });
+            SendToDMF(manager);
+            // Thread.Sleep(500);
         }
     }
 }

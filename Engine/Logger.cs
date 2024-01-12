@@ -12,7 +12,7 @@ namespace Engine
         public static void LogReceivedFromYolo(string message)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("[Send To DMF]:" + message + "\n");
+            Console.Write("[Received from yolo]:" + message + "\n");
             Console.ResetColor();
         }
     }
