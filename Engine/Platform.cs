@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json;
+[assembly: InternalsVisibleTo("Test")]
 
 namespace Engine
 {

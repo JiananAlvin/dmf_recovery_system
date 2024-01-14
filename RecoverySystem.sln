@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndToEndTest", "ExecutionEnv\EndToEndTest.csproj", "{D2F0A931-8D7A-4471-A19E-15441790950D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{590277AE-3563-49CC-95AA-D124109E61F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "UnitTest\Test.csproj", "{590277AE-3563-49CC-95AA-D124109E61F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{01D7A0E1-EB8D-45A2-A8ED-0FC8A608D2F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{01D7A0E1-EB8D-45A2-A8ED-0FC8A608D2F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
