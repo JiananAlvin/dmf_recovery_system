@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using Engine;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
@@ -29,6 +30,9 @@ namespace UnitTest
         /// <param name="CaseName">Case0, Case1, Case2 ...</param>
         private static int RunYoloV5InPython(string PythonCommand, string PathToScript, string PathToWeight, string PathToSourceRoot, string CaseName)
         {
+            // wait for Controller to run first
+            Thread.Sleep(5000);
+
             string arguments = $"--weights {PathToWeight} --source {PathToSourceRoot}\\{CaseName} --require-preprocess";
 
             // Create process start info
@@ -59,59 +63,66 @@ namespace UnitTest
                         Console.WriteLine("Error: " + error);
                     }
                 }
-
                 process.WaitForExit();
             }
 
             return 0;
         }
 
-        // all droplets move successfully
+        // Perfect match 
         [Test]
         public void TestCorrect0()
         {
-
-            // read args
-            var builder = new ConfigurationBuilder();
-            builder.AddCommandLine(args);
-            var config = builder.Build();
-            Engine.Program.
-
-            File.Create(config["path-to-result"]!).Close();
-
-            List<Tuple<List<int>, List<int>>> basmInstructions = InitBasmInstructions(config["bio-assembly-src"]!);
-            JArray expectedPositions = InitExpectedStatus(config["expected-position"]!);
-
-            // Read serial port
-            // SelectSerialPort();
-            // Clear the whole DMF chip
-            SerialManager manager = new SerialManager(config["serial-port"]!, 115200);
-            manager.OpenPort();
-            // TIP: At the very beginning, we need to send some commands to clean the entire board.
-
-            TurnOnHighVoltage();
-            SendToDMF(manager);
-
-            ClearAllElectrodes();
-            SendToDMF(manager);
-
-            // ExecutePreTest(manager);
-
-            ExecuteCorrection(basmInstructions, expectedPositions, config["path-to-result"]!, manager);
-
-            ClearAllElectrodes();
-            SendToDMF(manager);
-
+            // run YoloV5
             Thread myNewThread = new Thread(() => RunYoloV5InPython(PYTHON_COMMAND, PATH_TO_PY_SCRIPT, PATH_TO_WEIGHT, PATH_TO_CASE_SOURCE_ROOT, "Case0\\Source"));
             myNewThread.Start();
-            
+
+            // run controller
+            Controller controller = new Controller();
+            File.Create(@"..\..\..\..\Cases\Case0\recovery_result.txt").Close();
+            File.Create(@"..\..\..\..\Cases\Case0\basm_result.txt").Close();
+
+            List<Tuple<List<int>, List<int>>> basmInstructions = controller.InitBasmInstructions(@"..\..\..\..\Cases\Case0\exec_bio_assembly.txt");
+            JArray expectedPositions = controller.InitExpectedStatus(@"..\..\..\..\Cases\Case0\expected_position.json");
+            // Clear the whole DMF chip
+            SerialManager manager = new SerialManager("COM4", 115200);
+            controller.Execute(@"..\..\..\..\Cases\Case0\recovery_result.txt", @"..\..\..\..\Cases\Case0\basm_result.txt", basmInstructions, expectedPositions, manager);
+
+            string expectedRecoveryOutput = "List of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\nList of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\nList of electrodes need to be manipulated for recovery:\n[   ]\n\r\nList of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\nList of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\n".Replace("\r", "").Replace("\n", "");
+            string recoveryResult = File.ReadAllText(@"..\..\..\..\Cases\Case0\recovery_result.txt").Replace("\r", "").Replace("\n", "");
+            Assert.That(recoveryResult, Is.EqualTo(expectedRecoveryOutput));
+
+            string expectedBasmOutput = "[init]:shv 1 280\r\n[init]:hvpoe 1 1\r\n[init]:clra 0\r\n[init]:clra 1\r\n[step0]:setel 1 65\r\n[step1]:setel 1 66\r\n[step2]:clrel 1 65\r\n[step3]:setel 1 67\r\n[step4]:clrel 1 66\r\n[step5]:setel 1 68\r\n[step6]:clrel 1 67\r\n[step7]:setel 1 69\r\n[step8]:clrel 1 68\r\n[step9]:setel 1 70\r\n[step10]:clrel 1 69 70\r\n[complete]:clra 0\r\n[complete]:clra 1\r\n".Replace("\r", "").Replace("\n", "");
+            string basmResult = File.ReadAllText(@"..\..\..\..\Cases\Case0\basm_result.txt").Replace("\r", "").Replace("\n", "");
+            Assert.That(basmResult, Is.EqualTo(expectedBasmOutput));
         }
-        // 2 droplets fail to move
+
+        // 1 step error 
         [Test]
         public void TestCorrect1()
         {
-            RunYoloV5InPython(PYTHON_COMMAND, PATH_TO_PY_SCRIPT, PATH_TO_WEIGHT, PATH_TO_CASE_SOURCE_ROOT, "Case1\\Source");
+            // run YoloV5
+            Thread myNewThread = new Thread(() => RunYoloV5InPython(PYTHON_COMMAND, PATH_TO_PY_SCRIPT, PATH_TO_WEIGHT, PATH_TO_CASE_SOURCE_ROOT, "Case0\\Source"));
+            myNewThread.Start();
 
+            // run controller
+            Controller controller = new Controller();
+            File.Create(@"..\..\..\..\Cases\Case1\recovery_result.txt").Close();
+            File.Create(@"..\..\..\..\Cases\Case1\basm_result.txt").Close();
+
+            List<Tuple<List<int>, List<int>>> basmInstructions = controller.InitBasmInstructions(@"..\..\..\..\Cases\Case1\exec_bio_assembly.txt");
+            JArray expectedPositions = controller.InitExpectedStatus(@"..\..\..\..\Cases\Case1\expected_position.json");
+            // Clear the whole DMF chip
+            SerialManager manager = new SerialManager("COM4", 115200);
+            controller.Execute(@"..\..\..\..\Cases\Case1\recovery_result.txt", @"..\..\..\..\Cases\Case1\basm_result.txt", basmInstructions, expectedPositions, manager);
+
+            string expectedRecoveryOutput = "List of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\nList of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\nList of electrodes need to be manipulated for recovery:\n[   ]\n\r\nList of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\nList of electrodes need to be manipulated for recovery:\r\n[   ]\r\n\r\n".Replace("\r", "").Replace("\n", "");
+            string recoveryResult = File.ReadAllText(@"..\..\..\..\Cases\Case1\recovery_result.txt").Replace("\r", "").Replace("\n", "");
+            Assert.That(recoveryResult, Is.EqualTo(expectedRecoveryOutput));
+
+            string expectedBasmOutput = "[init]:shv 1 280\r\n[init]:hvpoe 1 1\r\n[init]:clra 0\r\n[init]:clra 1\r\n[step0]:setel 1 65\r\n[step1]:setel 1 66\r\n[step2]:clrel 1 65\r\n[step3]:setel 1 67\r\n[step4]:clrel 1 66\r\n[step5]:setel 1 68\r\n[step6]:clrel 1 67\r\n[step7]:setel 1 69\r\n[step8]:clrel 1 68\r\n[step9]:setel 1 70\r\n[step10]:clrel 1 69 70\r\n[complete]:clra 0\r\n[complete]:clra 1\r\n".Replace("\r", "").Replace("\n", "");
+            string basmResult = File.ReadAllText(@"..\..\..\..\Cases\Case1\basm_result.txt").Replace("\r", "").Replace("\n", "");
+            Assert.That(basmResult, Is.EqualTo(expectedBasmOutput));
         }
     }
 }

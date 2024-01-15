@@ -1,0 +1,17 @@
+[init]:shv 1 280
+[init]:hvpoe 1 1
+[init]:clra 0
+[init]:clra 1
+[step0]:setel 1 65
+[step1]:setel 1 66
+[step2]:clrel 1 65
+[step3]:setel 1 67
+[step4]:clrel 1 66
+[step5]:setel 1 68
+[step6]:clrel 1 67
+[step7]:setel 1 69
+[step8]:clrel 1 68
+[step9]:setel 1 70
+[step10]:clrel 1 69 70
+[complete]:clra 0
+[complete]:clra 1

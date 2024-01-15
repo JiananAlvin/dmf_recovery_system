@@ -22,7 +22,9 @@ namespace Engine // Note: actual namespace depends on the project name.
             builder.AddCommandLine(args);
             var config = builder.Build();
 
-            File.Create(config["path-to-result"]!).Close();
+            File.Create(config["path-to-recovery-result"]!).Close();
+            File.Create(config["path-to-basm-result"]!).Close();
+
 
             Controller controller = new Controller();
             
@@ -33,7 +35,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             // SelectSerialPort();
             // Clear the whole DMF chip
             SerialManager manager = new SerialManager(config["serial-port"]!, 115200);
-            controller.Execute(config, basmInstructions, expectedPositions, manager);
+            controller.Execute(config["path-to-result"]!, config["path-to-basm-result"]!, basmInstructions, expectedPositions, manager);
         }
     }
 }

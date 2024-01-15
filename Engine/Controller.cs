@@ -3,6 +3,7 @@ using Model;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 [assembly: InternalsVisibleTo("Test")]
 namespace Engine // Note: actual namespace depends on the project name.
 {
@@ -10,24 +11,29 @@ namespace Engine // Note: actual namespace depends on the project name.
     {
 
         static Platform GUIPlatform = PlatformUtilities.Generate32x20();
+        static string TAG_STEP = "step";
+        static string TAG_CORRECTION = "correction";
+        static string TAG_INIT = "init";
+        static string TAG_COMPLETE = "complete";
 
-        internal void Execute(IConfigurationRoot config, List<Tuple<List<int>, List<int>>> basmInstructions, JArray expectedPositions, SerialManager manager)
+
+        internal void Execute(string PathToRecoveryResult, string PathToBasmResult, List<Tuple<List<int>, List<int>>> basmInstructions, JArray expectedPositions, SerialManager manager)
         {
             manager.OpenPort();
             // TIP: At the very beginning, we need to send some commands to clean the entire board.
 
             TurnOnHighVoltage();
-            SendToDMF(manager);
+            SendToDMF(manager, PathToBasmResult,TAG_INIT);
 
             ClearAllElectrodes();
-            SendToDMF(manager);
+            SendToDMF(manager, PathToBasmResult, TAG_INIT);
 
             // ExecutePreTest(manager);
 
-            ExecuteCorrection(basmInstructions, expectedPositions, config["path-to-result"]!, manager);
+            ExecuteCorrection(basmInstructions, expectedPositions, PathToRecoveryResult, PathToBasmResult, manager);
 
             ClearAllElectrodes();
-            SendToDMF(manager);
+            SendToDMF(manager, PathToBasmResult, TAG_COMPLETE);
         }
 
         internal List<Tuple<List<int>, List<int>>> InitBasmInstructions(string pathToBasmFile)
@@ -77,7 +83,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             return routerJsonArray;
         }
 
-        void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToResult, SerialManager manager)
+        void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToRecoveryResult, string PathToBasmResult, SerialManager manager)
         {
             MqttClient client = new MqttClient("localhost");
             client.Subscribe(MqttTopic.YOLO_ACTUAL);
@@ -92,8 +98,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             {
                 PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                 UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                SendToDMF(manager);
-                // Thread.Sleep(500);
+                SendToDMF(manager, PathToBasmResult, TAG_STEP + counter);
                 counter++;
             }
 
@@ -109,7 +114,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 }
                 // Correct by given expected states and actual states
                 recordTime = client.previousUpdateTime;
-                electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
+                electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult);
 
                 // If correction result is an empty list (i.e. Actual states match expected states), then execute next movement.
                 if (IsEmpty(electrodesForRecovery))
@@ -119,7 +124,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                     {
                         PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                         UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                        SendToDMF(manager);
+                        SendToDMF(manager, PathToBasmResult, TAG_STEP + counter);
                         // Thread.Sleep(500);
 
                         counter++;
@@ -128,6 +133,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 }
                 else
                 {
+                    int correctionCounter = 0;
                     // todo: do this recursively
                     while (true)
                     {
@@ -143,7 +149,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:SetTail");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -154,7 +160,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:ClearHead");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -165,7 +171,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:SetHead");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -176,7 +182,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager);
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
 
                         // wait for execution
                         while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
@@ -186,12 +192,13 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         // Check if correnction is success. If the electrodesForRecovery is empty, the correnction is success.
                         recordTime = client.previousUpdateTime;
-                        electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToResult);
+                        electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult);
                         if (IsEmpty(electrodesForRecovery))
                         {
                             Console.WriteLine("****************Break****************");
                             break;
                         }
+                        correctionCounter++;
                     }
                 }
                 // Wait for YOLO and router to publish. TODO: Is it needed?
@@ -319,12 +326,13 @@ namespace Engine // Note: actual namespace depends on the project name.
         }
 
 
-        void SendToDMF(SerialManager manager)
+        void SendToDMF(SerialManager manager, string PathToBasmResult , string tag)
         {
             Logger.LogSendToDMF("Sending to DMF");
             foreach (var command in GUIPlatform.commands)
             {
                 Logger.LogSendToDMF(command);
+                File.AppendAllText(PathToBasmResult, $"[{tag}]:{command}\n");
                 string serialCommand = command + Commands.TERMINATOR;
                 manager.Write(serialCommand);
                 Thread.Sleep(200);
@@ -404,7 +412,7 @@ namespace Engine // Note: actual namespace depends on the project name.
 
         void ExecutePreTest(SerialManager manager)
         {
-            Console.WriteLine("Start pre test******************************");
+            /*Console.WriteLine("Start pre test******************************");
             UpdateElectrodes(new List<int>() { }, new List<int>() { 545 });
             SendToDMF(manager);
             // Thread.Sleep(100);
@@ -466,7 +474,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             {
             }, new List<int>() { });
             SendToDMF(manager);
-            // Thread.Sleep(500);
+            // Thread.Sleep(500);*/
         }
     }
 }

@@ -78,10 +78,7 @@ namespace Model
             }
             result += "   ]\n";
 
-            using (StreamWriter writer = File.AppendText(output))
-            {
-                writer.WriteLine(result);
-            }
+            File.AppendAllText(output, result);
 
             // Return the list of electrodes need to be manipulated.
             return electrodesForRecovery;
