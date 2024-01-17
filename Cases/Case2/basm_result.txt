@@ -1,0 +1,24 @@
+[init]:shv 1 280
+[init]:hvpoe 1 1
+[init]:clra 0
+[init]:clra 1
+[step0]:setel 1 65
+[step1]:setel 1 66
+[step2]:clrel 1 65
+[step3:correction0:SetTail]:setel 1 109 99 89
+[step3:correction0:ClearHead]:clrel 1 112 102 92
+[step3:correction0:SetHead]:setel 1 112 102 92
+[step3:correction0:ClearTail]:clrel 1 109 99 89
+[step3:correction1:SetTail]:setel 1 109 99 89
+[step3:correction1:ClearHead]:clrel 1 112 102 92
+[step3:correction1:SetHead]:setel 1 112 102 92
+[step3:correction1:ClearTail]:clrel 1 109 99 89
+[step3:correction2:SetTail]:setel 1 109 99 89
+[step3:correction2:ClearHead]:clrel 1 112 102 92
+[step3:correction2:SetHead]:setel 1 112 102 92
+[step3:correction2:ClearTail]:clrel 1 109 99 89
+[step3]:setel 1 67
+[step4]:clrel 1 66
+[step5]:setel 1 68
+[step6]:clrel 1 67
+[step7]:setel 1 69

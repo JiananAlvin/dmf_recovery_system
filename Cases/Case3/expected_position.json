@@ -1,0 +1,23 @@
+[
+  {
+    // step 0:  image 1-5 358 consume 1
+    "basm": "basm0",
+    "exp": [
+      [ 358,225,221,37,59,1 ]
+    ]
+  }, 
+  {
+    // step 1: image 6-10  326  consume 2-5, 6
+    "basm": "basm0",
+    "exp": [
+      [ 326, 225, 201, 40, 60, 0 ]
+    ]
+  }, 
+  {
+    // step 2: image 11 -15 358  consume 
+    "basm": "basm0",
+    "exp": [
+      [ 358,225,221,37,59,1 ]
+    ]
+  }
+]

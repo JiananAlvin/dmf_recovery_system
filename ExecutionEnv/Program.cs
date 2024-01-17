@@ -11,8 +11,8 @@ public class Program
         //Part1Tester part1Tester = new Part1Tester();
         //part1Tester.Run();
 
-        //Video01Tester tester = new Video01Tester();
-        //tester.Run();
+        Video01Tester tester = new Video01Tester();
+        tester.Run();
 
 
     }

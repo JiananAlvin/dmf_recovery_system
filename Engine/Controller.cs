@@ -114,6 +114,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 }
                 // Correct by given expected states and actual states
                 recordTime = client.previousUpdateTime;
+                // TODO: bug here, here the client.previousActualState shouldn't be the same as epxectedState
                 electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult);
 
                 // If correction result is an empty list (i.e. Actual states match expected states), then execute next movement.
@@ -185,7 +186,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
 
                         // wait for execution
-                        while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
+                        while (client.previousActualState == "" || recordTime.Equals( client.previousUpdateTime))
                         {
                             Thread.Sleep(100);
                             Console.WriteLine("Waiting for yolo update");
