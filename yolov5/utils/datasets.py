@@ -335,7 +335,7 @@ class LoadStreams:
         # Read stream `i` frames in daemon thread
         # J----------------------------------------
         # If I want to skip 30 frames, I need to set read = 30.
-        n, f, read = 0, self.frames[i], 300  # frame number, frame array, inference every 'read' frame
+        n, f, read = 0, self.frames[i], 5  # frame number, frame array, inference every 'read' frame
         while cap.isOpened() and n < f:
             n += 1
             # _, self.imgs[index] = cap.read()
@@ -343,7 +343,7 @@ class LoadStreams:
             if n % read == 0:
                 success, im = cap.retrieve()
                 if success:
-                    self.imgs[i] = im
+                    self.imgs[i] = preprocess(im)
                 else:
                     LOGGER.warning('WARNING: Video stream unresponsive, please check your IP camera connection.')
                     self.imgs[i] = np.zeros_like(self.imgs[i])
