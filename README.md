@@ -76,7 +76,7 @@ pip install -r .\requirements.txt
 
 * Run Engine first
 
-![image-20240121231315740](.\pic\image-20240121231315740.png)
+![image-20240121231315740](./pic/image-20240121231315740.png)
 
 * Run Yolo V5 (--source 0 means choose your local webcam)
 
