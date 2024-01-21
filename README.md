@@ -19,7 +19,7 @@ Digital microfluidic biochips are widely applied devices that manipulate micro-l
 * Download and install it here: [Mosquito](https://mosquitto.org/download/)
 * Go to the folder where you install mosquito (or add it to your environment path)
 * Run Mosquito broker
-* subscribe to the channel `yolo/det`
+* You can test by subscribing to the channel `yolo/det`
 
 ```powershell
 # Yolo v5 will publish detection results to this channel
@@ -58,6 +58,68 @@ python ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.
 Our Recovery System is based on dotnet.
 Hence ensure you have installed correct version dotnet.
 
+### Run with webcam
+If you have a real connected camera, follow these instructions to run:
+
+* Install all the required package for python
+
+```shell
+cd yolov5
+pip install -r .\requirements.txt
+```
+
+* Open `RecoverySystem.sln`
+``` shell
+# under the root folder of the project
+./RecoverySystem.sln
+```
+
+* Run Engine first
+
+![image-20240121231315740](.\pic\image-20240121231315740.png)
+
+* Run Yolo V5 (--source 0 means choose your local webcam)
+
+  ```shell
+   py ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.pt --source 0 --require-preprocess
+  ```
+
+### Run with Live Stream
+
+Sometimes dmf platform is not available. Although YoloV5 supports read video and images, but  it will read video frame by frame. It cannot simulate the real scenario with camera. Hence we recommend to run with live stream.
+
+* Install : 
+
+  * [node-media-server - npm (npmjs.com)](https://www.npmjs.com/package/node-media-server) Install this media server to push your stream
+  * [FFmpeg](https://ffmpeg.org/)  This tool could stream your local video 
+
+* Run `node-media-server`
+
+  ```shell
+  node-media-server
+  ```
+
+* Run `ffmpeg` with recursive mode (keep pushing the video)
+
+  ```shell
+   .\ffmpeg.exe -re -stream_loop -1 -i  C:\DevProj\dmf_recovery_system\Cases\WIN_20240112_18_57_12_Pro.mp4 -c:v libx264 -preset veryfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://localhost/live/yolo
+  ```
+
+* Run `yolo v5` to detect the live stream
+
+  ```shell
+  cd .\yolov5
+  
+  py ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.pt --source rtmp://localhost/live/yolo  --require-preprocess
+  ```
+
+* Then execute `Engine` in `RecoverySystem.sln` again.
+
 ### Run Tests
+
+We have several unit tests in Project `Test`. Don't forget to execute them to verify your changes. 
+
+
+
 
 🔗 Link to videos that demonstrate functional tests on detection and recovery parts: https://github.com/JiananAlvin/image_bed/tree/master/images/BachelorThesis
