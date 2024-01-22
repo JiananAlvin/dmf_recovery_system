@@ -2,7 +2,7 @@
   "profiles": {
     "Engine": {
       "commandName": "Project",
-      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\Case0\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\Case0\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\Case0\\exec_bio_assembly.txt\"\r\n--path-to-recovery-result \"..\\..\\..\\..\\Cases\\Case0\\recovery_result.txt\"\r\n--path-to-basm-result \"..\\..\\..\\..\\Cases\\Case0\\basm_result.txt\"\r\n--serial-port \"COM4\""
+      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\EngineCaseMoveRight\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\EngineCaseMoveRight\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\EngineCaseMoveRight\\exec_bio_assembly.txt\"\r\n--path-to-recovery-result \"..\\..\\..\\..\\Cases\\EngineCaseMoveRight\\recovery_result.txt\"\r\n--path-to-basm-result \"..\\..\\..\\..\\Cases\\EngineCaseMoveRight\\basm_result.txt\"\r\n--serial-port \"COM3\""
     }
   }
 }

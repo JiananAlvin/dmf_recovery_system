@@ -35,7 +35,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             // SelectSerialPort();
             // Clear the whole DMF chip
             SerialManager manager = new SerialManager(config["serial-port"]!, 115200);
-            controller.Execute(config["path-to-result"]!, config["path-to-basm-result"]!, basmInstructions, expectedPositions, manager);
+            controller.Execute(config["path-to-recovery-result"]!, config["path-to-basm-result"]!, basmInstructions, expectedPositions, manager);
         }
     }
 }

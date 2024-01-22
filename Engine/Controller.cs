@@ -108,7 +108,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             {
                 string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
                 List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
-                while (client.previousActualState == "" || recordTime == client.previousUpdateTime)
+                while (client.previousActualState == "" || client.previousActualState == "[]"  || recordTime == client.previousUpdateTime)
                 {
                     Thread.Sleep(100);
                 }
@@ -188,7 +188,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         // wait for execution
                         while (client.previousActualState == "" || recordTime.Equals( client.previousUpdateTime))
                         {
-                            Thread.Sleep(100);
+                            Thread.Sleep(500);
                             Console.WriteLine("Waiting for yolo update");
                         }
                         // Check if correnction is success. If the electrodesForRecovery is empty, the correnction is success.
