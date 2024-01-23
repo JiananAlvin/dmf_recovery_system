@@ -107,6 +107,7 @@ namespace Engine // Note: actual namespace depends on the project name.
             for (int i = 0; i < expectedPositions.Count; i++)
             {
                 string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
+                Console.WriteLine("step " + i + ":" + expectedStates);
                 List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
                 while (client.previousActualState == "" || client.previousActualState == "[]"  || recordTime == client.previousUpdateTime)
                 {
@@ -114,7 +115,6 @@ namespace Engine // Note: actual namespace depends on the project name.
                 }
                 // Correct by given expected states and actual states
                 recordTime = client.previousUpdateTime;
-                // TODO: bug here, here the client.previousActualState shouldn't be the same as epxectedState
                 electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult);
 
                 // If correction result is an empty list (i.e. Actual states match expected states), then execute next movement.
@@ -126,11 +126,11 @@ namespace Engine // Note: actual namespace depends on the project name.
                         PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                         UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
                         SendToDMF(manager, PathToBasmResult, TAG_STEP + counter);
-                        // Thread.Sleep(500);
-
                         counter++;
                     }
-                    while (counter % 2 != 0 && counter < basmPerTick.Count() - 1);
+                    while (counter % 2 == 0 && counter < basmPerTick.Count() - 1);
+                    Thread.Sleep(500);
+
                 }
                 else
                 {

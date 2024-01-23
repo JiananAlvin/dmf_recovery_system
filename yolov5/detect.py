@@ -182,7 +182,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                     # J --------------------------------
                     # If class name is "droplet", append its digital info to results[]
                     # if (names[int(cls)] == "droplet" and conf > mmap_treshold):
-                    if (names[int(cls)] == "droplet"):
+                    if (names[int(cls)] == "droplet" and conf > 0.5):
                         results.append([int(t) for t in xyxy])  # Convert a tensor[] to a int[]
 
                     if save_txt:  # Write to file

@@ -52,7 +52,7 @@ namespace Model
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
              
-                if (IsStuck(tolerance, squareExp.IoU(squareAct), statesExp[pair.Item1], sizeOfSquareEl))
+                if (IsStuck(tolerance, squareExp.IntersectionOverExpectation(squareAct), statesExp[pair.Item1], sizeOfSquareEl))
                 {
                     List<int> stuckDropletInfo = statesExp[pair.Item1];
                     int xtl = stuckDropletInfo[1];
@@ -120,7 +120,7 @@ namespace Model
 
         public bool IsStuck(double tolerance, double actExpIou, List<int> stateExp, int sizeOfSquareEl)
         {
-            double iouOfPerfectMove;
+/*            double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
                 iouOfPerfectMove = (double)(stateExp[4] - sizeOfSquareEl) / (double)(stateExp[4] + sizeOfSquareEl);
@@ -130,7 +130,8 @@ namespace Model
                 iouOfPerfectMove = (double)(stateExp[3] - sizeOfSquareEl) / (double)(stateExp[3] + sizeOfSquareEl);
             }
             // The rhs is the minimum acceptable actual IoU
-            return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);
+            return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);*/
+return  actExpIou < tolerance;
         }
     }
 }

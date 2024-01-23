@@ -4,7 +4,7 @@ namespace Model
 {
     public class Corrector
     {
-        public double tolerance = 0.6;  // This one should be user input.
+        public double tolerance = 0.9;  // This one should be user input.
         public Initializer init;
 
         public Corrector()
@@ -28,7 +28,7 @@ namespace Model
             {
                 Square squareExp = new Square(statesExp[pair.Item1][1], statesExp[pair.Item1][2], statesExp[pair.Item1][3], statesExp[pair.Item1][4]);
                 Square squareAct = new Square(statesAct[pair.Item2][1], statesAct[pair.Item2][2], statesAct[pair.Item2][3], statesAct[pair.Item2][4]);
-                double iou = squareExp.IoU(squareAct);
+                double iou = squareExp.IntersectionOverExpectation(squareAct);
                 ious.Add(iou);
             }
 

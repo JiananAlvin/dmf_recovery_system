@@ -42,4 +42,10 @@ internal class Square
 
         return intersection / union;
     }
+
+    internal double IntersectionOverExpectation(Square s)
+    {
+        double intersection = Intersection(s);
+        return intersection / Area();
+    }
 }
