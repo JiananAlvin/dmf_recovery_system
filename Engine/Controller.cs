@@ -102,15 +102,16 @@ namespace Engine // Note: actual namespace depends on the project name.
                 counter++;
             }
 
-            DateTime recordTime = client.previousUpdateTime.AddMinutes(1);
+            DateTime recordTime = client.previousUpdateTime;
             // i is the index of expected state
             for (int i = 0; i < expectedPositions.Count; i++)
             {
                 string expectedStates = JsonConvert.SerializeObject(expectedPositions[i]["exp"], Formatting.None).ToString();
                 Console.WriteLine("step " + i + ":" + expectedStates);
                 List<Dictionary<string, HashSet<int>>> electrodesForRecovery;
-                while (client.previousActualState == "" || client.previousActualState == "[]"  || recordTime == client.previousUpdateTime)
+                while (client.previousActualState == "" || client.previousActualState == "[]"  || DateTime.Compare(recordTime, client.previousUpdateTime)==0 )
                 {
+                    Console.WriteLine("Waiting for time update:"+ client.previousActualState);
                     Thread.Sleep(100);
                 }
                 // Correct by given expected states and actual states
@@ -186,7 +187,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
 
                         // wait for execution
-                        while (client.previousActualState == "" || recordTime.Equals( client.previousUpdateTime))
+                        while (client.previousActualState == "" || DateTime.Compare(recordTime, client.previousUpdateTime) == 0)
                         {
                             Thread.Sleep(500);
                             Console.WriteLine("Waiting for yolo update");
@@ -200,6 +201,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                             break;
                         }
                         correctionCounter++;
+                        Thread.Sleep(500);
                     }
                 }
                 // Wait for YOLO and router to publish. TODO: Is it needed?

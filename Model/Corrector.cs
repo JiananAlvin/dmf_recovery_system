@@ -4,7 +4,7 @@ namespace Model
 {
     public class Corrector
     {
-        public double tolerance = 0.9;  // This one should be user input.
+        public double tolerance = 0.5;  // This one should be user input.
         public Initializer init;
 
         public Corrector()
