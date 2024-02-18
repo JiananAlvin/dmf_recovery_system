@@ -116,7 +116,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 }
                 // Correct by given expected states and actual states
                 recordTime = client.previousUpdateTime;
-                electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult);
+                electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult,true);
 
                 // If correction result is an empty list (i.e. Actual states match expected states), then execute next movement.
                 if (IsEmpty(electrodesForRecovery))
@@ -194,7 +194,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         // Check if correnction is success. If the electrodesForRecovery is empty, the correnction is success.
                         recordTime = client.previousUpdateTime;
-                        electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult);
+                        electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult, true);
                         if (IsEmpty(electrodesForRecovery))
                         {
                             Console.WriteLine("****************Break****************");

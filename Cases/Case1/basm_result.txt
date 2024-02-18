@@ -12,9 +12,6 @@
 [step7]:setel 1 69
 [step8]:clrel 1 68
 [step9]:setel 1 70
-[step10:correction0:SetTail]:setel 1 109 99 89
-[step10:correction0:ClearHead]:clrel 1 112 102 92
-[step10:correction0:SetHead]:setel 1 112 102 92
-[step10:correction0:ClearTail]:clrel 1 109 99 89
+[step10]:clrel 1 69 70
 [complete]:clra 0
 [complete]:clra 1

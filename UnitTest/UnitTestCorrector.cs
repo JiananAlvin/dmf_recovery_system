@@ -1,7 +1,4 @@
 using Model;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Drawing;
 namespace UnitTest
 {
     public class TestChecker
@@ -25,7 +22,7 @@ namespace UnitTest
                 "      [ 201, 270, 120, 20, 20, 1 ]" +
                 "    ] ";
             string actualStates = "[\r\n      [ 342, 530, 200, 40, 40, 0, 5 ],\r\n      [ 398, 371, 240, 40, 40, 1, 0 ],\r\n      [ 201, 270, 120, 20, 20, 3, 2 ]\r\n    ]";
-            electrodesForRecovery = corrector.Run(expectedStates, actualStates, "..\\..\\..\\..\\ExecutionEnv\\recovery_output.txt");
+            electrodesForRecovery = corrector.Run(expectedStates, actualStates, "..\\..\\..\\..\\ExecutionEnv\\recovery_output.txt", true);
 
             // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
             Assert.That(electrodesForRecovery.Count, Is.EqualTo(0));
@@ -44,7 +41,7 @@ namespace UnitTest
                 "      [ 201, 270, 120, 20, 20, 1 ]" +
                 "    ] ";
             string actualStates = "[\r\n      [ 310, 530, 185, 39, 41, 0, 5 ],\r\n      [ 398, 371, 240, 40, 40, 1, 0 ],\r\n      [ 200, 253, 122, 22, 17, 3, 2 ]\r\n    ]";
-                electrodesForRecovery = corrector.Run(expectedStates, actualStates, "..\\..\\..\\..\\ExecutionEnv\\recovery_output.txt");
+                electrodesForRecovery = corrector.Run(expectedStates, actualStates, "..\\..\\..\\..\\ExecutionEnv\\recovery_output.txt", true);
 
             // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
             Assert.That(electrodesForRecovery.Count, Is.EqualTo(2));

@@ -13,8 +13,10 @@ namespace Model
             init.Initilalize();
         }
 
-        public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS, string output)
+        public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS, string output, bool calculateTime)
         {
+
+            DateTime date1 = DateTime.Now;
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
 
@@ -80,8 +82,16 @@ namespace Model
 
             File.AppendAllText(output, result);
 
+            DateTime date2 = DateTime.Now;
+
+            if (calculateTime)
+            {
+                Console.WriteLine($"Used Time: {date2 - date1}");
+            }
+
             // Return the list of electrodes need to be manipulated.
             return electrodesForRecovery;
+
         }
     }
 }

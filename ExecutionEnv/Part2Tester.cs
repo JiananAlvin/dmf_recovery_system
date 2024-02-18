@@ -46,7 +46,7 @@ namespace EndToEndTest
                 do 
                 {
                     // Correct by given expected states and actual states.
-                    electrodesForRecovery = corrector.Run(expectedStates, actualStates, "G:\\01_dmf_recovery_system\\ExecutionEnv\\recovery_output.txt");
+                    electrodesForRecovery = corrector.Run(expectedStates, actualStates, "G:\\01_dmf_recovery_system\\ExecutionEnv\\recovery_output.txt",true);
 
                     // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
                     if (electrodesForRecovery.Count == 0)

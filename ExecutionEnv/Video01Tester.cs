@@ -48,7 +48,7 @@ namespace EndToEndTest
                         Thread.Sleep(100);
                     }
                     // Correct by given expected states and actual states.
-                    electrodesForRecovery = corrector.Run(expectedStates, actualStates, PATH_TO_RESULT_TXT);
+                    electrodesForRecovery = corrector.Run(expectedStates, actualStates, PATH_TO_RESULT_TXT, true);
 
                     // If correction result is an empty list (i.e. Actual states match expected states), then give "okay" to executor.
                     if (electrodesForRecovery.Count == 0)

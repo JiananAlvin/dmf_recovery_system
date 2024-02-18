@@ -1,8 +1,16 @@
 {
   "profiles": {
-    "Engine": {
+    "Move right": {
       "commandName": "Project",
-      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\EngineCase\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\EngineCase\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\EngineCase\\exec_bio_assembly.txt\"\r\n--path-to-recovery-result \"..\\..\\..\\..\\Cases\\EngineCase\\recovery_result.txt\"\r\n--path-to-basm-result \"..\\..\\..\\..\\Cases\\EngineCase\\basm_result.txt\"\r\n--serial-port \"COM3\""
+      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\EngineCase\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\EngineCase\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\EngineCase\\exec_bio_assembly.txt\"\r\n--path-to-recovery-result \"..\\..\\..\\..\\Cases\\EngineCase\\recovery_result.txt\"\r\n--path-to-basm-result \"..\\..\\..\\..\\Cases\\EngineCase\\basm_result.txt\"\r\n--serial-port \"COM4\""
+    },
+    "Move Around": {
+      "commandName": "Project",
+      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\EngineCaseMoveAround\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\EngineCaseMoveAround\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\EngineCaseMoveAround\\exec_bio_assembly.txt\"\r\n--path-to-recovery-result \"..\\..\\..\\..\\Cases\\EngineCaseMoveAround\\recovery_result.txt\"\r\n--path-to-basm-result \"..\\..\\..\\..\\Cases\\EngineCaseMoveAround\\basm_result.txt\"\r\n--serial-port \"COM4\""
+    },
+    "Move Up": {
+      "commandName": "Project",
+      "commandLineArgs": "--platform-setting \"..\\..\\..\\..\\Cases\\EngineCaseMoveUp\\platform640v2.json\"\r\n--expected-position \"..\\..\\..\\..\\Cases\\EngineCaseMoveUp\\expected_position.json\"\r\n--bio-assembly-src \"..\\..\\..\\..\\Cases\\EngineCaseMoveUp\\exec_bio_assembly.txt\"\r\n--path-to-recovery-result \"..\\..\\..\\..\\Cases\\EngineCaseMoveUp\\recovery_result.txt\"\r\n--path-to-basm-result \"..\\..\\..\\..\\Cases\\EngineCaseMoveUp\\basm_result.txt\"\r\n--serial-port \"COM4\""
     }
   }
 }
