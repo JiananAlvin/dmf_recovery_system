@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using System.IO;
 using Engine;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Options;
 
 namespace UnitTest
 {
@@ -53,8 +53,51 @@ namespace UnitTest
                 }
                 process.WaitForExit();
             }
-
             return 0;
+        }
+
+        public static async void PublishActStatesToMqtt(string file)
+        {
+            int n = 5;
+            int timeInterval = 200;
+
+            // Configure MQTT client options
+            var mqttClientOptions = new MqttClientOptionsBuilder()
+                .WithTcpServer("localhost", 1883) 
+                .Build();
+
+            // Create a new MQTT client
+            var mqttFactory = new MqttFactory();
+            var mqttClient = mqttFactory.CreateMqttClient();
+
+            // Connect to MQTT broker
+            await mqttClient.ConnectAsync(mqttClientOptions);
+
+            // Read the file line by line
+            using (var reader = new StreamReader(file))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    // Create the message to publish
+                    var message = new MqttApplicationMessageBuilder()
+                        .WithTopic(MqttTopic.YOLO_ACTUAL)
+                        .WithPayload(line)
+                        .WithExactlyOnceQoS() 
+                        .Build();
+
+                    // Publish the same message every 200 ms and 5 times.
+                    for (int i  = 0; i < n; i++)
+                    {
+                        // Publish the message
+                        await mqttClient.PublishAsync(message);
+                        Thread.Sleep(timeInterval);
+                    }
+                }
+            }
+
+            // Disconnect from MQTT broker
+            await mqttClient.DisconnectAsync();
         }
     }
 }
