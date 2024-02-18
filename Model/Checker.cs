@@ -120,18 +120,17 @@ namespace Model
 
         public bool IsStuck(double tolerance, double actExpIou, List<int> stateExp, int sizeOfSquareEl)
         {
-/*            double iouOfPerfectMove;
+            double iouOfPerfectMove;
             if (stateExp[5] == 0 || stateExp[5] == 2)
             {
-                iouOfPerfectMove = (double)(stateExp[4] - sizeOfSquareEl) / (double)(stateExp[4] + sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[4] - sizeOfSquareEl) / (double)(stateExp[4]);
             }
             else // If the droplet wanna goes left or right, then we are interested in width
             {   // TODO: Corrector.sizeOfSquareEl should be size of exp left corner size !!!
-                iouOfPerfectMove = (double)(stateExp[3] - sizeOfSquareEl) / (double)(stateExp[3] + sizeOfSquareEl);
+                iouOfPerfectMove = (double)(stateExp[3] - sizeOfSquareEl) / (double)(stateExp[3]);
             }
             // The rhs is the minimum acceptable actual IoU
-            return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);*/
-return  actExpIou < tolerance;
+            return actExpIou < iouOfPerfectMove + (1 - tolerance) * (1 - iouOfPerfectMove);
         }
     }
 }
