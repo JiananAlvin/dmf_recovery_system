@@ -11,7 +11,7 @@ namespace Engine // Note: actual namespace depends on the project name.
     {
 
         static Platform GUIPlatform = PlatformUtilities.Generate32x20();
-        static string TAG_STEP = "tick";
+        static string TAG_TICK = "tick";
         static string TAG_CORRECTION = "correction";
         static string TAG_INIT = "init";
         static string TAG_COMPLETE = "complete";
@@ -98,9 +98,9 @@ namespace Engine // Note: actual namespace depends on the project name.
             {
                 PrintContentOfSetAndClearList(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
                 UpdateElectrodes(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
-                SendToDMF(manager, PathToBasmResult, TAG_STEP + tick);
+                SendToDMF(manager, PathToBasmResult, TAG_TICK + tick);
                 tick++;
-            }
+            } 
             
             DateTime recordTime = client.previousUpdateTime;
             // i is the index of expected state
@@ -126,8 +126,8 @@ namespace Engine // Note: actual namespace depends on the project name.
                     {
                         PrintContentOfSetAndClearList(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
                         UpdateElectrodes(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
-                        SendToDMF(manager, PathToBasmResult, TAG_STEP + tick);
-                        tick++;
+                        SendToDMF(manager, PathToBasmResult, TAG_TICK + tick);
+                        tick++;  
                     }
                     while (tick % 2 == 0 && tick < basmPerTick.Count() - 1);
                     //Thread.Sleep(500);
@@ -135,7 +135,6 @@ namespace Engine // Note: actual namespace depends on the project name.
                 else
                 {
                     int correctionCounter = 0;
-                    // todo: do this recursively
                     while (true)
                     {
                         Console.WriteLine("****************NOT empty!****************");
@@ -150,7 +149,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:SetTail");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_TICK}{tick}:{TAG_CORRECTION}{correctionCounter}:SetTail");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -161,7 +160,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:ClearHead");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_TICK}{tick}:{TAG_CORRECTION}{correctionCounter}:ClearHead");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -172,7 +171,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:SetHead");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_TICK}{tick}:{TAG_CORRECTION}{correctionCounter}:SetHead");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -183,7 +182,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_TICK}{tick}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
 
                         // wait for execution
                         while (client.previousActualState == "" || DateTime.Compare(recordTime, client.previousUpdateTime) == 0)
