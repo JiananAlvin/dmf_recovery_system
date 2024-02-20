@@ -9,13 +9,11 @@ namespace Engine // Note: actual namespace depends on the project name.
 {
     internal class Controller
     {
-
         static Platform GUIPlatform = PlatformUtilities.Generate32x20();
         static string TAG_TICK = "tick";
         static string TAG_CORRECTION = "correction";
         static string TAG_INIT = "init";
         static string TAG_COMPLETE = "complete";
-
 
         internal void Execute(string PathToRecoveryResult, string PathToBasmResult, List<Tuple<List<int>, List<int>>> basmInstructions, JArray expectedPositions, SerialManager manager)
         {
@@ -187,10 +185,10 @@ namespace Engine // Note: actual namespace depends on the project name.
                         // wait for execution
                         while (client.previousActualState == "" || DateTime.Compare(recordTime, client.previousUpdateTime) == 0)
                         {
-                            Thread.Sleep(500);
+                            // Thread.Sleep(500);
                             Console.WriteLine("Waiting for yolo update");
                         }
-                        // Check if correnction is success. If the electrodesForRecovery is empty, the correnction is success.
+                        // Check if correction is success. If the electrodesForRecovery is empty, the correction is success.
                         recordTime = client.previousUpdateTime;
                         electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult, true);
                         if (IsEmpty(electrodesForRecovery))
@@ -199,11 +197,9 @@ namespace Engine // Note: actual namespace depends on the project name.
                             break;
                         }
                         correctionCounter++;
-                        Thread.Sleep(500);
+                        // Thread.Sleep(500);
                     }
                 }
-                // Wait for YOLO and router to publish. TODO: Is it needed?
-                // Thread.Sleep(1000);
                 corrector.PrintCalculatedTime();
             }
         }
