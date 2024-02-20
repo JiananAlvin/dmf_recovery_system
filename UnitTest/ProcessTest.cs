@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace UnitTest
 {
-    public class PerformanceTest
+    public class ProcessTest
     {
         static string PYTHON_COMMAND = "py";
         static string PATH_TO_WEIGHT = @"..\..\..\..\yolov5\runs\train\new-model-integrated-rgb\weights\best.pt";

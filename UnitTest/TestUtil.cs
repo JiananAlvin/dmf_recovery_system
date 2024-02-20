@@ -1,8 +1,5 @@
 using System.Diagnostics;
 using Engine;
-using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Client.Options;
 
 namespace UnitTest
 {
@@ -56,22 +53,10 @@ namespace UnitTest
             return 0;
         }
 
-        public static async void PublishActStatesToMqtt(string file)
+        public static void PublishActStatesToMqtt(string file, int n, int timeInterval)
         {
-            int n = 5;
-            int timeInterval = 200;
-
-            // Configure MQTT client options
-            var mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer("localhost", 1883) 
-                .Build();
-
             // Create a new MQTT client
-            var mqttFactory = new MqttFactory();
-            var mqttClient = mqttFactory.CreateMqttClient();
-
-            // Connect to MQTT broker
-            await mqttClient.ConnectAsync(mqttClientOptions);
+            var mqttClient = new MqttClient("localhost");
 
             // Read the file line by line
             using (var reader = new StreamReader(file))
@@ -79,25 +64,18 @@ namespace UnitTest
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    // Create the message to publish
-                    var message = new MqttApplicationMessageBuilder()
-                        .WithTopic(MqttTopic.YOLO_ACTUAL)
-                        .WithPayload(line)
-                        .WithExactlyOnceQoS() 
-                        .Build();
-
                     // Publish the same message every 200 ms and 5 times.
-                    for (int i  = 0; i < n; i++)
+                    for (int i = 0; i < n; i++)
                     {
                         // Publish the message
-                        await mqttClient.PublishAsync(message);
+                        mqttClient.Publish(MqttTopic.YOLO_ACTUAL, line);
                         Thread.Sleep(timeInterval);
                     }
                 }
             }
 
             // Disconnect from MQTT broker
-            await mqttClient.DisconnectAsync();
+            mqttClient.Disconnect();
         }
     }
 }

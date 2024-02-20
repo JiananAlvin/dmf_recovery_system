@@ -22,7 +22,7 @@ namespace Engine
             client.Connect(clientId);
         }
 
-        protected void DisConnet()
+        public void Disconnect()
         {
             client.Disconnect();
         }

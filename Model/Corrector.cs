@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.Metrics;
+using Newtonsoft.Json;
 
 namespace Model
 {
@@ -6,17 +7,21 @@ namespace Model
     {
         public double tolerance = 0.5;  // This one should be user input.
         public Initializer init;
+        public static int Counter = 0;
+        public static double Timer = 0;
 
         public Corrector()
         {
             init = new Initializer();
             init.Initilalize();
+            Counter = 0;
+            Timer = 0;
         }
 
         public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS, string output, bool calculateTime)
         {
-
-            DateTime date1 = DateTime.Now;
+            Counter++;
+            DateTime startTime = DateTime.Now;
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
 
@@ -41,7 +46,7 @@ namespace Model
                 Console.WriteLine("E[{0}] - A[{1}], Iou is: {2}", pair.Item1, pair.Item2, ious[i]);
                 i++;
             }
-            
+
             // Give a list of electrodes need to be manipulated for recovery
             List<Dictionary<string, HashSet<int>>> electrodesForRecovery = checker.GetStuckRegion(tolerance, pairs, statesExp, statesAct, init.nonTriangleHashMap, init.triangleHashMap, init.minStep, init.sizeOfSquareEl);
 
@@ -82,16 +87,18 @@ namespace Model
 
             File.AppendAllText(output, result);
 
-            DateTime date2 = DateTime.Now;
 
-            if (calculateTime)
-            {
-                Console.WriteLine($"Used Time: {date2 - date1}");
-            }
+            var diffOfDates = DateTime.Now - startTime;
+
+            Timer += diffOfDates.TotalMilliseconds;
 
             // Return the list of electrodes need to be manipulated.
             return electrodesForRecovery;
+        }
 
+        public void PrintCalculatedTime()
+        {
+            Console.WriteLine($"{Counter} corrections are executed with {Timer}  ms.");
         }
     }
 }

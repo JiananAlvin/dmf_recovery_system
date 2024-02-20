@@ -18,7 +18,6 @@ namespace UnitTest
             Assert.IsTrue(t.IsPointInTriangle(new Point(1, 1)));
         }
 
-
         // point (5,5) is not inside triangle 
         [Test]
         public void TestIsNotPointInTriangle()

@@ -130,8 +130,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         counter++;
                     }
                     while (counter % 2 == 0 && counter < basmPerTick.Count() - 1);
-                    Thread.Sleep(500);
-
+                    //Thread.Sleep(500);
                 }
                 else
                 {
@@ -206,6 +205,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 }
                 // Wait for YOLO and router to publish. TODO: Is it needed?
                 // Thread.Sleep(1000);
+                corrector.PrintCalculatedTime();
             }
         }
 
