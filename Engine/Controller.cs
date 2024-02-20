@@ -11,7 +11,7 @@ namespace Engine // Note: actual namespace depends on the project name.
     {
 
         static Platform GUIPlatform = PlatformUtilities.Generate32x20();
-        static string TAG_STEP = "step";
+        static string TAG_STEP = "tick";
         static string TAG_CORRECTION = "correction";
         static string TAG_INIT = "init";
         static string TAG_COMPLETE = "complete";
@@ -92,16 +92,16 @@ namespace Engine // Note: actual namespace depends on the project name.
             Corrector corrector = new Corrector();
 
             // counter for tick
-            int counter = 0;
-            // Execute firt 3 ticks, i.e. the first movement
+            int tick = 0;
+            // Execute first 3 ticks, i.e. the first movement
             for (int j = 0; j < 3; j++)
             {
-                PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                SendToDMF(manager, PathToBasmResult, TAG_STEP + counter);
-                counter++;
+                PrintContentOfSetAndClearList(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
+                UpdateElectrodes(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
+                SendToDMF(manager, PathToBasmResult, TAG_STEP + tick);
+                tick++;
             }
-
+            
             DateTime recordTime = client.previousUpdateTime;
             // i is the index of expected state
             for (int i = 0; i < expectedPositions.Count; i++)
@@ -124,12 +124,12 @@ namespace Engine // Note: actual namespace depends on the project name.
                     Console.WriteLine("****************Is empty!****************");
                     do
                     {
-                        PrintContentOfSetAndClearList(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                        UpdateElectrodes(basmPerTick[counter].Item1, basmPerTick[counter].Item2);
-                        SendToDMF(manager, PathToBasmResult, TAG_STEP + counter);
-                        counter++;
+                        PrintContentOfSetAndClearList(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
+                        UpdateElectrodes(basmPerTick[tick].Item1, basmPerTick[tick].Item2);
+                        SendToDMF(manager, PathToBasmResult, TAG_STEP + tick);
+                        tick++;
                     }
-                    while (counter % 2 == 0 && counter < basmPerTick.Count() - 1);
+                    while (tick % 2 == 0 && tick < basmPerTick.Count() - 1);
                     //Thread.Sleep(500);
                 }
                 else
@@ -150,7 +150,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:SetTail");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:SetTail");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -161,7 +161,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:ClearHead");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:ClearHead");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -172,7 +172,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:SetHead");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:SetHead");
 
                         toClear.Clear();
                         toSet.Clear();
@@ -183,7 +183,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         PrintContentOfSetAndClearList(toClear.ToList(), toSet.ToList());
                         UpdateElectrodes(toClear.ToList(), toSet.ToList());
-                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{counter}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
+                        SendToDMF(manager, PathToBasmResult, $"{TAG_STEP}{tick}:{TAG_CORRECTION}{correctionCounter}:ClearTail");
 
                         // wait for execution
                         while (client.previousActualState == "" || DateTime.Compare(recordTime, client.previousUpdateTime) == 0)
