@@ -37,15 +37,17 @@ List of electrodes need to be manipulated for recovery:
 List of electrodes need to be manipulated for recovery:
 [   head: [ 234 ]   tail: [ 266 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 202 ]   tail: [ 234 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 202 ]   tail: [ 234 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 202 ]   tail: [ 234 ]   ]
+[   head: [ 234 ]   tail: [ 266 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 202 ]   tail: [ 234 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 202 ]   tail: [ 234 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 170 ]   tail: [ 202 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   head: [ 170 ]   tail: [ 202 ]   ]
 List of electrodes need to be manipulated for recovery:
