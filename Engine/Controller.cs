@@ -85,6 +85,8 @@ namespace Engine // Note: actual namespace depends on the project name.
 
         void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToRecoveryResult, string PathToBasmResult, SerialManager manager)
         {
+            DateTime perfStartTime = DateTime.Now;
+            double sleepTime = 0;
             MqttClient client = new MqttClient("localhost");
             client.Subscribe(MqttTopic.YOLO_ACTUAL);
 
@@ -113,6 +115,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                 {
                     Console.WriteLine("Waiting for time update:"+ client.previousActualState);
                     Thread.Sleep(100);
+                    sleepTime += 100;
                 }
                 // Correct by given expected states and actual states
                 recordTime = client.previousUpdateTime;
@@ -189,6 +192,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         while (client.previousActualState == "" || DateTime.Compare(recordTime, client.previousUpdateTime) == 0)
                         {
                             Thread.Sleep(500);
+                            sleepTime += 500;
                             Console.WriteLine("Waiting for yolo update");
                         }
                         // Check if correnction is success. If the electrodesForRecovery is empty, the correnction is success.
@@ -201,11 +205,16 @@ namespace Engine // Note: actual namespace depends on the project name.
                         }
                         correctionCounter++;
                         Thread.Sleep(500);
+                        sleepTime += 500;
                     }
                 }
                 // Wait for YOLO and router to publish. TODO: Is it needed?
                 // Thread.Sleep(1000);
                 corrector.PrintCalculatedTime();
+
+                var diffOfDates = DateTime.Now - perfStartTime;
+
+                Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime}");
             }
         }
 

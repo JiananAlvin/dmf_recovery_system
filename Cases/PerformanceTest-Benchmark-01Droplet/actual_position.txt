@@ -1,0 +1,10 @@
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 260, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 240, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 220, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 200, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 180, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 160, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 140, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 120, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170, 100, 20, 20, 0, 0 ]]}
+{ 'img_dimension': [860, 400], 'droplet_info': [[ 170,  80, 20, 20, 0, 0 ]]}

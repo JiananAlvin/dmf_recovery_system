@@ -1,0 +1,62 @@
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 388 ]   tail: [ 420 ]   head: [ 391 ]   tail: [ 423 ]   head: [ 394 ]   tail: [ 426 ]   head: [ 397 ]   tail: [ 429 ]   head: [ 400 ]   tail: [ 432 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 388 ]   tail: [ 420 ]   head: [ 391 ]   tail: [ 423 ]   head: [ 394 ]   tail: [ 426 ]   head: [ 397 ]   tail: [ 429 ]   head: [ 400 ]   tail: [ 432 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 356 ]   tail: [ 388 ]   head: [ 359 ]   tail: [ 391 ]   head: [ 362 ]   tail: [ 394 ]   head: [ 365 ]   tail: [ 397 ]   head: [ 368 ]   tail: [ 400 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 356 ]   tail: [ 388 ]   head: [ 359 ]   tail: [ 391 ]   head: [ 362 ]   tail: [ 394 ]   head: [ 365 ]   tail: [ 397 ]   head: [ 368 ]   tail: [ 400 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 324 ]   tail: [ 356 ]   head: [ 327 ]   tail: [ 359 ]   head: [ 330 ]   tail: [ 362 ]   head: [ 333 ]   tail: [ 365 ]   head: [ 336 ]   tail: [ 368 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 324 ]   tail: [ 356 ]   head: [ 327 ]   tail: [ 359 ]   head: [ 330 ]   tail: [ 362 ]   head: [ 333 ]   tail: [ 365 ]   head: [ 336 ]   tail: [ 368 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 292 ]   tail: [ 324 ]   head: [ 295 ]   tail: [ 327 ]   head: [ 298 ]   tail: [ 330 ]   head: [ 301 ]   tail: [ 333 ]   head: [ 304 ]   tail: [ 336 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 292 ]   tail: [ 324 ]   head: [ 295 ]   tail: [ 327 ]   head: [ 298 ]   tail: [ 330 ]   head: [ 301 ]   tail: [ 333 ]   head: [ 304 ]   tail: [ 336 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 292 ]   tail: [ 324 ]   head: [ 295 ]   tail: [ 327 ]   head: [ 298 ]   tail: [ 330 ]   head: [ 301 ]   tail: [ 333 ]   head: [ 304 ]   tail: [ 336 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 260 ]   tail: [ 292 ]   head: [ 263 ]   tail: [ 295 ]   head: [ 266 ]   tail: [ 298 ]   head: [ 269 ]   tail: [ 301 ]   head: [ 272 ]   tail: [ 304 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 260 ]   tail: [ 292 ]   head: [ 263 ]   tail: [ 295 ]   head: [ 266 ]   tail: [ 298 ]   head: [ 269 ]   tail: [ 301 ]   head: [ 272 ]   tail: [ 304 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 228 ]   tail: [ 260 ]   head: [ 231 ]   tail: [ 263 ]   head: [ 234 ]   tail: [ 266 ]   head: [ 237 ]   tail: [ 269 ]   head: [ 240 ]   tail: [ 272 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 228 ]   tail: [ 260 ]   head: [ 231 ]   tail: [ 263 ]   head: [ 234 ]   tail: [ 266 ]   head: [ 237 ]   tail: [ 269 ]   head: [ 240 ]   tail: [ 272 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 228 ]   tail: [ 260 ]   head: [ 231 ]   tail: [ 263 ]   head: [ 234 ]   tail: [ 266 ]   head: [ 237 ]   tail: [ 269 ]   head: [ 240 ]   tail: [ 272 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 196 ]   tail: [ 228 ]   head: [ 199 ]   tail: [ 231 ]   head: [ 202 ]   tail: [ 234 ]   head: [ 205 ]   tail: [ 237 ]   head: [ 208 ]   tail: [ 240 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 196 ]   tail: [ 228 ]   head: [ 199 ]   tail: [ 231 ]   head: [ 202 ]   tail: [ 234 ]   head: [ 205 ]   tail: [ 237 ]   head: [ 208 ]   tail: [ 240 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 164 ]   tail: [ 196 ]   head: [ 167 ]   tail: [ 199 ]   head: [ 170 ]   tail: [ 202 ]   head: [ 173 ]   tail: [ 205 ]   head: [ 176 ]   tail: [ 208 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 164 ]   tail: [ 196 ]   head: [ 167 ]   tail: [ 199 ]   head: [ 170 ]   tail: [ 202 ]   head: [ 173 ]   tail: [ 205 ]   head: [ 176 ]   tail: [ 208 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 164 ]   tail: [ 196 ]   head: [ 167 ]   tail: [ 199 ]   head: [ 170 ]   tail: [ 202 ]   head: [ 173 ]   tail: [ 205 ]   head: [ 176 ]   tail: [ 208 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 132 ]   tail: [ 164 ]   head: [ 135 ]   tail: [ 167 ]   head: [ 138 ]   tail: [ 170 ]   head: [ 141 ]   tail: [ 173 ]   head: [ 144 ]   tail: [ 176 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 132 ]   tail: [ 164 ]   head: [ 135 ]   tail: [ 167 ]   head: [ 138 ]   tail: [ 170 ]   head: [ 141 ]   tail: [ 173 ]   head: [ 144 ]   tail: [ 176 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]

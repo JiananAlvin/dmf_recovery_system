@@ -1,56 +1,64 @@
 List of electrodes need to be manipulated for recovery:
-[   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 394 ]   tail: [ 426 ]   ]
+[   head: [ 420 ]   tail: [ 452 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 362 ]   tail: [ 394 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 362 ]   tail: [ 394 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 362 ]   tail: [ 394 ]   ]
+[   head: [ 388 ]   tail: [ 420 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 330 ]   tail: [ 362 ]   ]
+[   head: [ 356 ]   tail: [ 388 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 330 ]   tail: [ 362 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 298 ]   tail: [ 330 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 298 ]   tail: [ 330 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 298 ]   tail: [ 330 ]   ]
+[   head: [ 356 ]   tail: [ 388 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 266 ]   tail: [ 298 ]   ]
+[   head: [ 324 ]   tail: [ 356 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 266 ]   tail: [ 298 ]   ]
+[   head: [ 324 ]   tail: [ 356 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 234 ]   tail: [ 266 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 234 ]   tail: [ 266 ]   ]
-List of electrodes need to be manipulated for recovery:
-[   head: [ 234 ]   tail: [ 266 ]   ]
+[   head: [ 324 ]   tail: [ 356 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 202 ]   tail: [ 234 ]   ]
+[   head: [ 292 ]   tail: [ 324 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 202 ]   tail: [ 234 ]   ]
+[   head: [ 292 ]   tail: [ 324 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 170 ]   tail: [ 202 ]   ]
+[   head: [ 260 ]   tail: [ 292 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 170 ]   tail: [ 202 ]   ]
+[   head: [ 260 ]   tail: [ 292 ]   ]
 List of electrodes need to be manipulated for recovery:
-[   head: [ 170 ]   tail: [ 202 ]   ]
+[   head: [ 260 ]   tail: [ 292 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 228 ]   tail: [ 260 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 228 ]   tail: [ 260 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 196 ]   tail: [ 228 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 196 ]   tail: [ 228 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 196 ]   tail: [ 228 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 164 ]   tail: [ 196 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 164 ]   tail: [ 196 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 132 ]   tail: [ 164 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 132 ]   tail: [ 164 ]   ]
+List of electrodes need to be manipulated for recovery:
+[   head: [ 132 ]   tail: [ 164 ]   ]
 List of electrodes need to be manipulated for recovery:
 [   ]

@@ -1,0 +1,91 @@
+[init]:shv 1 280
+[init]:hvpoe 1 1
+[init]:clra 0
+[init]:clra 1
+[step0]:setel 1 68
+[step1]:setel 1 69
+[step2]:clrel 1 68
+[step3]:setel 1 70
+[step4]:clrel 1 69
+[step5:correction0:SetTail]:setel 1 1 99 69
+[step5:correction0:ClearHead]:clrel 1 2 100 70
+[step5:correction0:SetHead]:setel 1 2 100 70
+[step5:correction0:ClearTail]:clrel 1 1 99 69
+[step5:correction0:SetTail]:setel 1 2 100 70
+[step5:correction0:ClearHead]:clrel 1 3 101 71
+[step5:correction0:SetHead]:setel 1 3 101 71
+[step5:correction0:ClearTail]:clrel 1 2 100 70
+[step5:correction1:SetTail]:setel 1 2 100 70
+[step5:correction1:ClearHead]:clrel 1 3 101 71
+[step5:correction1:SetHead]:setel 1 3 101 71
+[step5:correction1:ClearTail]:clrel 1 2 100 70
+[step5:correction2:SetTail]:setel 1 2 100 70
+[step5:correction2:ClearHead]:clrel 1 3 101 71
+[step5:correction2:SetHead]:setel 1 3 101 71
+[step5:correction2:ClearTail]:clrel 1 2 100 70
+[step5:correction0:SetTail]:setel 1 3 101 71
+[step5:correction0:ClearHead]:clrel 1 4 102 72
+[step5:correction0:SetHead]:setel 1 4 102 72
+[step5:correction0:ClearTail]:clrel 1 3 101 71
+[step5:correction1:SetTail]:setel 1 3 101 71
+[step5:correction1:ClearHead]:clrel 1 4 102 72
+[step5:correction1:SetHead]:setel 1 4 102 72
+[step5:correction1:ClearTail]:clrel 1 3 101 71
+[step5:correction0:SetTail]:setel 1 4 102 72
+[step5:correction0:ClearHead]:clrel 0 381 283 313
+[step5:correction0:SetHead]:setel 0 381 283 313
+[step5:correction0:ClearTail]:clrel 1 4 102 72
+[step5:correction1:SetTail]:setel 1 4 102 72
+[step5:correction1:ClearHead]:clrel 0 381 283 313
+[step5:correction1:SetHead]:setel 0 381 283 313
+[step5:correction1:ClearTail]:clrel 1 4 102 72
+[step5:correction2:SetTail]:setel 1 4 102 72
+[step5:correction2:ClearHead]:clrel 0 381 283 313
+[step5:correction2:SetHead]:setel 0 381 283 313
+[step5:correction2:ClearTail]:clrel 1 4 102 72
+[step5:correction0:SetTail]:setel 0 381 283 313
+[step5:correction0:ClearHead]:clrel 0 382 284 314
+[step5:correction0:SetHead]:setel 0 382 284 314
+[step5:correction0:ClearTail]:clrel 0 381 283 313
+[step5:correction1:SetTail]:setel 0 381 283 313
+[step5:correction1:ClearHead]:clrel 0 382 284 314
+[step5:correction1:SetHead]:setel 0 382 284 314
+[step5:correction1:ClearTail]:clrel 0 381 283 313
+[step5:correction0:SetTail]:setel 0 382 284 314
+[step5:correction0:ClearHead]:clrel 0 383 285 315
+[step5:correction0:SetHead]:setel 0 383 285 315
+[step5:correction0:ClearTail]:clrel 0 382 284 314
+[step5:correction1:SetTail]:setel 0 382 284 314
+[step5:correction1:ClearHead]:clrel 0 383 285 315
+[step5:correction1:SetHead]:setel 0 383 285 315
+[step5:correction1:ClearTail]:clrel 0 382 284 314
+[step5:correction0:SetTail]:setel 0 383 285 315
+[step5:correction0:ClearHead]:clrel 0 384 286 316
+[step5:correction0:SetHead]:setel 0 384 286 316
+[step5:correction0:ClearTail]:clrel 0 383 285 315
+[step5:correction1:SetTail]:setel 0 383 285 315
+[step5:correction1:ClearHead]:clrel 0 384 286 316
+[step5:correction1:SetHead]:setel 0 384 286 316
+[step5:correction1:ClearTail]:clrel 0 383 285 315
+[step5:correction2:SetTail]:setel 0 383 285 315
+[step5:correction2:ClearHead]:clrel 0 384 286 316
+[step5:correction2:SetHead]:setel 0 384 286 316
+[step5:correction2:ClearTail]:clrel 0 383 285 315
+[step5:correction0:SetTail]:setel 0 384 286 316
+[step5:correction0:ClearHead]:clrel 0 257 287 317
+[step5:correction0:SetHead]:setel 0 257 287 317
+[step5:correction0:ClearTail]:clrel 0 384 286 316
+[step5:correction1:SetTail]:setel 0 384 286 316
+[step5:correction1:ClearHead]:clrel 0 257 287 317
+[step5:correction1:SetHead]:setel 0 257 287 317
+[step5:correction1:ClearTail]:clrel 0 384 286 316
+[step5:correction0:SetTail]:setel 0 257 287 317
+[step5:correction0:ClearHead]:clrel 0 258 288 318
+[step5:correction0:SetHead]:setel 0 258 288 318
+[step5:correction0:ClearTail]:clrel 0 257 287 317
+[step5:correction1:SetTail]:setel 0 257 287 317
+[step5:correction1:ClearHead]:clrel 0 258 288 318
+[step5:correction1:SetHead]:setel 0 258 288 318
+[step5:correction1:ClearTail]:clrel 0 257 287 317
+[complete]:clra 0
+[complete]:clra 1

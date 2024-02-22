@@ -98,7 +98,7 @@ namespace Model
 
         public void PrintCalculatedTime()
         {
-            Console.WriteLine($"{Counter} corrections are executed with {Timer}  ms.");
+            Console.WriteLine($"[Performance]： {Counter} corrections are executed with {Timer}  ms.");
         }
     }
 }
