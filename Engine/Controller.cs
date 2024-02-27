@@ -85,8 +85,7 @@ namespace Engine // Note: actual namespace depends on the project name.
 
         void ExecuteCorrection(List<Tuple<List<int>, List<int>>> basmPerTick, JArray expectedPositions, string pathToRecoveryResult, string PathToBasmResult, SerialManager manager)
         {
-            DateTime perfStartTime = DateTime.Now;
-            double sleepTime = 0;
+            
             MqttClient client = new MqttClient("localhost");
             client.Subscribe(MqttTopic.YOLO_ACTUAL);
 
@@ -104,6 +103,10 @@ namespace Engine // Note: actual namespace depends on the project name.
                 counter++;
             }
 
+            //[Performance]
+            DateTime perfStartTime = DateTime.Now;
+            double sleepTime = 0;
+
             DateTime recordTime = client.previousUpdateTime;
             // i is the index of expected state
             for (int i = 0; i < expectedPositions.Count; i++)
@@ -117,6 +120,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                     Thread.Sleep(100);
                     sleepTime += 100;
                 }
+
                 // Correct by given expected states and actual states
                 recordTime = client.previousUpdateTime;
                 electrodesForRecovery = corrector.Run(expectedStates, client.previousActualState, pathToRecoveryResult,true);
@@ -133,7 +137,7 @@ namespace Engine // Note: actual namespace depends on the project name.
                         counter++;
                     }
                     while (counter % 2 == 0 && counter < basmPerTick.Count() - 1);
-                    //Thread.Sleep(500);
+                    // Thread.Sleep(500);
                 }
                 else
                 {
@@ -214,7 +218,7 @@ namespace Engine // Note: actual namespace depends on the project name.
 
                 var diffOfDates = DateTime.Now - perfStartTime;
 
-                Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime}");
+                Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime} s");
             }
         }
 

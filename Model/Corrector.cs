@@ -8,14 +8,12 @@ namespace Model
         public double tolerance = 0.5;  // This one should be user input.
         public Initializer init;
         public static int Counter = 0;
-        public static double Timer = 0;
 
         public Corrector()
         {
             init = new Initializer();
             init.Initilalize();
             Counter = 0;
-            Timer = 0;
         }
 
         public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS, string output, bool calculateTime)
@@ -87,18 +85,13 @@ namespace Model
 
             File.AppendAllText(output, result);
 
-
-            var diffOfDates = DateTime.Now - startTime;
-
-            Timer += diffOfDates.TotalMilliseconds;
-
             // Return the list of electrodes need to be manipulated.
             return electrodesForRecovery;
         }
 
         public void PrintCalculatedTime()
         {
-            Console.WriteLine($"[Performance]： {Counter} corrections are executed with {Timer}  ms.");
+            Console.WriteLine($"[Performance]: {Counter} corrections are executed.");
         }
     }
 }
