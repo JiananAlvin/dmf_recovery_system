@@ -137,12 +137,10 @@ namespace Engine // Note: actual namespace depends on the project name.
                         counter++;
                     }
                     while (counter % 2 == 0 && counter < basmPerTick.Count() - 1);
-                    // Thread.Sleep(500);
                 }
                 else
                 {
                     int correctionCounter = 0;
-                    // todo: do this recursively
                     while (true)
                     {
                         Console.WriteLine("****************NOT empty!****************");
@@ -213,13 +211,12 @@ namespace Engine // Note: actual namespace depends on the project name.
                     }
                 }
                 // Wait for YOLO and router to publish. TODO: Is it needed?
-                // Thread.Sleep(1000);
-                corrector.PrintCalculatedTime();
-
-                var diffOfDates = DateTime.Now - perfStartTime;
-
-                Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime} s");
+                corrector.PrintNumberOfCorrections();
             }
+
+            var diffOfDates = DateTime.Now - perfStartTime;
+
+            Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime} s");
         }
 
 
@@ -351,12 +348,12 @@ namespace Engine // Note: actual namespace depends on the project name.
                 File.AppendAllText(PathToBasmResult, $"[{tag}]:{command}\n");
                 string serialCommand = command + Commands.TERMINATOR;
                 manager.Write(serialCommand);
-                Thread.Sleep(200);
+                //Thread.Sleep(200);
             }
             Console.WriteLine();
             GUIPlatform.commands.Clear();
             Logger.LogSendToDMF("Delay...");
-            Thread.Sleep(200);
+            //Thread.Sleep(200);
             Logger.LogSendToDMF("Done.");
         }
 

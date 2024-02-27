@@ -19,7 +19,6 @@ namespace Model
         public List<Dictionary<string, HashSet<int>>> Run(string expectedS, string actualS, string output, bool calculateTime)
         {
             Counter++;
-            DateTime startTime = DateTime.Now;
             List<List<int>> statesExp = JsonConvert.DeserializeObject<List<List<int>>>(expectedS);
             List<List<int>> statesAct = JsonConvert.DeserializeObject<List<List<int>>>(actualS);
 
@@ -89,7 +88,7 @@ namespace Model
             return electrodesForRecovery;
         }
 
-        public void PrintCalculatedTime()
+        public void PrintNumberOfCorrections()
         {
             Console.WriteLine($"[Performance]: {Counter} corrections are executed.");
         }
