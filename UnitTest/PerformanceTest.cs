@@ -12,69 +12,69 @@ namespace UnitTest
 
         // Perfect match 
         [Test]
-        public void TestOneDropletPerformanceBenchmark()
+        public void Test01DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("01");
         }
 
         [Test]
-        public void TestTwoDropletPerformanceBenchmark()
+        public void Test02DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("02");
         }
 
 
         [Test]
-        public void TestThreeDropletPerformanceBenchmark()
+        public void Test03DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("03");
         }
 
 
         [Test]
-        public void TestFourDropletPerformanceBenchmark()
+        public void Test04DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("04");
         }
 
 
         [Test]
-        public void TestFiveDropletPerformanceBenchmark()
+        public void Test05DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("05");
         }
 
 
         [Test]
-        public void TestSixDropletPerformanceBenchmark()
+        public void Test06DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("06");
         }
 
 
         [Test]
-        public void TestSevenDropletPerformanceBenchmark()
+        public void Test07DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("07");
         }
 
 
         [Test]
-        public void TestEightDropletPerformanceBenchmark()
+        public void Test08DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("08");
         }
 
 
         [Test]
-        public void TestNineDropletPerformanceBenchmark()
+        public void Test09DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("09");
         }
 
 
         [Test]
-        public void TestTenDropletPerformanceBenchmark()
+        public void Test10DropletPerformanceBenchmark()
         {
             ExecutePerformanceTest("10");
         }
@@ -92,7 +92,7 @@ namespace UnitTest
             // Clear the whole DMF chip
             SerialManager manager = new SerialManager("COM4", 115200);
             // read and publish to channel 
-            Thread myNewThread = new Thread(() => TestUtil.PublishActStatesToMqtt(@"..\..\..\..\Cases\PerformanceTest-Benchmark-" + ID + @"Droplet\actual_position.txt", 10, 500));
+            Thread myNewThread = new Thread(() => TestUtil.PublishActStatesToMqtt(@"..\..\..\..\Cases\PerformanceTest-Benchmark-" + ID + @"Droplet\actual_position.txt", 30, 81));
             myNewThread.Start();
             controller.Execute(@"..\..\..\..\Cases\PerformanceTest-Benchmark-" + ID + @"Droplet\recovery_result.txt", @"..\..\..\..\Cases\PerformanceTest-Benchmark-" + ID + @"Droplet\basm_result.txt", basmInstructions, expectedPositions, manager);
         }

@@ -50,7 +50,7 @@ python detect.py --weight {path of your trained weight}    --source 0  # webcam
 
 
 # example:
-python ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.pt --source ..\image_dataset\CorrectionTest\   --require-preprocess
+python ./detect.py --weights .\runs\train\new-model-integrated-rgb\weights\best.pt --source D:\courses\dmf\dmf_videos_for_detection_part_trest\03.mp4 --require-preprocess --nosave
 ```
 
 ## Run Recovery System

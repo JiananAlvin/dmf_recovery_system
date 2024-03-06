@@ -216,7 +216,7 @@ namespace Engine // Note: actual namespace depends on the project name.
 
             var diffOfDates = DateTime.Now - perfStartTime;
 
-            Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime} s");
+            Console.WriteLine($"[Performance]: The whole process time is {diffOfDates.TotalMilliseconds - sleepTime} ms");
         }
 
 
