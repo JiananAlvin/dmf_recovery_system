@@ -1,6 +1,8 @@
 from pupil_apriltags import Detector
 import cv2
 import numpy as np
+import csv 
+from datetime import datetime
 
 BLEED_X = 42
 BLEED_Y = 188
@@ -11,6 +13,14 @@ HEIGHT = 780
 
 
 def preprocess(img):
+    # For performance test
+    # Open or create the CSV file to append the start time
+    with open('./detection_part_perf.csv', 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")])
+        f.close()
+
+
     at_detector = Detector(
         families="tagStandard41h12",
         nthreads=1,

@@ -1,4 +1,6 @@
 import publisher
+import csv
+from datetime import datetime
 
 # TL_X = 145
 # TL_Y = 112
@@ -31,3 +33,24 @@ def postprocess(arr):
     # return output
 
     publisher.publisher(TOPIC, str(output))
+
+    # For performance test
+    # Step 1: Read the contents of the CSV file
+    with open('./detection_part_perf.csv', 'r', newline='') as f:
+        reader = csv.reader(f)
+        rows = [row for row in reader]
+        f.close()
+    print("================")
+    print(rows)
+
+    # Step 2: Append the finish to the last row
+    if rows:  
+        rows[-1].append(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    print("================AA")
+    print(rows)
+
+    # Step 3: Write the modified contents back to the file
+    with open('your_file.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(rows)
+        f.close()
