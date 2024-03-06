@@ -1,0 +1,6 @@
+4 droplets: Speed: 1.1ms pre-process, 133.3ms inference, 0.6ms NMS per image at shape (1, 3, 640, 640)
+5 droplets: Speed: 1.1ms pre-process, 139.9ms inference, 1.2ms NMS per image at shape (1, 3, 640, 640)  
+6 droplets: Speed: 0.8ms pre-process, 137.6ms inference, 1.0ms NMS per image at shape (1, 3, 640, 640)
+7 droplets: Speed: 1.1ms pre-process, 135.1ms inference, 1.3ms NMS per image at shape (1, 3, 640, 640)
+9 droplets: Speed: 0.8ms pre-process, 135.3ms inference, 0.6ms NMS per image at shape (1, 3, 640, 640)
+10 droplets: Speed: 1.6ms pre-process, 137.8ms inference, 0.9ms NMS per image at shape (1, 3, 640, 640)

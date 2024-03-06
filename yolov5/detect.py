@@ -182,7 +182,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                     # J --------------------------------
                     # If class name is "droplet", append its digital info to results[]
                     # if (names[int(cls)] == "droplet" and conf > mmap_treshold):
-                    if (names[int(cls)] == "droplet" and conf > 0.5):
+                    if (names[int(cls)] == "droplet" and conf > 0.85):
                         results.append([int(t) for t in xyxy])  # Convert a tensor[] to a int[]
 
                     if save_txt:  # Write to file
@@ -190,8 +190,10 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                         line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
                         with open(txt_path + '.txt', 'a') as f:
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')
-
-                    if save_img or save_crop or view_img:  # Add bbox to image
+                    
+                    # J --------------------------------
+                    # Jianan adds and conf > 0.85
+                    if (save_img or save_crop or view_img) and conf > 0.85:  # Add bbox to image
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
