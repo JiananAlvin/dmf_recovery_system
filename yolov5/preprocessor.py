@@ -15,11 +15,10 @@ HEIGHT = 780
 def preprocess(img):
     # For performance test
     # Open or create the CSV file to append the start time
-    with open('./detection_part_perf.csv', 'a') as f:
+    with open('./detection_part_perf_10.csv', 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")])
         f.close()
-
 
     at_detector = Detector(
         families="tagStandard41h12",

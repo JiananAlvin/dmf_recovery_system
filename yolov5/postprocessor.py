@@ -35,22 +35,28 @@ def postprocess(arr):
     publisher.publisher(TOPIC, str(output))
 
     # For performance test
+    finish_time = datetime.now()
     # Step 1: Read the contents of the CSV file
-    with open('./detection_part_perf.csv', 'r', newline='') as f:
+    with open('./detection_part_perf_10.csv', 'r', newline='') as f:
         reader = csv.reader(f)
         rows = [row for row in reader]
         f.close()
-    print("================")
-    print(rows)
 
-    # Step 2: Append the finish to the last row
-    if rows:  
-        rows[-1].append(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-    print("================AA")
-    print(rows)
+    # Step 2: Calculate the time difference
+    # Convert the string back to datetime and calculate the difference in milliseconds
+    start_time = datetime.strptime(rows[-1][0], "%Y-%m-%d %H:%M:%S.%f")
+    time_difference = finish_time - start_time
+    time_difference_ms = time_difference.total_seconds() * 1000  # Convert to milliseconds
+    # Print Original time, current time, time difference, and time difference in milliseconds
+    # print("Original time: ", start_time)
+    # print("Current time: ", finish_time)
+    # print("Time difference: ", time_difference)ss
+    # print("Time difference in milliseconds: ", time_difference_m
+    rows[-1][0] = str(time_difference_ms)
+    # print(rows)
 
-    # Step 3: Write the modified contents back to the file
-    with open('your_file.csv', 'w', newline='') as f:
+    # Step 3: Write the time difference to the CSV file
+    with open('./detection_part_perf_10.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
         f.close()
