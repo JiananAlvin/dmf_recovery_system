@@ -27,10 +27,6 @@
 [step5:correction4:ClearHead]:clrel 1 2
 [step5:correction4:SetHead]:setel 1 2
 [step5:correction4:ClearTail]:clrel 1 1
-[step5:correction5:SetTail]:setel 1 1
-[step5:correction5:ClearHead]:clrel 1 2
-[step5:correction5:SetHead]:setel 1 2
-[step5:correction5:ClearTail]:clrel 1 1
 [step5:correction0:SetTail]:setel 1 2
 [step5:correction0:ClearHead]:clrel 1 3
 [step5:correction0:SetHead]:setel 1 3
@@ -111,10 +107,6 @@
 [step5:correction4:ClearHead]:clrel 0 382
 [step5:correction4:SetHead]:setel 0 382
 [step5:correction4:ClearTail]:clrel 0 381
-[step5:correction5:SetTail]:setel 0 381
-[step5:correction5:ClearHead]:clrel 0 382
-[step5:correction5:SetHead]:setel 0 382
-[step5:correction5:ClearTail]:clrel 0 381
 [step5:correction0:SetTail]:setel 0 382
 [step5:correction0:ClearHead]:clrel 0 383
 [step5:correction0:SetHead]:setel 0 383
@@ -175,10 +167,6 @@
 [step5:correction4:ClearHead]:clrel 0 257
 [step5:correction4:SetHead]:setel 0 257
 [step5:correction4:ClearTail]:clrel 0 384
-[step5:correction5:SetTail]:setel 0 384
-[step5:correction5:ClearHead]:clrel 0 257
-[step5:correction5:SetHead]:setel 0 257
-[step5:correction5:ClearTail]:clrel 0 384
 [step5:correction0:SetTail]:setel 0 257
 [step5:correction0:ClearHead]:clrel 0 258
 [step5:correction0:SetHead]:setel 0 258

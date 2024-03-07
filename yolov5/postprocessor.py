@@ -37,7 +37,7 @@ def postprocess(arr):
     # For performance test
     finish_time = datetime.now()
     # Step 1: Read the contents of the CSV file
-    with open('./detection_part_perf_10.csv', 'r', newline='') as f:
+    with open('./detection_part_perf_1.10.csv', 'r', newline='') as f:
         reader = csv.reader(f)
         rows = [row for row in reader]
         f.close()
@@ -56,7 +56,7 @@ def postprocess(arr):
     # print(rows)
 
     # Step 3: Write the time difference to the CSV file
-    with open('./detection_part_perf_10.csv', 'w', newline='') as f:
+    with open('./detection_part_perf_1.10.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
         f.close()
